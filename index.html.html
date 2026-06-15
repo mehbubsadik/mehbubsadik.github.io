@@ -1,0 +1,1750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S M Abdullah All Mehbub Sadik — Director of Performance Marketing</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #050810;
+    --navy-2: #080e1f;
+    --navy-3: #0d1530;
+    --navy-4: #121c3a;
+    --tangerine: #FF6B1A;
+    --tangerine-glow: rgba(255, 107, 26, 0.18);
+    --tangerine-dim: rgba(255, 107, 26, 0.08);
+    --white: #ffffff;
+    --white-90: rgba(255,255,255,0.90);
+    --white-60: rgba(255,255,255,0.60);
+    --white-30: rgba(255,255,255,0.30);
+    --white-10: rgba(255,255,255,0.10);
+    --white-05: rgba(255,255,255,0.05);
+    --glass-bg: rgba(255,255,255,0.04);
+    --glass-border: rgba(255,255,255,0.08);
+    --glass-border-hover: rgba(255, 107, 26, 0.35);
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--white-90);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ─── BACKGROUND ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 10% 20%, rgba(255,107,26,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 90% 80%, rgba(20,40,120,0.4) 0%, transparent 60%),
+      linear-gradient(160deg, var(--navy) 0%, #060c1e 40%, #080f22 70%, var(--navy) 100%);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ─── GRID OVERLAY ─── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 0 2.5rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(5, 8, 16, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--white);
+  }
+  .nav-logo span { color: var(--tangerine); }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--white-60);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--tangerine); }
+
+  .nav-cta {
+    background: transparent;
+    border: 1px solid var(--tangerine);
+    color: var(--tangerine);
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-cta:hover {
+    background: var(--tangerine);
+    color: var(--navy);
+  }
+
+  /* ─── WRAPPER ─── */
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 64px;
+  }
+
+  .hero-inner {
+    padding: 7rem 0 5rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--tangerine);
+    margin-bottom: 1.5rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--tangerine);
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 .accent { color: var(--tangerine); }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--white-60);
+    max-width: 520px;
+    margin-bottom: 2.5rem;
+    line-height: 1.75;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--tangerine);
+    color: var(--navy);
+    border: none;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--white-60);
+    border: 1px solid var(--glass-border);
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+    display: inline-block;
+  }
+  .btn-ghost:hover { border-color: var(--white-30); color: var(--white); }
+
+  /* Hero stat card */
+  .hero-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .stat-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    backdrop-filter: blur(10px);
+    min-width: 200px;
+    transition: border-color 0.3s;
+  }
+  .stat-card:hover { border-color: var(--glass-border-hover); }
+
+  .stat-card .stat-val {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--tangerine);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-card .stat-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--white-30);
+  }
+
+  /* ─── SECTION SHARED ─── */
+  section { padding: 6rem 0; }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--tangerine);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--glass-border);
+    max-width: 60px;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+
+  .section-desc {
+    font-size: 1rem;
+    color: var(--white-60);
+    max-width: 520px;
+    margin-bottom: 3.5rem;
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--glass-border) 30%, var(--glass-border) 70%, transparent);
+    margin: 0;
+  }
+
+  /* ─── METRICS STRIP ─── */
+  .metrics-strip {
+    background: var(--glass-bg);
+    border-top: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 2.5rem 0;
+  }
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  .metric-item {
+    padding: 1.5rem 2rem;
+    border-right: 1px solid var(--glass-border);
+    text-align: center;
+  }
+  .metric-item:last-child { border-right: none; }
+  .metric-num {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--tangerine);
+    display: block;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .metric-desc {
+    font-size: 12px;
+    color: var(--white-30);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+  }
+
+  /* ─── EXPERTISE CARDS ─── */
+  .expertise-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+  .exp-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    padding: 2rem;
+    transition: border-color 0.3s, background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .exp-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--tangerine);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+  }
+  .exp-card:hover::before { transform: scaleX(1); }
+  .exp-card:hover {
+    border-color: var(--glass-border-hover);
+    background: rgba(255, 107, 26, 0.04);
+  }
+
+  .exp-icon {
+    width: 42px;
+    height: 42px;
+    background: var(--tangerine-dim);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    font-size: 20px;
+  }
+  .exp-title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+  .exp-desc {
+    font-size: 13.5px;
+    color: var(--white-60);
+    line-height: 1.65;
+  }
+
+  /* ─── EXPERIENCE TIMELINE ─── */
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 2.5rem;
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--glass-border);
+    align-items: start;
+  }
+  .timeline-item:last-child { border-bottom: none; }
+  .tl-period {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--tangerine);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding-top: 3px;
+  }
+  .tl-role {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .tl-company {
+    font-size: 13px;
+    color: var(--tangerine);
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+  .tl-points {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .tl-points li {
+    font-size: 14px;
+    color: var(--white-60);
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.6;
+  }
+  .tl-points li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--tangerine);
+    font-size: 12px;
+    top: 3px;
+  }
+
+  /* ─── PLATFORMS ─── */
+  .platforms-grid {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .platform-pill {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--white-60);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: border-color 0.2s, color 0.2s;
+    cursor: default;
+  }
+  .platform-pill:hover {
+    border-color: var(--tangerine);
+    color: var(--white);
+  }
+  .platform-pill .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--tangerine);
+    flex-shrink: 0;
+  }
+
+  /* ─── PROOF ─── */
+  .proof-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+  .proof-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    padding: 2rem;
+    transition: border-color 0.3s;
+  }
+  .proof-card:hover { border-color: var(--glass-border-hover); }
+  .proof-badge {
+    display: inline-block;
+    background: var(--tangerine-dim);
+    border: 1px solid rgba(255,107,26,0.25);
+    color: var(--tangerine);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 50px;
+    padding: 4px 12px;
+    margin-bottom: 1rem;
+  }
+  .proof-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+  .proof-body {
+    font-size: 13.5px;
+    color: var(--white-60);
+    line-height: 1.65;
+    margin-bottom: 1.25rem;
+  }
+  .proof-metrics {
+    display: flex;
+    gap: 1.5rem;
+  }
+  .proof-metric .pm-val {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--tangerine);
+    display: block;
+    line-height: 1;
+  }
+  .proof-metric .pm-label {
+    font-size: 11px;
+    color: var(--white-30);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-weight: 500;
+  }
+
+  /* ─── CTA ─── */
+  .cta-section {
+    padding: 5rem 0;
+    text-align: center;
+    position: relative;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(255,107,26,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+  .cta-sub {
+    font-size: 1rem;
+    color: var(--white-60);
+    max-width: 440px;
+    margin: 0 auto 2.5rem;
+  }
+  .cta-links {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--glass-border);
+    padding: 2rem 0;
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .footer-left {
+    font-size: 13px;
+    color: var(--white-30);
+  }
+  .footer-left span { color: var(--tangerine); }
+  .footer-right {
+    display: flex;
+    gap: 1.5rem;
+  }
+  .footer-right a {
+    font-size: 13px;
+    color: var(--white-30);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-right a:hover { color: var(--tangerine); }
+
+  /* ─── SVG ICONS ─── */
+  .icon {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+  }
+
+  /* ─── AVAILABILITY BADGE ─── */
+  .avail-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(34, 197, 94, 0.08);
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    border-radius: 50px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #4ade80;
+    margin-top: 1.5rem;
+  }
+  .avail-dot {
+    width: 7px;
+    height: 7px;
+    background: #22c55e;
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--navy); }
+  ::-webkit-scrollbar-thumb { background: var(--navy-4); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--tangerine); }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 768px) {
+    .wrapper { padding: 0 1.25rem; }
+    nav { padding: 0 1.25rem; }
+    .nav-links { display: none; }
+    .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .hero-stats { flex-direction: row; flex-wrap: wrap; }
+    .stat-card { min-width: 140px; flex: 1; }
+    .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+    .metric-item { border-right: none; border-bottom: 1px solid var(--glass-border); }
+    .metric-item:nth-child(odd) { border-right: 1px solid var(--glass-border); }
+    .expertise-grid { grid-template-columns: 1fr; }
+    .timeline-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .proof-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ─── LIQUID GLASS CARDS ─── */
+  .lg-card {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border-radius: 14px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    transition: border-color 0.3s, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.6);
+  }
+  .lg-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    backdrop-filter: blur(12px) saturate(1.4);
+    -webkit-backdrop-filter: blur(12px) saturate(1.4);
+    z-index: 0;
+    pointer-events: none;
+  }
+  .lg-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 50%, rgba(255,107,26,0.03) 100%);
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .lg-card:hover::after { opacity: 1; }
+  .lg-card:hover {
+    border-color: var(--glass-border-hover);
+    transform: translateY(-3px);
+  }
+  .lg-card > * { position: relative; z-index: 2; }
+
+  /* Liquid shimmer on hover */
+  .lg-card .lg-shimmer {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.08) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .lg-card:hover .lg-shimmer { opacity: 1; }
+
+  /* Top liquid border sweep */
+  .lg-card .lg-sweep {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--tangerine), transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 3;
+  }
+  .lg-card:hover .lg-sweep { transform: scaleX(1); }
+
+  /* ─── LIQUID GLASS BUTTONS ─── */
+  .btn-primary, .btn-ghost, .nav-cta {
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::after, .btn-ghost::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 0; height: 0;
+    background: rgba(255,255,255,0.15);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.5s ease, height 0.5s ease, opacity 0.5s ease;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .btn-primary:hover::after, .btn-ghost:hover::after {
+    width: 300px; height: 300px; opacity: 1;
+  }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+  .reveal-delay-5 { transition-delay: 0.5s; }
+
+  /* ─── FLOATING ORBS ─── */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 0;
+    animation: orbFloat 12s ease-in-out infinite;
+  }
+  .orb-1 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(255,107,26,0.07) 0%, transparent 70%);
+    top: -100px; left: -100px;
+    animation-duration: 15s;
+  }
+  .orb-2 {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(30,60,180,0.12) 0%, transparent 70%);
+    bottom: -80px; right: -80px;
+    animation-duration: 18s;
+    animation-delay: -6s;
+  }
+  @keyframes orbFloat {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -20px) scale(1.05); }
+    66% { transform: translate(-20px, 30px) scale(0.95); }
+  }
+
+  /* ─── STAT CARD LIQUID ─── */
+  .stat-card {
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 0;
+    border-radius: inherit;
+  }
+  .stat-card > * { position: relative; z-index: 1; }
+  .stat-card::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: conic-gradient(from 0deg, transparent 0%, rgba(255,107,26,0.06) 25%, transparent 50%);
+    animation: spinGlow 8s linear infinite;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .stat-card:hover::after { opacity: 1; }
+  @keyframes spinGlow {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  /* ─── LIQUID GLASS FILTER (SVG) ─── */
+  .glass-filter-svg { position: absolute; width: 0; height: 0; }
+</style>
+</head>
+<body>
+
+<!-- LIQUID GLASS SVG FILTER -->
+<svg class="glass-filter-svg" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="glass-distortion" x="0%" y="0%" width="100%" height="100%" filterUnits="objectBoundingBox">
+      <feTurbulence type="fractalNoise" baseFrequency="0.001 0.005" numOctaves="1" seed="17" result="turbulence"/>
+      <feComponentTransfer in="turbulence" result="mapped">
+        <feFuncR type="gamma" amplitude="1" exponent="10" offset="0.5"/>
+        <feFuncG type="gamma" amplitude="0" exponent="1" offset="0"/>
+        <feFuncB type="gamma" amplitude="0" exponent="1" offset="0.5"/>
+      </feComponentTransfer>
+      <feGaussianBlur in="turbulence" stdDeviation="3" result="softMap"/>
+      <feSpecularLighting in="softMap" surfaceScale="5" specularConstant="1" specularExponent="100" lightingColor="white" result="specLight">
+        <fePointLight x="-200" y="-200" z="300"/>
+      </feSpecularLighting>
+      <feComposite in="specLight" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="litImage"/>
+      <feDisplacementMap in="SourceGraphic" in2="softMap" scale="80" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<!-- FLOATING ORBS -->
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">S M<span>.</span>Sadik</div>
+  <ul class="nav-links">
+    <li><a href="#expertise">Expertise</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#proof">Proof</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:mehbubsadik9@gmail.com" class="nav-cta" onclick="copyEmail(event)">Work With Me</a>
+  <div id="email-toast" style="display:none;position:fixed;top:80px;right:24px;background:#FF6B1A;color:#050810;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:700;z-index:999;letter-spacing:0.04em;">✓ Email copied — mehbubsadik9@gmail.com</div>
+</nav>
+
+
+<!-- HERO -->
+<section class="hero" style="position:relative; overflow:hidden;">
+  <!-- WebGL Shader Canvas Background -->
+  <canvas id="shader-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:0.55;pointer-events:none;"></canvas>
+
+  <div class="wrapper" style="position:relative;z-index:1;">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow">Director of Performance Marketing · DTC Strategy</div>
+        <h1>
+          I don't run ads.<br>
+          I engineer <span class="accent">cash-flow.</span>
+        </h1>
+        <p class="hero-sub">
+          S M Abdullah All Mehbub Sadik. Founder of <strong style="color:var(--white)">The Spot</strong>. Meta Marketing Expert with close to a decade building performance engines for FMCG & D2C brands. $1.2M+ deployed. Zero vanity metrics.
+        </p>
+        <div class="hero-actions">
+          <a href="mailto:mehbubsadik9@gmail.com" class="btn-primary">Book a Strategy Call</a>
+          <a href="https://www.linkedin.com/in/mehbubsadik/" target="_blank" class="btn-ghost">LinkedIn ↗</a>
+        </div>
+        <div class="avail-badge">
+          <span class="avail-dot"></span>
+          Taking on new clients — limited spots
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-card lg-card reveal reveal-delay-1">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
+          <div class="stat-val">$1.2M+</div>
+          <div class="stat-label">Ad Spend Managed</div>
+        </div>
+        <div class="stat-card lg-card reveal reveal-delay-2">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
+          <div class="stat-val">850K+</div>
+          <div class="stat-label">Purchases Generated</div>
+        </div>
+        <div class="stat-card lg-card reveal reveal-delay-3">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
+          <div class="stat-val">$1.41</div>
+          <div class="stat-label">Avg. Cost Per Purchase</div>
+        </div>
+        <div class="stat-card lg-card reveal reveal-delay-4">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
+          <div class="stat-val">9x</div>
+          <div class="stat-label">Peak ROAS Achieved</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METRICS STRIP -->
+<div class="metrics-strip">
+  <div class="wrapper">
+    <div class="metrics-grid">
+      <div class="metric-item">
+        <span class="metric-num">4.5x–9x</span>
+        <span class="metric-desc">Consistent ROAS Range</span>
+      </div>
+      <div class="metric-item">
+        <span class="metric-num">€187K</span>
+        <span class="metric-desc">Single Account Monthly Spend</span>
+      </div>
+      <div class="metric-item">
+        <span class="metric-num">399</span>
+        <span class="metric-desc">Active Campaigns (1 Account)</span>
+      </div>
+      <div class="metric-item">
+        <span class="metric-num">5+</span>
+        <span class="metric-desc">Ad Platforms Managed</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPERTISE -->
+<section id="expertise">
+  <div class="wrapper">
+    <div class="section-label reveal">What I Do</div>
+    <h2 class="section-title reveal reveal-delay-1">Built for performance.<br>Obsessed with profit.</h2>
+    <p class="section-desc">Every system I build is designed around one outcome: predictable revenue with protected margins. No guesswork. No fluff.</p>
+
+    <div class="expertise-grid">
+      <div class="exp-card lg-card reveal reveal-delay-1">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
+        <div class="exp-icon">
+          <svg class="icon" style="color:var(--tangerine)" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="exp-title">Meta Paid Acquisition</div>
+        <div class="exp-desc">Facebook & Instagram campaign architecture from scratch — CBO, ABO, funnel stages, creative rotation, audience stacking, and Advantage+ integration.</div>
+      </div>
+      <div class="exp-card lg-card reveal reveal-delay-2">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
+        <div class="exp-icon">
+          <svg class="icon" style="color:var(--tangerine)" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div class="exp-title">Creative Sandbox System</div>
+        <div class="exp-desc">Systematic creative testing framework: hook rate, 1.5s scroll-stop analysis, ad fatigue diagnosis, UGC vs. static performance benchmarking.</div>
+      </div>
+      <div class="exp-card lg-card reveal reveal-delay-3">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
+        <div class="exp-icon">
+          <svg class="icon" style="color:var(--tangerine)" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <div class="exp-title">TikTok Ads</div>
+        <div class="exp-desc">Managed 43+ active TikTok campaigns simultaneously with $5.7K+ monthly spend. Optimized for conversion at sub-$1.50 CPC across FMCG verticals.</div>
+      </div>
+      <div class="exp-card lg-card reveal reveal-delay-4">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
+        <div class="exp-icon">
+          <svg class="icon" style="color:var(--tangerine)" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div class="exp-title">Offer Engineering</div>
+        <div class="exp-desc">High-ticket bundling, AOV maximization, LTV architecture, and pricing psychology to increase revenue-per-customer without scaling spend.</div>
+      </div>
+      <div class="exp-card lg-card reveal">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
+        <div class="exp-icon">
+          <svg class="icon" style="color:var(--tangerine)" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="exp-title">Audience Architecture</div>
+        <div class="exp-desc">Custom audiences (Purchasers, Video Viewers, Engagers), Lookalike stacking (1%–39%), retargeting funnels, and suppression lists for zero budget bleed.</div>
+      </div>
+      <div class="exp-card lg-card reveal reveal-delay-1">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
+        <div class="exp-icon">
+          <svg class="icon" style="color:var(--tangerine)" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        </div>
+        <div class="exp-title">Agency Operations</div>
+        <div class="exp-desc">Founder of The Spot — Netflix-style subscription retainer model. Full-stack agency build: proposals, SOPs, client reporting, creative production pipelines.</div>
+      </div>
+    </div>
+
+    <div style="margin-top: 3rem;">
+      <div class="section-label" style="margin-bottom: 1.25rem;">Platforms I Operate On</div>
+      <div class="platforms-grid">
+        <div class="platform-pill"><span class="dot"></span>Meta Ads Manager</div>
+        <div class="platform-pill"><span class="dot"></span>TikTok Ads</div>
+        <div class="platform-pill"><span class="dot"></span>Google Ads (Demand Gen)</div>
+        <div class="platform-pill"><span class="dot"></span>LinkedIn Ads</div>
+        <div class="platform-pill"><span class="dot"></span>Twitter / X Ads</div>
+        <div class="platform-pill"><span class="dot"></span>GA4 & Attribution</div>
+        <div class="platform-pill"><span class="dot"></span>CapCut / Premiere Pro</div>
+        <div class="platform-pill"><span class="dot"></span>Advanced Excel</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="wrapper">
+    <div class="section-label reveal">Track Record</div>
+    <h2 class="section-title reveal reveal-delay-1">Where I've shipped results.</h2>
+
+    <div class="timeline">
+      <div class="timeline-item reveal reveal-delay-1">
+        <div class="tl-period">Jan 2023 – Present</div>
+        <div>
+          <div class="tl-role">Director of Performance Marketing & Creative Lead</div>
+          <div class="tl-company">Freelance / Agency Partner · Remote Contract</div>
+          <ul class="tl-points">
+            <li>Deployed and optimized $1.2M+ in performance budgets across Meta & TikTok Ads for international D2C clients.</li>
+            <li>Engineered Creative Sandboxes and Educational Bridge Pages to bypass ad fatigue — sustained 4.5x to 9x ROAS.</li>
+            <li>Built full audience ecosystems: Purchaser CAE, Video Viewer retargeting, LAL 1%–39% stacks, suppression layers.</li>
+            <li>Managed 399+ active campaigns across a single account with €187K+ monthly spend (Oct–Nov 2025).</li>
+            <li>Operated multiple ad accounts simultaneously: ADF_1166, ADF_1014, ADF_1394, Batha_01, Diabetics_02 and more.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-item reveal reveal-delay-2">
+        <div class="tl-period">Ongoing</div>
+        <div>
+          <div class="tl-role">Founder & CEO</div>
+          <div class="tl-company">The Spot — Digital Marketing & Creative Agency · Bagerhat, Bangladesh</div>
+          <ul class="tl-points">
+            <li>Built and operate a performance-first agency on a Netflix-style subscription/retainer model.</li>
+            <li>Clients include FMCG brands, D2C e-commerce, real estate (Probashi Palli Group — Dhaka Mawa City project).</li>
+            <li>Full operational infrastructure: tiered pricing (Starter / Growth plans), SOPs, reporting dashboards, creative pipelines.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-item reveal reveal-delay-3">
+        <div class="tl-period">Jan 2022 – Dec 2022</div>
+        <div>
+          <div class="tl-role">Operations & Data Analyst (Marketing Support)</div>
+          <div class="tl-company">Bangladesh Honda (PVT) Ltd. · Dhaka</div>
+          <ul class="tl-points">
+            <li>Managed inventory forecasting and cross-functional reporting for a multinational — 100% data accuracy in high-pressure environments.</li>
+            <li>Streamlined workflows via advanced Excel modeling, cutting reporting turnaround time by 30%.</li>
+            <li>Developed Zero-Error operational discipline — directly translated to campaign budget management and performance reporting.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROOF OF WORK -->
+<section id="proof">
+  <div class="wrapper">
+    <div class="section-label reveal">Proof of Work</div>
+    <h2 class="section-title reveal reveal-delay-1">Numbers don't lie.</h2>
+    <p class="section-desc">Screenshots and campaign data are available on request via Google Drive portfolio.</p>
+
+    <div class="proof-grid">
+      <div class="proof-card lg-card reveal reveal-delay-1">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
+        <div class="proof-badge">Meta · German Market</div>
+        <div class="proof-title">Mashallah 2 (ADF_1166) — Multi-Account Scaling</div>
+        <div class="proof-body">Ran 399 campaigns simultaneously in one account. Managed ROAS from awareness to retargeting. Cost-per-purchase maintained below benchmark across all funnel stages.</div>
+        <div class="proof-metrics">
+          <div class="proof-metric">
+            <span class="pm-val">$8.7K</span>
+            <span class="pm-label">Total Spend (month)</span>
+          </div>
+          <div class="proof-metric">
+            <span class="pm-val">$1.41</span>
+            <span class="pm-label">Avg CPP</span>
+          </div>
+          <div class="proof-metric">
+            <span class="pm-val">3.66x</span>
+            <span class="pm-label">Blended ROAS</span>
+          </div>
+        </div>
+      </div>
+      <div class="proof-card lg-card reveal reveal-delay-2">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
+        <div class="proof-badge">Meta · EU Market</div>
+        <div class="proof-title">Mashallah 3 (ADF_1394) — High-Budget Performance</div>
+        <div class="proof-body">Managed large-budget EU campaigns with spend exceeding €187K/month. Built retargeting funnels (Ultimate Retargeting Stacked), achieving up to 16.56x ROAS on retargeting segments.</div>
+        <div class="proof-metrics">
+          <div class="proof-metric">
+            <span class="pm-val">€187K</span>
+            <span class="pm-label">Monthly Spend</span>
+          </div>
+          <div class="proof-metric">
+            <span class="pm-val">16.56x</span>
+            <span class="pm-label">Peak ROAS (retargeting)</span>
+          </div>
+          <div class="proof-metric">
+            <span class="pm-val">2.51x</span>
+            <span class="pm-label">Blended ROAS</span>
+          </div>
+        </div>
+      </div>
+      <div class="proof-card lg-card reveal reveal-delay-3">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
+        <div class="proof-badge">TikTok Ads</div>
+        <div class="proof-title">ADF-Tik 1061 — TikTok Campaign Architecture</div>
+        <div class="proof-body">Built and managed 43 active TikTok campaigns with $5.7K+ monthly spend. Achieved sub-$1.50 cost per conversion across health & FMCG product categories with 19M+ impressions.</div>
+        <div class="proof-metrics">
+          <div class="proof-metric">
+            <span class="pm-val">$5.7K</span>
+            <span class="pm-label">Monthly Spend</span>
+          </div>
+          <div class="proof-metric">
+            <span class="pm-val">19.9M</span>
+            <span class="pm-label">Impressions</span>
+          </div>
+          <div class="proof-metric">
+            <span class="pm-val">$1.43</span>
+            <span class="pm-label">Avg CPP</span>
+          </div>
+        </div>
+      </div>
+      <div class="proof-card lg-card reveal reveal-delay-4">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
+        <div class="proof-badge">Google Ads</div>
+        <div class="proof-title">Demand Gen Campaign — Germany Market</div>
+        <div class="proof-body">Launched and managed Google Demand Gen campaign alongside Meta mix. Achieved 51K impressions and 16K+ engagements at $0.58 CPM with 31.6% engagement rate.</div>
+        <div class="proof-metrics">
+          <div class="proof-metric">
+            <span class="pm-val">31.6%</span>
+            <span class="pm-label">Engagement Rate</span>
+          </div>
+          <div class="proof-metric">
+            <span class="pm-val">$0.58</span>
+            <span class="pm-label">CPM</span>
+          </div>
+          <div class="proof-metric">
+            <span class="pm-val">51K</span>
+            <span class="pm-label">Impressions</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 2rem; padding: 1.5rem 2rem; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+      <div style="flex: 1; min-width: 260px;">
+        <div style="font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 4px;">Full campaign screenshots & CSV data available</div>
+        <div style="font-size: 12px; color: var(--white-60);">Google Drive portfolio folder — accessible on request after NDA/engagement agreement.</div>
+      </div>
+      <a href="https://drive.google.com/drive/folders/1TH1DPWuZvly98Q3spo76g4GHR7zGspHb" target="_blank" class="btn-ghost" style="white-space: nowrap; font-size: 13px;">View Drive Portfolio ↗</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT / CTA — PULSE BEAMS -->
+<section id="contact" class="pb-section">
+
+  <!-- SVG Beams Canvas -->
+  <svg class="pb-svg" viewBox="0 0 1200 520" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <!-- Base paths (static, dim) -->
+    <path d="M0 260 Q200 180 480 240 Q560 255 600 260" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/>
+    <path d="M0 160 Q150 140 300 180 Q440 215 480 240 Q540 255 600 260" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/>
+    <path d="M0 360 Q180 340 350 320 Q470 305 520 278 Q560 265 600 260" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/>
+    <path d="M0 80  Q120 100 260 140 Q420 190 480 235 Q548 252 600 260" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/>
+    <path d="M0 430 Q200 400 360 370 Q480 345 540 295 Q570 278 600 260" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/>
+    <path d="M1200 260 Q1000 180 720 240 Q640 255 600 260" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/>
+    <path d="M1200 160 Q1050 140 900 180 Q760 215 720 240 Q660 255 600 260" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/>
+    <path d="M1200 360 Q1020 340 850 320 Q730 305 680 278 Q640 265 600 260" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/>
+    <path d="M1200 80  Q1080 100 940 140 Q780 190 720 235 Q652 252 600 260" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/>
+    <path d="M1200 430 Q1000 400 840 370 Q720 345 660 295 Q630 278 600 260" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/>
+
+    <!-- Animated beam paths (glowing, on top) -->
+    <path id="pb1" d="M0 260 Q200 180 480 240 Q560 255 600 260" stroke="url(#g1)" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <path id="pb2" d="M0 160 Q150 140 300 180 Q440 215 480 240 Q540 255 600 260" stroke="url(#g2)" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <path id="pb3" d="M0 360 Q180 340 350 320 Q470 305 520 278 Q560 265 600 260" stroke="url(#g3)" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <path id="pb4" d="M0 80 Q120 100 260 140 Q420 190 480 235 Q548 252 600 260" stroke="url(#g4)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <path id="pb5" d="M0 430 Q200 400 360 370 Q480 345 540 295 Q570 278 600 260" stroke="url(#g5)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <path id="pb6" d="M1200 260 Q1000 180 720 240 Q640 255 600 260" stroke="url(#g6)" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <path id="pb7" d="M1200 160 Q1050 140 900 180 Q760 215 720 240 Q660 255 600 260" stroke="url(#g7)" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <path id="pb8" d="M1200 360 Q1020 340 850 320 Q730 305 680 278 Q640 265 600 260" stroke="url(#g8)" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <path id="pb9" d="M1200 80 Q1080 100 940 140 Q780 190 720 235 Q652 252 600 260" stroke="url(#g9)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <path id="pb10" d="M1200 430 Q1000 400 840 370 Q720 345 660 295 Q630 278 600 260" stroke="url(#g10)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+
+    <!-- Connection node at center -->
+    <circle cx="600" cy="260" r="4" fill="#FF6B1A" opacity="0.9"/>
+    <circle cx="600" cy="260" r="8" fill="none" stroke="#FF6B1A" stroke-width="1" opacity="0.4"/>
+    <circle cx="600" cy="260" r="14" fill="none" stroke="#FF6B1A" stroke-width="0.5" opacity="0.2">
+      <animate attributeName="r" values="14;22;14" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.2;0;0.2" dur="3s" repeatCount="indefinite"/>
+    </circle>
+
+    <defs>
+      <!-- LEFT BEAMS: gradients animate from left→center -->
+      <linearGradient id="g1" gradientUnits="userSpaceOnUse" x1="0" y1="260" x2="600" y2="260">
+        <stop offset="0%" stop-color="#FF6B1A" stop-opacity="0">
+          <animate attributeName="offset" values="0;0.8;0" dur="4s" repeatCount="indefinite"/>
+        </stop>
+        <stop offset="30%" stop-color="#FF6B1A" stop-opacity="0.9">
+          <animate attributeName="offset" values="0.3;1;0.3" dur="4s" repeatCount="indefinite"/>
+        </stop>
+        <stop offset="60%" stop-color="#FFB347" stop-opacity="0.4">
+          <animate attributeName="offset" values="0.6;1.2;0.6" dur="4s" repeatCount="indefinite"/>
+        </stop>
+        <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="g2" gradientUnits="userSpaceOnUse" x1="0" y1="160" x2="600" y2="260">
+        <stop offset="0%" stop-color="#FF6B1A" stop-opacity="0">
+          <animate attributeName="offset" values="0;0.8;0" dur="5s" begin="-1s" repeatCount="indefinite"/>
+        </stop>
+        <stop offset="30%" stop-color="#FF8C42" stop-opacity="0.8">
+          <animate attributeName="offset" values="0.3;1;0.3" dur="5s" begin="-1s" repeatCount="indefinite"/>
+        </stop>
+        <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="g3" gradientUnits="userSpaceOnUse" x1="0" y1="360" x2="600" y2="260">
+        <stop offset="0%" stop-color="#FF6B1A" stop-opacity="0">
+          <animate attributeName="offset" values="0;0.8;0" dur="6s" begin="-2s" repeatCount="indefinite"/>
+        </stop>
+        <stop offset="35%" stop-color="#FF6B1A" stop-opacity="0.7">
+          <animate attributeName="offset" values="0.35;1;0.35" dur="6s" begin="-2s" repeatCount="indefinite"/>
+        </stop>
+        <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="g4" gradientUnits="userSpaceOnUse" x1="0" y1="80" x2="600" y2="260">
+        <stop offset="0%" stop-color="#FFB347" stop-opacity="0">
+          <animate attributeName="offset" values="0;0.85;0" dur="7s" begin="-0.5s" repeatCount="indefinite"/>
+        </stop>
+        <stop offset="40%" stop-color="#FFB347" stop-opacity="0.6">
+          <animate attributeName="offset" values="0.4;1.1;0.4" dur="7s" begin="-0.5s" repeatCount="indefinite"/>
+        </stop>
+        <stop offset="100%" stop-color="#FFB347" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="g5" gradientUnits="userSpaceOnUse" x1="0" y1="430" x2="600" y2="260">
+        <stop offset="0%" stop-color="#FF6B1A" stop-opacity="0">
+          <animate attributeName="offset" values="0;0.9;0" dur="5.5s" begin="-3s" repeatCount="indefinite"/>
+        </stop>
+        <stop offset="35%" stop-color="#FF6B1A" stop-opacity="0.5">
+          <animate attributeName="offset" values="0.35;1.1;0.35" dur="5.5s" begin="-3s" repeatCount="indefinite"/>
+        </stop>
+        <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"/>
+      </linearGradient>
+      <!-- RIGHT BEAMS -->
+      <linearGradient id="g6" gradientUnits="userSpaceOnUse" x1="1200" y1="260" x2="600" y2="260">
+        <stop offset="0%" stop-color="#FF6B1A" stop-opacity="0">
+          <animate attributeName="offset" values="0;0.8;0" dur="4.5s" begin="-2s" repeatCount="indefinite"/>
+        </stop>
+        <stop offset="30%" stop-color="#FF6B1A" stop-opacity="0.9">
+          <animate attributeName="offset" values="0.3;1;0.3" dur="4.5s" begin="-2s" repeatCount="indefinite"/>
+        </stop>
+        <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="g7" gradientUnits="userSpaceOnUse" x1="1200" y1="160" x2="600" y2="260">
+        <stop offset="0%" stop-color="#FF8C42" stop-opacity="0">
+          <animate attributeName="offset" values="0;0.8;0" dur="5.5s" begin="-1.5s" repeatCount="indefinite"/>
+        </stop>
+        <stop offset="30%" stop-color="#FF8C42" stop-opacity="0.8">
+          <animate attributeName="offset" values="0.3;1;0.3" dur="5.5s" begin="-1.5s" repeatCount="indefinite"/>
+        </stop>
+        <stop offset="100%" stop-color="#FF8C42" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="g8" gradientUnits="userSpaceOnUse" x1="1200" y1="360" x2="600" y2="260">
+        <stop offset="0%" stop-color="#FF6B1A" stop-opacity="0">
+          <animate attributeName="offset" values="0;0.8;0" dur="6.5s" begin="-0.8s" repeatCount="indefinite"/>
+        </stop>
+        <stop offset="35%" stop-color="#FF6B1A" stop-opacity="0.7">
+          <animate attributeName="offset" values="0.35;1;0.35" dur="6.5s" begin="-0.8s" repeatCount="indefinite"/>
+        </stop>
+        <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="g9" gradientUnits="userSpaceOnUse" x1="1200" y1="80" x2="600" y2="260">
+        <stop offset="0%" stop-color="#FFB347" stop-opacity="0">
+          <animate attributeName="offset" values="0;0.85;0" dur="7.5s" begin="-4s" repeatCount="indefinite"/>
+        </stop>
+        <stop offset="40%" stop-color="#FFB347" stop-opacity="0.55">
+          <animate attributeName="offset" values="0.4;1.1;0.4" dur="7.5s" begin="-4s" repeatCount="indefinite"/>
+        </stop>
+        <stop offset="100%" stop-color="#FFB347" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="g10" gradientUnits="userSpaceOnUse" x1="1200" y1="430" x2="600" y2="260">
+        <stop offset="0%" stop-color="#FF6B1A" stop-opacity="0">
+          <animate attributeName="offset" values="0;0.9;0" dur="5s" begin="-3.5s" repeatCount="indefinite"/>
+        </stop>
+        <stop offset="35%" stop-color="#FF6B1A" stop-opacity="0.5">
+          <animate attributeName="offset" values="0.35;1.1;0.35" dur="5s" begin="-3.5s" repeatCount="indefinite"/>
+        </stop>
+        <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- CTA Card center -->
+  <div class="pb-content">
+    <div class="pb-card">
+      <div class="pb-card-glow"></div>
+      <div class="pb-label">Let's Talk</div>
+      <h2 class="pb-title">Ready to build a<br><span class="pb-accent">zero-error<br>revenue engine?</span></h2>
+      <p class="pb-sub">Performance marketing for D2C & FMCG brands. Subscription retainer model. Results, not excuses.</p>
+      <div class="pb-actions">
+        <a href="mailto:mehbubsadik9@gmail.com" class="pb-btn-primary" onclick="copyEmail(event)">
+          <span>Book a Strategy Call</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/mehbubsadik/" target="_blank" class="pb-btn-ghost">LinkedIn ↗</a>
+      </div>
+      <div class="pb-contact-info">
+        <span>mehbubsadik9@gmail.com</span>
+        <span class="pb-dot">·</span>
+        <span>+880 1932 330670</span>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<style>
+/* ─── PULSE BEAMS SECTION ─── */
+.pb-section {
+  position: relative;
+  width: 100%;
+  min-height: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(180deg, transparent 0%, rgba(5,8,16,0.6) 40%, rgba(5,8,16,0.9) 100%);
+}
+.pb-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.pb-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1.5rem;
+  width: 100%;
+}
+.pb-card {
+  position: relative;
+  background: rgba(8, 12, 26, 0.85);
+  border: 1px solid rgba(255,107,26,0.2);
+  border-radius: 20px;
+  padding: 3rem 3.5rem;
+  text-align: center;
+  max-width: 520px;
+  width: 100%;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow:
+    0 0 0 1px rgba(255,107,26,0.08),
+    0 20px 60px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+  overflow: hidden;
+}
+.pb-card-glow {
+  position: absolute;
+  inset: -1px;
+  border-radius: 20px;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,107,26,0.12) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: pbGlowPulse 4s ease-in-out infinite;
+}
+@keyframes pbGlowPulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+.pb-card > * { position: relative; z-index: 1; }
+.pb-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--tangerine);
+  margin-bottom: 1.25rem;
+}
+.pb-label::before, .pb-label::after {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--tangerine);
+  opacity: 0.6;
+}
+.pb-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+.pb-accent { color: var(--tangerine); }
+.pb-sub {
+  font-size: 13px;
+  color: var(--white-30);
+  letter-spacing: 0.04em;
+  margin-bottom: 2rem;
+}
+.pb-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.pb-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--tangerine);
+  color: var(--navy);
+  border: none;
+  padding: 13px 28px;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s, box-shadow 0.3s;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(255,107,26,0.3);
+}
+.pb-btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.pb-btn-primary:hover { opacity: 0.92; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,107,26,0.45); }
+.pb-btn-primary:hover::before { opacity: 1; }
+.pb-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  color: var(--white-60);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 13px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: border-color 0.2s, color 0.2s;
+}
+.pb-btn-ghost:hover { border-color: rgba(255,255,255,0.3); color: var(--white); }
+.pb-contact-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--white-30);
+  flex-wrap: wrap;
+}
+.pb-dot { opacity: 0.4; }
+</style>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrapper">
+    <div class="footer-inner">
+      <div class="footer-left">
+        © 2026 <span>S M Abdullah All Mehbub Sadik</span> · The Spot Agency
+      </div>
+      <div class="footer-right">
+        <a href="mailto:mehbubsadik9@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/mehbubsadik/" target="_blank">LinkedIn</a>
+        <a href="https://drive.google.com/drive/folders/1TH1DPWuZvly98Q3spo76g4GHR7zGspHb" target="_blank">Portfolio Drive</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ─── EMAIL COPY ─── */
+function copyEmail(e) {
+  e.preventDefault();
+  navigator.clipboard.writeText('mehbubsadik9@gmail.com').catch(()=>{});
+  var t = document.getElementById('email-toast');
+  t.style.display = 'block';
+  setTimeout(function(){ t.style.display = 'none'; }, 3000);
+}
+
+/* ─── WEBGL SHADER — TANGERINE RECOLOR ─── */
+(function() {
+  var canvas = document.getElementById('shader-canvas');
+  if (!canvas) return;
+
+  var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+
+  var vertSrc = `
+    attribute vec2 position;
+    void main() {
+      gl_Position = vec4(position, 0.0, 1.0);
+    }
+  `;
+
+  /* Original ring math preserved — color output rewritten to tangerine/amber */
+  var fragSrc = `
+    precision highp float;
+    uniform vec2 resolution;
+    uniform float time;
+
+    void main(void) {
+      vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
+      float t = time * 0.05;
+      float lineWidth = 0.002;
+
+      float intensity = 0.0;
+      float warmShift = 0.0;
+
+      for(int i = 0; i < 5; i++){
+        float fi = float(i);
+        float ring = lineWidth * fi * fi / abs(
+          fract(t + fi * 0.01) * 5.0
+          - length(uv)
+          + mod(uv.x + uv.y, 0.2)
+        );
+        intensity += ring;
+        /* outer rings slightly more amber */
+        warmShift += ring * (fi * 0.08);
+      }
+
+      /* Tangerine: #FF6B1A = (1.0, 0.42, 0.10) */
+      /* Amber shift for variety: push toward #FFB347 = (1.0, 0.70, 0.28) */
+      float r = min(intensity * 1.1, 1.0);
+      float g = min(intensity * 0.38 + warmShift * 0.25, 0.72);
+      float b = min(intensity * 0.08, 0.15);
+
+      /* Vignette — fade edges to pure navy so it blends */
+      float vignette = 1.0 - smoothstep(0.55, 1.3, length(uv));
+      r *= vignette;
+      g *= vignette;
+      b *= vignette;
+
+      gl_FragColor = vec4(r, g, b, 1.0);
+    }
+  `;
+
+  function compileShader(type, src) {
+    var s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+
+  var prog = gl.createProgram();
+  gl.attachShader(prog, compileShader(gl.VERTEX_SHADER, vertSrc));
+  gl.attachShader(prog, compileShader(gl.FRAGMENT_SHADER, fragSrc));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+
+  var buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+
+  var pos = gl.getAttribLocation(prog, 'position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+
+  var uRes = gl.getUniformLocation(prog, 'resolution');
+  var uTime = gl.getUniformLocation(prog, 'time');
+
+  var time = 0;
+  var animId;
+
+  function resize() {
+    var hero = canvas.parentElement;
+    canvas.width  = hero.clientWidth  * (window.devicePixelRatio || 1);
+    canvas.height = hero.clientHeight * (window.devicePixelRatio || 1);
+    canvas.style.width  = hero.clientWidth  + 'px';
+    canvas.style.height = hero.clientHeight + 'px';
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.uniform2f(uRes, canvas.width, canvas.height);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+
+  function render() {
+    time += 0.05;
+    gl.uniform1f(uTime, time);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    animId = requestAnimationFrame(render);
+  }
+  render();
+})();
+
+/* ─── SCROLL REVEAL ─── */
+var revealObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(function(el) {
+  revealObserver.observe(el);
+});
+
+/* ─── LIQUID GLASS MOUSE TRACKING ─── */
+document.querySelectorAll('.lg-card').forEach(function(card) {
+  card.addEventListener('mousemove', function(e) {
+    var rect = card.getBoundingClientRect();
+    var x = ((e.clientX - rect.left) / rect.width) * 100;
+    var y = ((e.clientY - rect.top) / rect.height) * 100;
+    card.style.setProperty('--mx', x + '%');
+    card.style.setProperty('--my', y + '%');
+  });
+});
+
+/* ─── SVG DISTORTION ANIMATE ON SCROLL ─── */
+var turbulence = document.querySelector('#glass-distortion feTurbulence');
+var scrollTick = false;
+window.addEventListener('scroll', function() {
+  if (!scrollTick && turbulence) {
+    requestAnimationFrame(function() {
+      var progress = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+      var freq = 0.001 + progress * 0.004;
+      turbulence.setAttribute('baseFrequency', freq + ' ' + (freq * 4));
+      scrollTick = false;
+    });
+    scrollTick = true;
+  }
+});
+
+/* ─── NAV SCROLL GLASS EFFECT ─── */
+window.addEventListener('scroll', function() {
+  var nav = document.querySelector('nav');
+  if (window.scrollY > 50) {
+    nav.style.background = 'rgba(5,8,16,0.92)';
+    nav.style.boxShadow = '0 1px 0 rgba(255,107,26,0.1)';
+  } else {
+    nav.style.background = 'rgba(5,8,16,0.7)';
+    nav.style.boxShadow = 'none';
+  }
+});
+
+/* ─── PARALLAX ORBS ON SCROLL ─── */
+window.addEventListener('scroll', function() {
+  var sy = window.scrollY;
+  var orb1 = document.querySelector('.orb-1');
+  var orb2 = document.querySelector('.orb-2');
+  if (orb1) orb1.style.transform = 'translateY(' + sy * 0.15 + 'px)';
+  if (orb2) orb2.style.transform = 'translateY(' + (-sy * 0.1) + 'px)';
+});
+
+/* ─── HERO H1 LETTER SPLIT ANIMATION ─── */
+(function() {
+  var h1 = document.querySelector('.hero h1');
+  if (!h1) return;
+  h1.style.opacity = '1';
+  h1.style.transform = 'none';
+})();
+
+/* ─── COUNTER ANIMATION FOR STATS ─── */
+function animateCounter(el, target, suffix, duration) {
+  var start = 0;
+  var isFloat = target % 1 !== 0;
+  var step = duration / 60;
+  var increment = target / (duration / (1000/60));
+  var current = 0;
+  var timer = setInterval(function() {
+    current += increment;
+    if (current >= target) {
+      current = target;
+      clearInterval(timer);
+    }
+    el.textContent = (isFloat ? current.toFixed(1) : Math.floor(current)) + suffix;
+  }, 1000/60);
+}
+
+var statsObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      var el = entry.target.querySelector('.metric-num');
+      if (!el || el.dataset.animated) return;
+      el.dataset.animated = '1';
+      var text = el.textContent.trim();
+      var suffix = text.replace(/[\d.]/g, '');
+      var num = parseFloat(text.replace(/[^0-9.]/g, ''));
+      if (!isNaN(num)) animateCounter(el, num, suffix, 1200);
+      statsObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.metric-item').forEach(function(el) {
+  statsObserver.observe(el);
+});
+</script>
+</body>
+</html>
