@@ -1191,6 +1191,90 @@
 
 <div class="divider"></div>
 
+<!-- ════════ CAMPAIGN PROOF SLIDESHOW ════════ -->
+<section id="slideshow" style="padding:6rem 0;">
+  <div class="wrapper">
+    <div class="section-label reveal">Campaign Proof</div>
+    <h2 class="section-title reveal reveal-delay-1">Inside the ad accounts.</h2>
+    <p class="section-desc reveal reveal-delay-2">Live dashboards, spend &amp; ROAS — straight from Meta &amp; TikTok Ads Manager.</p>
+
+    <div class="ss-frame reveal reveal-delay-2">
+      <div class="ss-track" id="ssTrack">
+        <div class="ss-slide"><img src="images/slide-1.jpg" alt="Meta Ads dashboard — ROAS overview" loading="lazy"></div>
+        <div class="ss-slide"><img src="images/slide-2.jpg" alt="Campaign performance breakdown" loading="lazy"></div>
+        <div class="ss-slide"><img src="images/slide-3.jpg" alt="TikTok Ads results" loading="lazy"></div>
+        <div class="ss-slide"><img src="images/slide-4.jpg" alt="Retargeting funnel ROAS" loading="lazy"></div>
+        <div class="ss-slide"><img src="images/slide-5.jpg" alt="Monthly spend summary" loading="lazy"></div>
+      </div>
+
+      <button class="ss-arrow ss-prev" id="ssPrev" aria-label="Previous">‹</button>
+      <button class="ss-arrow ss-next" id="ssNext" aria-label="Next">›</button>
+      <div class="ss-dots" id="ssDots"></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ss-frame{
+    position:relative;margin-top:3rem;border-radius:18px;overflow:hidden;
+    border:1px solid var(--glass-border);background:var(--navy-2);
+    box-shadow:0 20px 60px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.05);
+  }
+  .ss-track{display:flex;transition:transform .6s cubic-bezier(.22,.61,.36,1);}
+  .ss-slide{min-width:100%;aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;background:var(--navy);}
+  .ss-slide img{width:100%;height:100%;object-fit:contain;display:block;}
+  .ss-arrow{
+    position:absolute;top:50%;transform:translateY(-50%);z-index:5;
+    width:44px;height:44px;border-radius:50%;cursor:pointer;
+    background:rgba(5,8,16,.55);border:1px solid var(--glass-border);color:#fff;font-size:24px;line-height:1;
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    display:flex;align-items:center;justify-content:center;
+    transition:background .2s,border-color .2s;
+  }
+  .ss-arrow:hover{background:var(--tangerine);border-color:var(--tangerine);color:var(--navy);}
+  .ss-prev{left:16px;} .ss-next{right:16px;}
+  .ss-dots{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:5;display:flex;gap:8px;}
+  .ss-dot{width:9px;height:9px;border-radius:50%;cursor:pointer;border:none;background:rgba(255,255,255,.3);transition:background .25s,width .25s;}
+  .ss-dot.active{background:var(--tangerine);width:26px;border-radius:50px;}
+  @media(max-width:768px){
+    .ss-arrow{width:38px;height:38px;font-size:20px;}
+    .ss-prev{left:8px;} .ss-next{right:8px;}
+  }
+</style>
+
+<script>
+(function(){
+  var track=document.getElementById('ssTrack'); if(!track)return;
+  var slides=track.querySelectorAll('.ss-slide'); var total=slides.length;
+  var dotsWrap=document.getElementById('ssDots'); var i=0,timer=null,AUTO=4000;
+  for(var d=0;d<total;d++){
+    var b=document.createElement('button');
+    b.className='ss-dot'+(d===0?' active':'');
+    b.setAttribute('aria-label','Slide '+(d+1));
+    (function(idx){ b.addEventListener('click',function(){ go(idx); reset(); }); })(d);
+    dotsWrap.appendChild(b);
+  }
+  var dots=dotsWrap.querySelectorAll('.ss-dot');
+  function go(n){ i=(n+total)%total; track.style.transform='translateX(-'+(i*100)+'%)';
+    for(var k=0;k<dots.length;k++) dots[k].classList.toggle('active',k===i); }
+  function next(){ go(i+1); } function prev(){ go(i-1); }
+  function start(){ timer=setInterval(next,AUTO); }
+  function reset(){ clearInterval(timer); start(); }
+  document.getElementById('ssNext').addEventListener('click',function(){ next(); reset(); });
+  document.getElementById('ssPrev').addEventListener('click',function(){ prev(); reset(); });
+  var frame=track.parentElement;
+  frame.addEventListener('mouseenter',function(){ clearInterval(timer); });
+  frame.addEventListener('mouseleave',function(){ start(); });
+  var x0=null;
+  track.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+  track.addEventListener('touchend',function(e){ if(x0===null)return;
+    var dx=e.changedTouches[0].clientX-x0;
+    if(Math.abs(dx)>50){ dx<0?next():prev(); reset(); } x0=null; },{passive:true});
+  start();
+})();
+</script>
+<!-- ════════ END SLIDESHOW ════════ -->
+
 <!-- CONTACT / CTA — PULSE BEAMS -->
 <section id="contact" class="pb-section">
 
