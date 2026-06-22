@@ -876,6 +876,7 @@
     <li><a href="#expertise">Expertise</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#proof">Proof</a></li>
+    <li><a href="#creative">Creative</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <a href="https://wa.me/8801932330670" target="_blank" class="nav-cta">Work With Me</a>
@@ -1274,6 +1275,176 @@
 })();
 </script>
 <!-- ════════ END SLIDESHOW ════════ -->
+
+<!-- ════════ CREATIVE WORK ════════ -->
+<section id="creative" style="padding:6rem 0;">
+  <div class="wrapper">
+    <div class="section-label reveal">Creative Work</div>
+    <h2 class="section-title reveal reveal-delay-1">Motion & Video Ads.</h2>
+    <p class="section-desc reveal reveal-delay-2">Video ads & motion graphics produced for D2C and FMCG brands.</p>
+
+    <div class="creative-grid">
+
+      <div class="creative-card lg-card reveal reveal-delay-1" onclick="openVideo('1BlfP8Ia7doNcZ0ftukmOQvZITkKwS6-n')">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
+        <div class="creative-thumb">
+          <div class="creative-play">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="var(--tangerine)" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+          <div class="creative-overlay"></div>
+          <img src="https://drive.google.com/thumbnail?id=1BlfP8Ia7doNcZ0ftukmOQvZITkKwS6-n&sz=w800" alt="Pran Latina Juice" loading="lazy" onerror="this.style.display='none'">
+        </div>
+        <div class="creative-info">
+          <div class="proof-badge">FMCG · Motion Graphics</div>
+          <div class="creative-title">Pran Latina Juice</div>
+          <div class="creative-sub">Product motion ad for local FMCG brand</div>
+        </div>
+      </div>
+
+      <div class="creative-card lg-card reveal reveal-delay-2" onclick="openVideo('1mtnf8Qgq4mj1VsFMFDq6YsD9Yg9vZOou')">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
+        <div class="creative-thumb">
+          <div class="creative-play">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="var(--tangerine)" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+          <div class="creative-overlay"></div>
+          <img src="https://drive.google.com/thumbnail?id=1mtnf8Qgq4mj1VsFMFDq6YsD9Yg9vZOou&sz=w800" alt="AXIOM Jewelry" loading="lazy" onerror="this.style.display='none'">
+        </div>
+        <div class="creative-info">
+          <div class="proof-badge">Jewelry · Motion Graphics</div>
+          <div class="creative-title">AXIOM Jewelry</div>
+          <div class="creative-sub">Premium motion ad for foreign jewelry brand</div>
+        </div>
+      </div>
+
+      <div class="creative-card lg-card reveal reveal-delay-3" onclick="openVideo('1Mtqn3hyRu3hQA9OQn6Ez6q6vvM0Rlkyb')">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
+        <div class="creative-thumb">
+          <div class="creative-play">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="var(--tangerine)" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+          <div class="creative-overlay"></div>
+          <img src="https://drive.google.com/thumbnail?id=1Mtqn3hyRu3hQA9OQn6Ez6q6vvM0Rlkyb&sz=w800" alt="Bandarban Resort" loading="lazy" onerror="this.style.display='none'">
+        </div>
+        <div class="creative-info">
+          <div class="proof-badge">Hospitality · Video Edit</div>
+          <div class="creative-title">Bandarban Resort</div>
+          <div class="creative-sub">Cinematic video ad for hill resort brand</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO LIGHTBOX -->
+<div id="videoLightbox" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);align-items:center;justify-content:center;" onclick="closeVideo(event)">
+  <div style="position:relative;width:90%;max-width:900px;border-radius:16px;overflow:hidden;background:#000;border:1px solid var(--glass-border);">
+    <button onclick="closeVideo()" style="position:absolute;top:12px;right:16px;z-index:10;background:rgba(0,0,0,0.6);border:1px solid var(--glass-border);color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">✕</button>
+    <video id="lightboxVideo" controls autoplay playsinline style="width:100%;display:block;max-height:80vh;background:#000;"></video>
+  </div>
+</div>
+
+<style>
+.creative-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-top: 2.5rem;
+}
+.creative-card {
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 14px;
+}
+.creative-thumb {
+  position: relative;
+  aspect-ratio: 16/9;
+  background: var(--navy-3);
+  overflow: hidden;
+}
+.creative-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+.creative-card:hover .creative-thumb img {
+  transform: scale(1.04);
+}
+.creative-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(5,8,16,0.35);
+  transition: background 0.3s;
+  z-index: 1;
+}
+.creative-card:hover .creative-overlay {
+  background: rgba(5,8,16,0.55);
+}
+.creative-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 56px;
+  height: 56px;
+  background: rgba(5,8,16,0.7);
+  border: 2px solid var(--tangerine);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: background 0.3s, transform 0.3s;
+}
+.creative-card:hover .creative-play {
+  background: var(--tangerine);
+  transform: translate(-50%, -50%) scale(1.1);
+}
+.creative-card:hover .creative-play svg {
+  fill: var(--navy);
+}
+.creative-info {
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+.creative-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--white);
+  margin: 0.5rem 0 0.25rem;
+}
+.creative-sub {
+  font-size: 13px;
+  color: var(--white-60);
+}
+@media (max-width: 768px) {
+  .creative-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<script>
+function openVideo(fileId) {
+  var lb = document.getElementById('videoLightbox');
+  var vid = document.getElementById('lightboxVideo');
+  vid.src = 'https://drive.google.com/uc?export=download&id=' + fileId;
+  lb.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeVideo(e) {
+  if (e && e.target !== document.getElementById('videoLightbox') && e.type !== 'click') return;
+  var lb = document.getElementById('videoLightbox');
+  var vid = document.getElementById('lightboxVideo');
+  lb.style.display = 'none';
+  vid.pause();
+  vid.src = '';
+  document.body.style.overflow = '';
+}
+</script>
 
 <!-- CONTACT / CTA — PULSE BEAMS -->
 <section id="contact" class="pb-section">
