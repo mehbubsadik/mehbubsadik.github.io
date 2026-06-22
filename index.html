@@ -312,22 +312,19 @@
 
   /* ─── METRICS STRIP ─── */
   .metrics-strip {
-    background: var(--glass-bg);
-    border-top: 1px solid var(--glass-border);
-    border-bottom: 1px solid var(--glass-border);
-    padding: 2.5rem 0;
+    background: transparent;
+    padding: 3.5rem 0;
   }
   .metrics-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 0;
+    gap: 1.25rem;
   }
   .metric-item {
-    padding: 1.5rem 2rem;
-    border-right: 1px solid var(--glass-border);
+    padding: 1.75rem 1.5rem;
     text-align: center;
+    border-radius: 14px;
   }
-  .metric-item:last-child { border-right: none; }
   .metric-num {
     font-family: var(--font-display);
     font-size: 2.2rem;
@@ -674,8 +671,6 @@
     .hero-stats { flex-direction: row; flex-wrap: wrap; }
     .stat-card { min-width: 140px; flex: 1; }
     .metrics-grid { grid-template-columns: repeat(2, 1fr); }
-    .metric-item { border-right: none; border-bottom: 1px solid var(--glass-border); }
-    .metric-item:nth-child(odd) { border-right: 1px solid var(--glass-border); }
     .expertise-grid { grid-template-columns: 1fr; }
     .timeline-item { grid-template-columns: 1fr; gap: 0.5rem; }
     .proof-grid { grid-template-columns: 1fr; }
@@ -943,19 +938,23 @@
 <div class="metrics-strip">
   <div class="wrapper">
     <div class="metrics-grid">
-      <div class="metric-item">
+      <div class="metric-item lg-card reveal reveal-delay-1">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
         <span class="metric-num">4.5x-9x</span>
         <span class="metric-desc">Consistent ROAS Range</span>
       </div>
-      <div class="metric-item">
+      <div class="metric-item lg-card reveal reveal-delay-2">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
         <span class="metric-num">€187K</span>
         <span class="metric-desc">Single Account Monthly Spend</span>
       </div>
-      <div class="metric-item">
+      <div class="metric-item lg-card reveal reveal-delay-3">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
         <span class="metric-num">109</span>
         <span class="metric-desc">Peak Campaigns Managed Simultaneously</span>
       </div>
-      <div class="metric-item">
+      <div class="metric-item lg-card reveal reveal-delay-4">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
         <span class="metric-num">5+</span>
         <span class="metric-desc">Ad Platforms Managed</span>
       </div>
