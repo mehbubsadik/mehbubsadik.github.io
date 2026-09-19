@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>S M Abdullah All Mehbub Sadik — Paid Media Strategist · Meta Performance Architect</title>
+<meta name="description" content="S M Abdullah All Mehbub Sadik — Paid Media Strategist and Web/Systems Developer. $1.4M+ in ad spend managed across Meta, TikTok, and Google Ads for D2C & FMCG brands, plus Next.js/Supabase builds for the systems those ads point to.">
+<meta property="og:title" content="S M Abdullah All Mehbub Sadik — Paid Media Strategist & Systems Developer">
+<meta property="og:description" content="$1.4M+ ad spend managed. 990K+ purchases generated. Performance marketing and the Next.js/Supabase builds behind it.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="logo.png">
 <link rel="icon" type="image/png" href="logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -21,6 +26,7 @@
     --white-90: rgba(255,255,255,0.90);
     --white-60: rgba(255,255,255,0.60);
     --white-30: rgba(255,255,255,0.30);
+    --white-55: rgba(255,255,255,0.55);
     --white-10: rgba(255,255,255,0.10);
     --white-05: rgba(255,255,255,0.05);
     --glass-bg: rgba(255,255,255,0.04);
@@ -262,7 +268,7 @@
     font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--white-30);
+    color: var(--white-55);
   }
 
   /* ─── SECTION SHARED ─── */
@@ -336,7 +342,7 @@
   }
   .metric-desc {
     font-size: 12px;
-    color: var(--white-30);
+    color: var(--white-55);
     text-transform: uppercase;
     letter-spacing: 0.08em;
     font-weight: 500;
@@ -347,6 +353,9 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.25rem;
+  }
+  @media (min-width: 769px) {
+    .expertise-grid .exp-card:nth-child(7):last-child { grid-column: 2; }
   }
   .exp-card {
     background: var(--glass-bg);
@@ -495,6 +504,11 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 1.25rem;
   }
+  .systems-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
   .proof-card {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
@@ -543,7 +557,7 @@
   }
   .proof-metric .pm-label {
     font-size: 11px;
-    color: var(--white-30);
+    color: var(--white-55);
     text-transform: uppercase;
     letter-spacing: 0.07em;
     font-weight: 500;
@@ -603,7 +617,7 @@
   }
   .footer-left {
     font-size: 13px;
-    color: var(--white-30);
+    color: var(--white-55);
   }
   .footer-left span { color: var(--tangerine); }
   .footer-right {
@@ -612,7 +626,7 @@
   }
   .footer-right a {
     font-size: 13px;
-    color: var(--white-30);
+    color: var(--white-55);
     text-decoration: none;
     transition: color 0.2s;
   }
@@ -675,6 +689,7 @@
     .expertise-grid { grid-template-columns: 1fr; }
     .timeline-item { grid-template-columns: 1fr; gap: 0.5rem; }
     .proof-grid { grid-template-columns: 1fr; }
+    .systems-grid { grid-template-columns: 1fr; }
   }
 
   /* ─── LIQUID GLASS CARDS ─── */
@@ -842,9 +857,34 @@
 
   /* ─── LIQUID GLASS FILTER (SVG) ─── */
   .glass-filter-svg { position: absolute; width: 0; height: 0; }
+
+  /* ─── ACCESSIBILITY: FOCUS STATES ─── */
+  a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid var(--tangerine);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  .skip-link {
+    position: absolute;
+    top: -48px;
+    left: 1rem;
+    z-index: 1000;
+    background: var(--tangerine);
+    color: var(--navy);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: top 0.2s;
+  }
+  .skip-link:focus { top: 1rem; }
 </style>
 </head>
 <body>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
 
 <!-- LIQUID GLASS SVG FILTER -->
 <svg class="glass-filter-svg" xmlns="http://www.w3.org/2000/svg">
@@ -877,6 +917,7 @@
     <li><a href="#expertise">Expertise</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#proof">Proof</a></li>
+    <li><a href="#systems">Systems</a></li>
     <li><a href="#creative">Creative</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -886,7 +927,7 @@
 
 
 <!-- HERO -->
-<section class="hero" style="position:relative; overflow:hidden;">
+<section class="hero" id="main-content" style="position:relative; overflow:hidden;">
   <!-- WebGL Shader Canvas Background -->
   <canvas id="shader-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:0.55;pointer-events:none;"></canvas>
 
@@ -1024,6 +1065,14 @@
         </div>
         <div class="exp-title">Growth Partnerships</div>
         <div class="exp-desc">Remote growth partner for international D2C/FMCG brands on subscription-style retainers — proposals, SOPs, client reporting, creative production pipelines.</div>
+      </div>
+      <div class="exp-card lg-card reveal reveal-delay-2">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
+        <div class="exp-icon">
+          <svg class="icon" style="color:var(--tangerine)" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <div class="exp-title">Web & Systems Development</div>
+        <div class="exp-desc">Landing pages, order dashboards, and internal tools that plug straight into the ad funnel — built with Next.js, Supabase, and Claude Code. The same hand that runs the ads builds what they point to.</div>
       </div>
     </div>
 
@@ -1229,9 +1278,10 @@
   }
   .ss-arrow:hover{background:var(--tangerine);border-color:var(--tangerine);color:var(--navy);}
   .ss-prev{left:16px;} .ss-next{right:16px;}
-  .ss-dots{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:5;display:flex;gap:8px;}
-  .ss-dot{width:9px;height:9px;border-radius:50%;cursor:pointer;border:none;background:rgba(255,255,255,.3);transition:background .25s,width .25s;}
-  .ss-dot.active{background:var(--tangerine);width:26px;border-radius:50px;}
+  .ss-dots{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:5;display:flex;gap:2px;}
+  .ss-dot{width:24px;height:24px;padding:0;border-radius:50%;cursor:pointer;border:none;background:transparent;position:relative;}
+  .ss-dot::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.3);transition:background .25s,width .25s;}
+  .ss-dot.active::after{background:var(--tangerine);width:26px;border-radius:50px;}
   @media(max-width:768px){
     .ss-arrow{width:38px;height:38px;font-size:20px;}
     .ss-prev{left:8px;} .ss-next{right:8px;}
@@ -1271,6 +1321,78 @@
 </script>
 <!-- ════════ END SLIDESHOW ════════ -->
 
+<!-- ════════ WEB & SYSTEMS ════════ -->
+<section id="systems" style="padding:6rem 0;">
+  <div class="wrapper">
+    <div class="section-label reveal">Web & Systems</div>
+    <h2 class="section-title reveal reveal-delay-1">What the ads point to.</h2>
+    <p class="section-desc reveal reveal-delay-2">Landing pages, order flows, and internal dashboards — built with Next.js, Supabase, and Claude Code so the systems behind the ads hold up as well as the ads do.</p>
+
+    <div class="systems-grid">
+      <div class="proof-card lg-card reveal reveal-delay-1">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
+        <div class="proof-badge">Next.js · Supabase</div>
+        <div class="proof-title">Booking & Ops Dashboard — Travel Platform</div>
+        <div class="proof-body">A customer-facing booking flow paired with an internal admin panel — built for a travel booking client to manage reservations, availability, and day-to-day operations without juggling spreadsheets.</div>
+        <div class="proof-metrics">
+          <div class="proof-metric">
+            <span class="pm-val">Solo</span>
+            <span class="pm-label">Design To Deploy</span>
+          </div>
+          <div class="proof-metric">
+            <span class="pm-val">Live</span>
+            <span class="pm-label">In Production</span>
+          </div>
+          <div class="proof-metric">
+            <span class="pm-val">Full-Stack</span>
+            <span class="pm-label">Booking + Admin</span>
+          </div>
+        </div>
+      </div>
+      <div class="proof-card lg-card reveal reveal-delay-2">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
+        <div class="proof-badge">Next.js · Order System</div>
+        <div class="proof-title">Order, Sales & Packaging Dashboard — Healthcare D2C</div>
+        <div class="proof-body">A landing page, order form, and internal sales and packaging dashboard for a healthcare D2C brand — one system connecting the storefront to the people fulfilling every order.</div>
+        <div class="proof-metrics">
+          <div class="proof-metric">
+            <span class="pm-val">Solo</span>
+            <span class="pm-label">Landing To Dashboard</span>
+          </div>
+          <div class="proof-metric">
+            <span class="pm-val">Zero</span>
+            <span class="pm-label">Spreadsheet Handoffs</span>
+          </div>
+          <div class="proof-metric">
+            <span class="pm-val">Live</span>
+            <span class="pm-label">In Production</span>
+          </div>
+        </div>
+      </div>
+      <div class="proof-card lg-card reveal reveal-delay-3">
+        <div class="lg-shimmer"></div><div class="lg-sweep"></div>
+        <div class="proof-badge">Meta-Proof</div>
+        <div class="proof-title">This Site — Built With No Web Dev Background</div>
+        <div class="proof-body">The shader hero, liquid-glass cards, and slideshow on this page — designed and shipped solo with Claude Code, live on GitHub Pages. No formal background in web development, just the same operator instinct that runs the ads.</div>
+        <div class="proof-metrics">
+          <div class="proof-metric">
+            <span class="pm-val">Solo</span>
+            <span class="pm-label">Zero Dev Background</span>
+          </div>
+          <div class="proof-metric">
+            <span class="pm-val">Live</span>
+            <span class="pm-label">On GitHub Pages</span>
+          </div>
+          <div class="proof-metric">
+            <span class="pm-val">Claude Code</span>
+            <span class="pm-label">Built End-To-End</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ════════ CREATIVE WORK ════════ -->
 <section id="creative" style="padding:6rem 0;">
   <div class="wrapper">
@@ -1280,7 +1402,7 @@
 
     <div class="creative-grid">
 
-      <div class="creative-card lg-card reveal reveal-delay-1" onclick="openVideo('aF8rmsDPwIU', 'regular')">
+      <div class="creative-card lg-card reveal reveal-delay-1" onclick="openVideo('aF8rmsDPwIU', 'regular')" tabindex="0" role="button" aria-label="Play video: Pran Latina Juice" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openVideo('aF8rmsDPwIU','regular');}">
         <div class="lg-shimmer"></div><div class="lg-sweep"></div>
         <div class="creative-thumb">
           <div class="creative-play">
@@ -1296,7 +1418,7 @@
         </div>
       </div>
 
-      <div class="creative-card lg-card reveal reveal-delay-2" onclick="openVideo('Y-NPFEq5pIU', 'shorts')">
+      <div class="creative-card lg-card reveal reveal-delay-2" onclick="openVideo('Y-NPFEq5pIU', 'shorts')" tabindex="0" role="button" aria-label="Play video: AXIOM Jewelry" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openVideo('Y-NPFEq5pIU','shorts');}">
         <div class="lg-shimmer"></div><div class="lg-sweep"></div>
         <div class="creative-thumb">
           <div class="creative-play">
@@ -1312,7 +1434,7 @@
         </div>
       </div>
 
-    <div class="creative-card lg-card reveal reveal-delay-3" onclick="openVideo('vwHHjswOx1s', 'regular')">
+    <div class="creative-card lg-card reveal reveal-delay-3" onclick="openVideo('vwHHjswOx1s', 'regular')" tabindex="0" role="button" aria-label="Play video: Adrok Garden Resort" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openVideo('vwHHjswOx1s','regular');}">
         <div class="lg-shimmer"></div><div class="lg-sweep"></div>
         <div class="creative-thumb">
           <div class="creative-play">
@@ -1333,9 +1455,9 @@
 </section>
 
 <!-- VIDEO LIGHTBOX -->
-<div id="videoLightbox" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);align-items:center;justify-content:center;" onclick="closeLightbox(event)">
+<div id="videoLightbox" role="dialog" aria-modal="true" aria-label="Video player" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);align-items:center;justify-content:center;" onclick="closeLightbox(event)">
   <div id="lightboxInner" style="position:relative;border-radius:16px;overflow:hidden;background:#000;border:1px solid var(--glass-border);">
-    <button onclick="closeLightbox()" style="position:absolute;top:12px;right:16px;z-index:10;background:rgba(0,0,0,0.6);border:1px solid var(--glass-border);color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+    <button onclick="closeLightbox()" aria-label="Close video" style="position:absolute;top:12px;right:16px;z-index:10;background:rgba(0,0,0,0.6);border:1px solid var(--glass-border);color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
     <iframe id="lightboxFrame" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="display:block;"></iframe>
   </div>
 </div>
@@ -1431,6 +1553,9 @@ function closeLightbox(e) {
   frame.src = '';
   document.body.style.overflow = '';
 }
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
 </script>
 
 <!-- CONTACT / CTA — PULSE BEAMS -->
@@ -1584,7 +1709,7 @@ function closeLightbox(e) {
         <a href="https://www.linkedin.com/in/mehbubsadik/" target="_blank" class="pb-btn-ghost">LinkedIn ↗</a>
       </div>
       <div class="pb-contact-info">
-        <span>mehbubsadik9@gmail.com</span>
+        <span class="copy-email" onclick="copyEmail(event)" style="cursor:pointer;" title="Click to copy email">mehbubsadik9@gmail.com</span>
         <span class="pb-dot">·</span>
         <span>+880 1932 330670</span>
       </div>
@@ -1683,7 +1808,7 @@ function closeLightbox(e) {
 .pb-accent { color: var(--tangerine); }
 .pb-sub {
   font-size: 13px;
-  color: var(--white-30);
+  color: var(--white-55);
   letter-spacing: 0.04em;
   margin-bottom: 2rem;
 }
@@ -1745,7 +1870,7 @@ function closeLightbox(e) {
   justify-content: center;
   gap: 8px;
   font-size: 12px;
-  color: var(--white-30);
+  color: var(--white-55);
   flex-wrap: wrap;
 }
 .pb-dot { opacity: 0.4; }
