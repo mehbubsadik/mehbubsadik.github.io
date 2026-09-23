@@ -8,9 +8,28 @@
 <meta property="og:title" content="S M Abdullah All Mehbub Sadik — Paid Media Strategist & Systems Developer">
 <meta property="og:description" content="$1.4M+ ad spend managed. 990K+ purchases generated. Performance marketing and the Next.js/Supabase builds behind it.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="logo.png">
+<meta property="og:image" content="https://mehbubsadik.online/logo.png">
+<meta property="og:url" content="https://mehbubsadik.online/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="S M Abdullah All Mehbub Sadik — Paid Media Strategist & Systems Developer">
+<meta name="twitter:description" content="$1.4M+ ad spend managed. 990K+ purchases generated. Performance marketing and the Next.js/Supabase builds behind it.">
+<meta name="twitter:image" content="https://mehbubsadik.online/logo.png">
+<link rel="canonical" href="https://mehbubsadik.online/">
 <link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "S M Abdullah All Mehbub Sadik",
+  "jobTitle": "Paid Media Strategist",
+  "url": "https://mehbubsadik.online",
+  "sameAs": ["https://www.linkedin.com/in/mehbubsadik/"]
+}
+</script>
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -34,6 +53,12 @@
     --glass-border-hover: rgba(255, 107, 26, 0.35);
     --font-display: 'Space Grotesk', sans-serif;
     --font-body: 'Inter', sans-serif;
+
+    /* ─── DESIGN TOKENS ─── */
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-pill: 999px;
+    --ease-standard: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   html { scroll-behavior: smooth; }
@@ -42,7 +67,7 @@
     background: var(--navy);
     color: var(--white-90);
     font-family: var(--font-body);
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 1.7;
     overflow-x: hidden;
   }
@@ -93,7 +118,7 @@
 
   .nav-logo {
     font-family: var(--font-display);
-    font-size: 15px;
+    font-size: 1rem;
     font-weight: 600;
     letter-spacing: 0.04em;
     color: var(--white);
@@ -108,11 +133,11 @@
   .nav-links a {
     color: var(--white-60);
     text-decoration: none;
-    font-size: 13px;
+    font-size: 0.875rem;
     font-weight: 500;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    transition: color 0.2s;
+    transition: color var(--ease-standard);
   }
   .nav-links a:hover { color: var(--tangerine); }
 
@@ -121,14 +146,14 @@
     border: 1px solid var(--tangerine);
     color: var(--tangerine);
     padding: 8px 20px;
-    border-radius: 6px;
-    font-size: 13px;
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
     font-weight: 600;
     letter-spacing: 0.05em;
     text-transform: uppercase;
     cursor: pointer;
     text-decoration: none;
-    transition: background 0.2s, color 0.2s;
+    transition: background var(--ease-standard), color var(--ease-standard);
   }
   .nav-cta:hover {
     background: var(--tangerine);
@@ -164,7 +189,7 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -191,7 +216,7 @@
   .hero h1 .accent { color: var(--tangerine); }
 
   .hero-sub {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--white-60);
     max-width: 520px;
     margin-bottom: 2.5rem;
@@ -209,15 +234,15 @@
     color: var(--navy);
     border: none;
     padding: 14px 28px;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     cursor: pointer;
     text-decoration: none;
-    transition: opacity 0.2s, transform 0.2s;
+    transition: opacity var(--ease-standard), transform var(--ease-standard);
     display: inline-block;
   }
   .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
@@ -227,12 +252,12 @@
     color: var(--white-60);
     border: 1px solid var(--glass-border);
     padding: 14px 28px;
-    border-radius: 8px;
-    font-size: 14px;
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
     font-weight: 500;
     cursor: pointer;
     text-decoration: none;
-    transition: border-color 0.2s, color 0.2s;
+    transition: border-color var(--ease-standard), color var(--ease-standard);
     display: inline-block;
   }
   .btn-ghost:hover { border-color: var(--white-30); color: var(--white); }
@@ -247,24 +272,24 @@
   .stat-card {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    border-radius: 12px;
+    border-radius: var(--radius-md);
     padding: 1.25rem 1.5rem;
     backdrop-filter: blur(10px);
     min-width: 200px;
-    transition: border-color 0.3s;
+    transition: border-color var(--ease-standard);
   }
   .stat-card:hover { border-color: var(--glass-border-hover); }
 
   .stat-card .stat-val {
     font-family: var(--font-display);
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: 700;
     color: var(--tangerine);
     line-height: 1;
     margin-bottom: 4px;
   }
   .stat-card .stat-label {
-    font-size: 11px;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -275,7 +300,7 @@
   section { padding: 6rem 0; }
 
   .section-label {
-    font-size: 11px;
+    font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.15em;
     text-transform: uppercase;
@@ -329,11 +354,11 @@
   .metric-item {
     padding: 1.75rem 1.5rem;
     text-align: center;
-    border-radius: 14px;
+    border-radius: var(--radius-md);
   }
   .metric-num {
     font-family: var(--font-display);
-    font-size: 2.2rem;
+    font-size: 2.5rem;
     font-weight: 700;
     color: var(--tangerine);
     display: block;
@@ -341,7 +366,7 @@
     margin-bottom: 6px;
   }
   .metric-desc {
-    font-size: 12px;
+    font-size: 0.75rem;
     color: var(--white-55);
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -360,9 +385,9 @@
   .exp-card {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    border-radius: 14px;
+    border-radius: var(--radius-md);
     padding: 2rem;
-    transition: border-color 0.3s, background 0.3s;
+    transition: border-color var(--ease-standard), background var(--ease-standard);
     position: relative;
     overflow: hidden;
   }
@@ -388,12 +413,12 @@
     width: 42px;
     height: 42px;
     background: var(--tangerine-dim);
-    border-radius: 10px;
+    border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 1.25rem;
-    font-size: 20px;
+    font-size: 1.25rem;
   }
   .exp-title {
     font-family: var(--font-display);
@@ -403,7 +428,7 @@
     margin-bottom: 0.5rem;
   }
   .exp-desc {
-    font-size: 13.5px;
+    font-size: 0.875rem;
     color: var(--white-60);
     line-height: 1.65;
   }
@@ -424,7 +449,7 @@
   }
   .timeline-item:last-child { border-bottom: none; }
   .tl-period {
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 600;
     color: var(--tangerine);
     letter-spacing: 0.06em;
@@ -433,13 +458,13 @@
   }
   .tl-role {
     font-family: var(--font-display);
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
     color: var(--white);
     margin-bottom: 4px;
   }
   .tl-company {
-    font-size: 13px;
+    font-size: 0.875rem;
     color: var(--tangerine);
     font-weight: 500;
     margin-bottom: 1rem;
@@ -451,7 +476,7 @@
     gap: 6px;
   }
   .tl-points li {
-    font-size: 14px;
+    font-size: 0.875rem;
     color: var(--white-60);
     padding-left: 18px;
     position: relative;
@@ -462,7 +487,7 @@
     position: absolute;
     left: 0;
     color: var(--tangerine);
-    font-size: 12px;
+    font-size: 0.75rem;
     top: 3px;
   }
 
@@ -475,15 +500,15 @@
   .platform-pill {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    border-radius: 50px;
+    border-radius: var(--radius-pill);
     padding: 10px 20px;
-    font-size: 13px;
+    font-size: 0.875rem;
     font-weight: 500;
     color: var(--white-60);
     display: flex;
     align-items: center;
     gap: 8px;
-    transition: border-color 0.2s, color 0.2s;
+    transition: border-color var(--ease-standard), color var(--ease-standard);
     cursor: default;
   }
   .platform-pill:hover {
@@ -512,9 +537,9 @@
   .proof-card {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    border-radius: 14px;
+    border-radius: var(--radius-md);
     padding: 2rem;
-    transition: border-color 0.3s;
+    transition: border-color var(--ease-standard);
   }
   .proof-card:hover { border-color: var(--glass-border-hover); }
   .proof-badge {
@@ -522,23 +547,23 @@
     background: var(--tangerine-dim);
     border: 1px solid rgba(255,107,26,0.25);
     color: var(--tangerine);
-    font-size: 11px;
+    font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    border-radius: 50px;
+    border-radius: var(--radius-pill);
     padding: 4px 12px;
     margin-bottom: 1rem;
   }
   .proof-title {
     font-family: var(--font-display);
-    font-size: 1.05rem;
+    font-size: 1rem;
     font-weight: 600;
     color: var(--white);
     margin-bottom: 0.5rem;
   }
   .proof-body {
-    font-size: 13.5px;
+    font-size: 0.875rem;
     color: var(--white-60);
     line-height: 1.65;
     margin-bottom: 1.25rem;
@@ -549,14 +574,14 @@
   }
   .proof-metric .pm-val {
     font-family: var(--font-display);
-    font-size: 1.4rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--tangerine);
     display: block;
     line-height: 1;
   }
   .proof-metric .pm-label {
-    font-size: 11px;
+    font-size: 0.75rem;
     color: var(--white-55);
     text-transform: uppercase;
     letter-spacing: 0.07em;
@@ -606,31 +631,66 @@
     position: relative;
     z-index: 1;
     border-top: 1px solid var(--glass-border);
-    padding: 2rem 0;
+    padding: 1.5rem 0;
   }
   .footer-inner {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 1rem 1.5rem;
   }
-  .footer-left {
-    font-size: 13px;
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .footer-mark {
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    white-space: nowrap;
+  }
+  .footer-mark .accent-dot { color: var(--tangerine); }
+  .footer-tagline {
+    font-size: 0.75rem;
     color: var(--white-55);
   }
-  .footer-left span { color: var(--tangerine); }
-  .footer-right {
+  .footer-nav {
     display: flex;
     gap: 1.5rem;
+    flex-wrap: wrap;
   }
-  .footer-right a {
-    font-size: 13px;
+  .footer-nav a {
+    font-size: 0.875rem;
     color: var(--white-55);
     text-decoration: none;
-    transition: color 0.2s;
+    transition: color var(--ease-standard);
   }
-  .footer-right a:hover { color: var(--tangerine); }
+  .footer-nav a:hover { color: var(--tangerine); }
+  .footer-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    color: var(--tangerine);
+    cursor: pointer;
+    transition: border-color var(--ease-standard), transform var(--ease-standard);
+  }
+  .footer-top:hover { border-color: var(--tangerine); transform: translateY(-2px); }
+  .footer-top .icon { width: 16px; height: 16px; }
+  @media (max-width: 768px) {
+    .footer-inner { justify-content: center; text-align: center; }
+    .footer-nav { justify-content: center; }
+  }
 
   /* ─── SVG ICONS ─── */
   .icon {
@@ -651,9 +711,9 @@
     gap: 7px;
     background: rgba(34, 197, 94, 0.08);
     border: 1px solid rgba(34, 197, 94, 0.2);
-    border-radius: 50px;
+    border-radius: var(--radius-pill);
     padding: 6px 14px;
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 500;
     color: #4ade80;
     margin-top: 1.5rem;
@@ -673,7 +733,7 @@
   /* ─── SCROLLBAR ─── */
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: var(--navy); }
-  ::-webkit-scrollbar-thumb { background: var(--navy-4); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb { background: var(--navy-4); border-radius: var(--radius-sm); }
   ::-webkit-scrollbar-thumb:hover { background: var(--tangerine); }
 
   /* ─── MOBILE ─── */
@@ -683,13 +743,17 @@
     .nav-links { display: none; }
     .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
     .hero-stats { flex-direction: row; flex-wrap: wrap; }
-    .stat-card { min-width: 140px; flex: 1; }
+    .stat-card { min-width: calc(50% - 0.5rem); flex: none; }
     .metrics-grid { grid-template-columns: repeat(2, 1fr); }
-    /* 5th item (1,400+) auto-wraps below on mobile — no extra change needed */
+    .metric-item:last-child { grid-column: 1 / -1; }
     .expertise-grid { grid-template-columns: 1fr; }
     .timeline-item { grid-template-columns: 1fr; gap: 0.5rem; }
     .proof-grid { grid-template-columns: 1fr; }
     .systems-grid { grid-template-columns: 1fr; }
+    .exp-card, .proof-card { padding: 1.5rem; }
+    .proof-metrics { flex-wrap: wrap; row-gap: 0.75rem; }
+    .pb-card { padding: 2.5rem 1.75rem; }
+    .ss-frame { margin-top: 2rem; }
   }
 
   /* ─── LIQUID GLASS CARDS ─── */
@@ -697,7 +761,7 @@
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    border-radius: 14px;
+    border-radius: var(--radius-md);
     border: 1px solid var(--glass-border);
     background: var(--glass-bg);
     transition: border-color 0.3s, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.6);
@@ -862,7 +926,7 @@
   a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
     outline: 2px solid var(--tangerine);
     outline-offset: 3px;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
   }
 
   .skip-link {
@@ -873,13 +937,25 @@
     background: var(--tangerine);
     color: var(--navy);
     padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 13px;
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
     font-weight: 700;
     text-decoration: none;
-    transition: top 0.2s;
+    transition: top var(--ease-standard);
   }
   .skip-link:focus { top: 1rem; }
+
+  /* ─── REDUCED MOTION ─── */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    .orb, .stat-card::after, .pb-card-glow, .avail-dot { animation: none !important; }
+    .reveal { opacity: 1; transform: none; }
+  }
 </style>
 </head>
 <body>
@@ -912,7 +988,7 @@
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;"><span style="color: var(--white); font-family: var(--font-display); font-size: 15px; font-weight: 600; letter-spacing: 0.04em;">S M<span style="color: var(--tangerine);">.</span>Sadik</span></a>
+  <a href="#" class="nav-logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;"><span style="color: var(--white); font-family: var(--font-display); font-size: 1rem; font-weight: 600; letter-spacing: 0.04em;">S M<span style="color: var(--tangerine);">.</span>Sadik</span></a>
   <ul class="nav-links">
     <li><a href="#expertise">Expertise</a></li>
     <li><a href="#experience">Experience</a></li>
@@ -922,7 +998,7 @@
     <li><a href="#contact">Contact</a></li>
   </ul>
   <a href="https://wa.me/8801932330670" target="_blank" class="nav-cta">Work With Me</a>
-  <div id="email-toast" style="display:none;position:fixed;top:80px;right:24px;background:#FF6B1A;color:#050810;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:700;z-index:999;letter-spacing:0.04em;">✓ Email copied — sadik@sadikgrowth.online</div>
+  <div id="email-toast" style="display:none;position:fixed;top:80px;right:24px;background:#FF6B1A;color:#050810;padding:10px 20px;border-radius:var(--radius-sm);font-size:0.875rem;font-weight:700;z-index:999;letter-spacing:0.04em;">✓ Email copied — sadik@sadikgrowth.online</div>
 </nav>
 
 
@@ -1224,12 +1300,12 @@
       </div>
     </div>
 
-    <div style="margin-top: 2rem; padding: 1.5rem 2rem; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+    <div style="margin-top: 2rem; padding: 1.5rem 2rem; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-md); display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
       <div style="flex: 1; min-width: 260px;">
-        <div style="font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 4px;">Full campaign screenshots & CSV data available</div>
-        <div style="font-size: 12px; color: var(--white-60);">Google Drive portfolio folder — accessible on request after NDA/engagement agreement.</div>
+        <div style="font-size: 0.875rem; font-weight: 600; color: var(--white); margin-bottom: 4px;">Full campaign screenshots & CSV data available</div>
+        <div style="font-size: 0.75rem; color: var(--white-60);">Google Drive portfolio folder — accessible on request after NDA/engagement agreement.</div>
       </div>
-      <a href="https://drive.google.com/drive/folders/1TH1DPWuZvly98Q3spo76g4GHR7zGspHb" target="_blank" class="btn-ghost" style="white-space: nowrap; font-size: 13px;">View Drive Portfolio ↗</a>
+      <a href="https://drive.google.com/drive/folders/1TH1DPWuZvly98Q3spo76g4GHR7zGspHb" target="_blank" class="btn-ghost" style="white-space: nowrap; font-size: 0.875rem;">View Drive Portfolio ↗</a>
     </div>
   </div>
 </section>
@@ -1261,7 +1337,7 @@
 
 <style>
   .ss-frame{
-    position:relative;margin-top:3rem;border-radius:18px;overflow:hidden;
+    position:relative;margin-top:3rem;border-radius:var(--radius-md);overflow:hidden;
     border:1px solid var(--glass-border);background:var(--navy-2);
     box-shadow:0 20px 60px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.05);
   }
@@ -1271,19 +1347,19 @@
   .ss-arrow{
     position:absolute;top:50%;transform:translateY(-50%);z-index:5;
     width:44px;height:44px;border-radius:50%;cursor:pointer;
-    background:rgba(5,8,16,.55);border:1px solid var(--glass-border);color:#fff;font-size:24px;line-height:1;
+    background:rgba(5,8,16,.55);border:1px solid var(--glass-border);color:#fff;font-size:1.75rem;line-height:1;
     backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
     display:flex;align-items:center;justify-content:center;
-    transition:background .2s,border-color .2s;
+    transition:background var(--ease-standard),border-color var(--ease-standard);
   }
   .ss-arrow:hover{background:var(--tangerine);border-color:var(--tangerine);color:var(--navy);}
   .ss-prev{left:16px;} .ss-next{right:16px;}
   .ss-dots{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:5;display:flex;gap:2px;}
   .ss-dot{width:24px;height:24px;padding:0;border-radius:50%;cursor:pointer;border:none;background:transparent;position:relative;}
   .ss-dot::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.3);transition:background .25s,width .25s;}
-  .ss-dot.active::after{background:var(--tangerine);width:26px;border-radius:50px;}
+  .ss-dot.active::after{background:var(--tangerine);width:26px;border-radius:var(--radius-pill);}
   @media(max-width:768px){
-    .ss-arrow{width:38px;height:38px;font-size:20px;}
+    .ss-arrow{width:38px;height:38px;font-size:1.25rem;}
     .ss-prev{left:8px;} .ss-next{right:8px;}
   }
 </style>
@@ -1456,8 +1532,8 @@
 
 <!-- VIDEO LIGHTBOX -->
 <div id="videoLightbox" role="dialog" aria-modal="true" aria-label="Video player" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);align-items:center;justify-content:center;" onclick="closeLightbox(event)">
-  <div id="lightboxInner" style="position:relative;border-radius:16px;overflow:hidden;background:#000;border:1px solid var(--glass-border);">
-    <button onclick="closeLightbox()" aria-label="Close video" style="position:absolute;top:12px;right:16px;z-index:10;background:rgba(0,0,0,0.6);border:1px solid var(--glass-border);color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+  <div id="lightboxInner" style="position:relative;border-radius:var(--radius-md);overflow:hidden;background:#000;border:1px solid var(--glass-border);">
+    <button onclick="closeLightbox()" aria-label="Close video" style="position:absolute;top:12px;right:16px;z-index:10;background:rgba(0,0,0,0.6);border:1px solid var(--glass-border);color:#fff;width:36px;height:36px;border-radius:50%;font-size:1.25rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
     <iframe id="lightboxFrame" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="display:block;"></iframe>
   </div>
 </div>
@@ -1472,7 +1548,7 @@
 .creative-card {
   cursor: pointer;
   overflow: hidden;
-  border-radius: 14px;
+  border-radius: var(--radius-md);
 }
 .creative-thumb {
   position: relative;
@@ -1492,7 +1568,7 @@
   position: absolute;
   inset: 0;
   background: rgba(5,8,16,0.35);
-  transition: background 0.3s;
+  transition: background var(--ease-standard);
   z-index: 1;
 }
 .creative-card:hover .creative-overlay { background: rgba(5,8,16,0.55); }
@@ -1520,7 +1596,7 @@
   color: var(--white);
   margin: 0.5rem 0 0.25rem;
 }
-.creative-sub { font-size: 13px; color: var(--white-60); }
+.creative-sub { font-size: 0.875rem; color: var(--white-60); }
 @media (max-width: 768px) {
   .creative-grid { grid-template-columns: 1fr; }
 }
@@ -1590,7 +1666,7 @@ document.addEventListener('keydown', function(e) {
     <!-- Connection node at center -->
     <circle cx="600" cy="260" r="4" fill="#FF6B1A" opacity="0.9"/>
     <circle cx="600" cy="260" r="8" fill="none" stroke="#FF6B1A" stroke-width="1" opacity="0.4"/>
-    <circle cx="600" cy="260" r="14" fill="none" stroke="#FF6B1A" stroke-width="0.5" opacity="0.2">
+    <circle id="pbPulseRing" cx="600" cy="260" r="14" fill="none" stroke="#FF6B1A" stroke-width="0.5" opacity="0.2">
       <animate attributeName="r" values="14;22;14" dur="3s" repeatCount="indefinite"/>
       <animate attributeName="opacity" values="0.2;0;0.2" dur="3s" repeatCount="indefinite"/>
     </circle>
@@ -1750,7 +1826,7 @@ document.addEventListener('keydown', function(e) {
   position: relative;
   background: rgba(8, 12, 26, 0.85);
   border: 1px solid rgba(255,107,26,0.2);
-  border-radius: 20px;
+  border-radius: var(--radius-md);
   padding: 3rem 3.5rem;
   text-align: center;
   max-width: 520px;
@@ -1766,7 +1842,7 @@ document.addEventListener('keydown', function(e) {
 .pb-card-glow {
   position: absolute;
   inset: -1px;
-  border-radius: 20px;
+  border-radius: var(--radius-md);
   background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,107,26,0.12) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
@@ -1781,7 +1857,7 @@ document.addEventListener('keydown', function(e) {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 11px;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -1807,7 +1883,7 @@ document.addEventListener('keydown', function(e) {
 }
 .pb-accent { color: var(--tangerine); }
 .pb-sub {
-  font-size: 13px;
+  font-size: 0.875rem;
   color: var(--white-55);
   letter-spacing: 0.04em;
   margin-bottom: 2rem;
@@ -1827,9 +1903,9 @@ document.addEventListener('keydown', function(e) {
   color: var(--navy);
   border: none;
   padding: 13px 28px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-decoration: none;
@@ -1857,11 +1933,11 @@ document.addEventListener('keydown', function(e) {
   color: var(--white-60);
   border: 1px solid rgba(255,255,255,0.12);
   padding: 13px 24px;
-  border-radius: 8px;
-  font-size: 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
   font-weight: 500;
   text-decoration: none;
-  transition: border-color 0.2s, color 0.2s;
+  transition: border-color var(--ease-standard), color var(--ease-standard);
 }
 .pb-btn-ghost:hover { border-color: rgba(255,255,255,0.3); color: var(--white); }
 .pb-contact-info {
@@ -1869,25 +1945,34 @@ document.addEventListener('keydown', function(e) {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--white-55);
   flex-wrap: wrap;
 }
 .pb-dot { opacity: 0.4; }
+@media (prefers-reduced-motion: reduce) {
+  #pb1, #pb2, #pb3, #pb4, #pb5, #pb6, #pb7, #pb8, #pb9, #pb10, #pbPulseRing { display: none; }
+}
 </style>
 
 <!-- FOOTER -->
 <footer>
   <div class="wrapper">
     <div class="footer-inner">
-      <div class="footer-left">
-        © 2026 <span>S M Abdullah All Mehbub Sadik</span>
+      <div class="footer-brand">
+        <span class="footer-mark">S M<span class="accent-dot">.</span>Sadik</span>
+        <span class="footer-tagline">© 2026 · Paid media that pays for itself.</span>
       </div>
-      <div class="footer-right">
-        <a href="mailto:sadik@sadikgrowth.online">Email</a>
-        <a href="https://www.linkedin.com/in/mehbubsadik/" target="_blank">LinkedIn</a>
-        <a href="https://drive.google.com/drive/folders/1TH1DPWuZvly98Q3spo76g4GHR7zGspHb" target="_blank">Portfolio Drive</a>
-      </div>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="#expertise">Expertise</a>
+        <a href="#experience">Experience</a>
+        <a href="#proof">Proof</a>
+        <a href="#systems">Systems</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="footer-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      </button>
     </div>
   </div>
 </footer>
@@ -2070,13 +2155,16 @@ window.addEventListener('scroll', function() {
 });
 
 /* ─── PARALLAX ORBS ON SCROLL ─── */
-window.addEventListener('scroll', function() {
-  var sy = window.scrollY;
-  var orb1 = document.querySelector('.orb-1');
-  var orb2 = document.querySelector('.orb-2');
-  if (orb1) orb1.style.transform = 'translateY(' + sy * 0.15 + 'px)';
-  if (orb2) orb2.style.transform = 'translateY(' + (-sy * 0.1) + 'px)';
-});
+var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (!prefersReducedMotion) {
+  window.addEventListener('scroll', function() {
+    var sy = window.scrollY;
+    var orb1 = document.querySelector('.orb-1');
+    var orb2 = document.querySelector('.orb-2');
+    if (orb1) orb1.style.transform = 'translateY(' + sy * 0.15 + 'px)';
+    if (orb2) orb2.style.transform = 'translateY(' + (-sy * 0.1) + 'px)';
+  });
+}
 
 /* ─── HERO H1 LETTER SPLIT ANIMATION ─── */
 (function() {
