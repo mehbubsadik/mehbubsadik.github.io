@@ -333,6 +333,69 @@
     margin: 0;
   }
 
+  /* ─── TRUSTED BY MARQUEE ─── */
+  .trusted-strip {
+    padding: 2.5rem 0 0.5rem;
+  }
+  .trusted-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--white-55);
+    text-align: center;
+    margin-bottom: 1.75rem;
+  }
+  .trusted-track-wrap {
+    position: relative;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+  }
+  .trusted-track {
+    display: flex;
+    width: max-content;
+    animation: trustedScroll 36s linear infinite;
+  }
+  .trusted-track-wrap:hover .trusted-track {
+    animation-play-state: paused;
+  }
+  .trusted-track-inner {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding-right: 2rem;
+    flex-shrink: 0;
+  }
+  .trusted-logo-card {
+    flex-shrink: 0;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border-radius: var(--radius-sm);
+    padding: 12px 22px;
+    box-shadow: 0 8px 24px rgba(5,8,16,0.35);
+    filter: grayscale(1) opacity(0.82);
+    transition: filter var(--ease-standard), transform var(--ease-standard);
+  }
+  .trusted-logo-card:hover {
+    filter: grayscale(0) opacity(1);
+    transform: translateY(-2px);
+  }
+  .trusted-logo-card img {
+    height: 100%;
+    width: auto;
+    max-width: 130px;
+    object-fit: contain;
+    display: block;
+  }
+  @keyframes trustedScroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
   /* ─── METRICS STRIP ─── */
   .metrics-strip {
     background: transparent;
@@ -803,6 +866,8 @@
     .hero-stats { flex-direction: row; flex-wrap: wrap; }
     .stat-card { min-width: calc(50% - 0.5rem); flex: none; }
     .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+    .trusted-logo-card { height: 52px; padding: 10px 16px; }
+    .trusted-track-inner { gap: 1.5rem; padding-right: 1.5rem; }
     .metric-item:last-child { grid-column: 1 / -1; }
     .expertise-grid { grid-template-columns: 1fr; }
     .timeline-item { grid-template-columns: 1fr; gap: 0.5rem; }
@@ -1014,7 +1079,7 @@
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
     }
-    .orb, .stat-card::after, .pb-card-glow, .avail-dot { animation: none !important; }
+    .orb, .stat-card::after, .pb-card-glow, .avail-dot, .trusted-track { animation: none !important; }
     .reveal { opacity: 1; transform: none; }
   }
 
