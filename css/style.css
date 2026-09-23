@@ -1079,7 +1079,7 @@
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
     }
-    .orb, .stat-card::after, .pb-card-glow, .avail-dot, .trusted-track { animation: none !important; }
+    .orb, .stat-card::after, .pb-card-glow, .avail-dot { animation: none !important; }
     .reveal { opacity: 1; transform: none; }
   }
 
