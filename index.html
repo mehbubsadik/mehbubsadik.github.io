@@ -8,15 +8,15 @@
 <meta property="og:title" content="S M Abdullah All Mehbub Sadik — Paid Media Strategist & Systems Developer">
 <meta property="og:description" content="$1.4M+ ad spend managed. 990K+ purchases generated. Performance marketing and the Next.js/Supabase builds behind it.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://mehbubsadik.online/logo.png">
+<meta property="og:image" content="https://mehbubsadik.online/share-preview.jpg">
 <meta property="og:url" content="https://mehbubsadik.online/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="S M Abdullah All Mehbub Sadik — Paid Media Strategist & Systems Developer">
 <meta name="twitter:description" content="$1.4M+ ad spend managed. 990K+ purchases generated. Performance marketing and the Next.js/Supabase builds behind it.">
-<meta name="twitter:image" content="https://mehbubsadik.online/logo.png">
+<meta name="twitter:image" content="https://mehbubsadik.online/share-preview.jpg">
 <link rel="canonical" href="https://mehbubsadik.online/">
-<link rel="icon" type="image/png" href="logo.png">
-<link rel="apple-touch-icon" href="logo.png">
+<link rel="icon" type="image/png" href="headshot-icon.png">
+<link rel="apple-touch-icon" href="headshot-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -523,6 +523,33 @@
     flex-shrink: 0;
   }
 
+  /* ─── ABOUT ─── */
+  .about-inner {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+  }
+  .about-photo-wrap {
+    flex-shrink: 0;
+  }
+  .about-photo {
+    display: block;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--tangerine);
+  }
+  .about-text {
+    flex: 1;
+  }
+  .about-bio {
+    font-size: 1rem;
+    color: var(--white-60);
+    line-height: 1.75;
+    max-width: 640px;
+  }
+
   /* ─── PROOF ─── */
   .proof-grid {
     display: grid;
@@ -754,6 +781,9 @@
     .proof-metrics { flex-wrap: wrap; row-gap: 0.75rem; }
     .pb-card { padding: 2.5rem 1.75rem; }
     .ss-frame { margin-top: 2rem; }
+    .about-inner { flex-direction: column; text-align: center; }
+    .about-text .hero-eyebrow { justify-content: center; }
+    .about-bio { max-width: 100%; }
   }
 
   /* ─── LIQUID GLASS CARDS ─── */
@@ -1633,6 +1663,21 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeLightbox();
 });
 </script>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrapper">
+    <div class="about-inner">
+      <div class="about-photo-wrap">
+        <img src="about-photo.jpg" alt="S M Abdullah All Mehbub Sadik" class="about-photo">
+      </div>
+      <div class="about-text">
+        <div class="hero-eyebrow">About</div>
+        <p class="about-bio">I spent a year on the ops floor at Honda's Dhaka plant, checking numbers most people wouldn't look at twice. It's a boring way to learn a lesson, but it's the one that stuck. Get a number wrong there and something real breaks downstream. I still work that way. Every campaign gets checked the same way a production line does, not because it's exciting but because it's the only way I trust what I show a client.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- CONTACT / CTA — PULSE BEAMS -->
 <section id="contact" class="pb-section">
