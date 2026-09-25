@@ -1,11 +1,150 @@
-/* ─── EMAIL COPY ─── */
-function copyEmail(e) {
-  e.preventDefault();
-  navigator.clipboard.writeText('sadik@sadikgrowth.online').catch(()=>{});
-  var t = document.getElementById('email-toast');
-  t.style.display = 'block';
-  setTimeout(function(){ t.style.display = 'none'; }, 3000);
+/* ─── TRACKING CONFIG ───
+   Paste the IDs in to switch tracking on. Left blank, nothing loads and
+   track() is a no-op, so the site works the same without them. */
+var TRACKING = {
+  metaPixelId: '',   // e.g. '123456789012345'
+  ga4Id: ''          // e.g. 'G-XXXXXXXXXX'
+};
+
+var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+(function loadTracking() {
+  if (TRACKING.metaPixelId) {
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', TRACKING.metaPixelId);
+    fbq('track', 'PageView');
+  }
+  if (TRACKING.ga4Id) {
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + TRACKING.ga4Id;
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function() { dataLayer.push(arguments); };
+    gtag('js', new Date());
+    gtag('config', TRACKING.ga4Id);
+  }
+})();
+
+/* Standard Meta event names (Lead, Schedule, Contact, ViewContent) so they
+   can be used as optimization events without custom-conversion setup. */
+function track(eventName, params) {
+  params = params || {};
+  if (window.fbq) fbq('track', eventName, params);
+  if (window.gtag) gtag('event', eventName.toLowerCase(), params);
 }
+
+document.addEventListener('click', function(e) {
+  var el = e.target.closest('[data-track]');
+  if (el) track(el.getAttribute('data-track'), { link_url: el.href || '' });
+});
+
+/* ─── TOAST ─── */
+var toastTimer;
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('visible');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function() { t.classList.remove('visible'); }, 3000);
+}
+
+/* ─── EMAIL COPY ─── */
+(function() {
+  var btn = document.getElementById('copyEmail');
+  if (!btn) return;
+  var email = 'sadik@sadikgrowth.online';
+  btn.addEventListener('click', function() {
+    if (!navigator.clipboard) { showToast(email); return; }
+    navigator.clipboard.writeText(email).then(function() {
+      showToast('✓ Email copied — ' + email);
+      track('Contact', { method: 'copy_email' });
+    }, function() {
+      showToast(email);
+    });
+  });
+})();
+
+/* ─── LEAD FORM ─── */
+(function() {
+  var form = document.getElementById('leadForm');
+  if (!form) return;
+  var status = document.getElementById('leadStatus');
+  var submit = form.querySelector('.lead-submit');
+
+  function setStatus(msg, kind) {
+    status.textContent = msg;
+    status.className = 'lead-status' + (kind ? ' lead-status--' + kind : '');
+  }
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (form.elements._honey.value) return;
+
+    var invalid = Array.prototype.find.call(form.elements, function(el) {
+      return el.willValidate && !el.checkValidity();
+    });
+    if (invalid) {
+      setStatus('Please fill in your name, a valid email, your brand and your monthly spend.', 'error');
+      invalid.focus();
+      return;
+    }
+
+    var data = {};
+    new FormData(form).forEach(function(v, k) { data[k] = v; });
+
+    submit.disabled = true;
+    submit.textContent = 'Sending…';
+    setStatus('');
+
+    fetch(form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data)
+    })
+      .then(function(r) { return r.json().then(function(j) { return { ok: r.ok, body: j }; }); })
+      .then(function(res) {
+        if (!res.ok || String(res.body.success) !== 'true') throw new Error('send failed');
+        form.reset();
+        setStatus('✓ Brief received — I\'ll reply within 24 hours.', 'success');
+        track('Lead', { monthly_spend: data.monthly_spend });
+      })
+      .catch(function() {
+        setStatus('Couldn\'t send right now — email sadik@sadikgrowth.online or WhatsApp +880 1932 330670 instead.', 'error');
+      })
+      .then(function() {
+        submit.disabled = false;
+        submit.textContent = 'Send Brief';
+      });
+  });
+})();
+
+/* ─── MOBILE NAV ─── */
+(function() {
+  var toggle = document.getElementById('navToggle');
+  var nav = document.querySelector('.site-nav');
+  if (!toggle || !nav) return;
+
+  function setOpen(open) {
+    nav.classList.toggle('nav-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  }
+  toggle.addEventListener('click', function() {
+    setOpen(!nav.classList.contains('nav-open'));
+  });
+  nav.querySelectorAll('.nav-links a').forEach(function(a) {
+    a.addEventListener('click', function() { setOpen(false); });
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && nav.classList.contains('nav-open')) { setOpen(false); toggle.focus(); }
+  });
+})();
 
 /* ─── WEBGL SHADER — TANGERINE RECOLOR ─── */
 (function() {
@@ -22,7 +161,6 @@ function copyEmail(e) {
     }
   `;
 
-  /* Original ring math preserved — color output rewritten to tangerine/amber */
   var fragSrc = `
     precision highp float;
     uniform vec2 resolution;
@@ -34,38 +172,28 @@ function copyEmail(e) {
       float lineWidth = 0.002;
 
       float intensity = 0.0;
-      float warmShift = 0.0;
 
       for(int i = 0; i < 5; i++){
         float fi = float(i);
-        float ring = lineWidth * fi * fi / abs(
+        intensity += lineWidth * fi * fi / abs(
           fract(t + fi * 0.01) * 5.0
           - length(uv)
           + mod(uv.x + uv.y, 0.2)
         );
-        intensity += ring;
-        /* outer rings slightly more amber */
-        warmShift += ring * (fi * 0.08);
       }
 
-      /* ── SIGNATURE FUSION: inner teal → mid white → outer hot tangerine ── */
+      /* inner teal -> mid white -> outer hot tangerine */
       float rad = length(uv);
+      vec3 teal      = vec3(0.05, 0.85, 0.80);
+      vec3 white     = vec3(1.00, 1.00, 1.00);
+      vec3 tangerine = vec3(1.00, 0.35, 0.05);
 
-      vec3 teal      = vec3(0.05, 0.85, 0.80);  /* bluish-teal (inner) */
-      vec3 white     = vec3(1.00, 1.00, 1.00);  /* middle */
-      vec3 tangerine = vec3(1.00, 0.35, 0.05);  /* HOT tangerine (outer) */
-
-      /* radius diye color ramp banano */
       vec3 ramp = mix(teal, white, smoothstep(0.0, 0.42, rad));
       ramp      = mix(ramp, tangerine, smoothstep(0.42, 1.05, rad));
 
-      /* ring intensity diye glow — gaps gula navy thakbe */
       vec3 color = ramp * intensity;
-
-      /* bright ring core gula white e bloom kore (glassy core) */
       color += vec3(pow(intensity, 3.0)) * 0.14;
 
-      /* Vignette — edge gula navy te miliye jabe */
       float vignette = 1.0 - smoothstep(0.55, 1.35, rad);
       color *= vignette;
 
@@ -84,6 +212,7 @@ function copyEmail(e) {
   gl.attachShader(prog, compileShader(gl.VERTEX_SHADER, vertSrc));
   gl.attachShader(prog, compileShader(gl.FRAGMENT_SHADER, fragSrc));
   gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return;
   gl.useProgram(prog);
 
   var buf = gl.createBuffer();
@@ -97,43 +226,54 @@ function copyEmail(e) {
   var uRes = gl.getUniformLocation(prog, 'resolution');
   var uTime = gl.getUniformLocation(prog, 'time');
 
-  var time = 0;
-  var animId;
+  /* Cap the pixel ratio: a 3x phone would otherwise shade 9x the pixels
+     for a background that sits at 55% opacity anyway. */
+  var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+  var hero = canvas.parentElement;
 
   function resize() {
-    var hero = canvas.parentElement;
-    canvas.width  = hero.clientWidth  * (window.devicePixelRatio || 1);
-    canvas.height = hero.clientHeight * (window.devicePixelRatio || 1);
-    canvas.style.width  = hero.clientWidth  + 'px';
-    canvas.style.height = hero.clientHeight + 'px';
+    canvas.width  = Math.round(hero.clientWidth  * dpr);
+    canvas.height = Math.round(hero.clientHeight * dpr);
     gl.viewport(0, 0, canvas.width, canvas.height);
     gl.uniform2f(uRes, canvas.width, canvas.height);
   }
 
-  window.addEventListener('resize', resize);
-  resize();
+  /* Time comes from the clock, not the frame count, so the rings move at
+     the same speed on 60Hz and 120Hz screens. Units match the old
+     0.05-per-frame-at-60fps pace. */
+  /* Reduced motion gets one static frame, offset so the rings are spread out. */
+  var start = performance.now() - (prefersReducedMotion ? 20000 : 0);
+  var animId = null;
 
-  function render() {
-    time += 0.05;
-    gl.uniform1f(uTime, time);
+  function draw(now) {
+    gl.uniform1f(uTime, (now - start) / 1000 * 3);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-    animId = requestAnimationFrame(render);
   }
-  render();
+  function loop(now) {
+    draw(now);
+    animId = requestAnimationFrame(loop);
+  }
+  function play() { if (!animId && !prefersReducedMotion) animId = requestAnimationFrame(loop); }
+  function pause() { if (animId) { cancelAnimationFrame(animId); animId = null; } }
 
-  /* Pause the render loop while the hero is scrolled out of view —
-     the shader is expensive and shouldn't run for the whole session. */
-  var heroObserver = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        if (!animId) render();
-      } else if (animId) {
-        cancelAnimationFrame(animId);
-        animId = null;
-      }
-    });
-  }, { threshold: 0 });
-  heroObserver.observe(canvas.parentElement);
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(function() { resize(); if (!animId) draw(performance.now()); }).observe(hero);
+  } else {
+    window.addEventListener('resize', resize);
+  }
+  resize();
+  draw(performance.now());
+
+  /* Only render while the hero is on screen and the tab is visible. */
+  var heroVisible = true;
+  new IntersectionObserver(function(entries) {
+    heroVisible = entries[0].isIntersecting;
+    heroVisible ? play() : pause();
+  }).observe(hero);
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) pause(); else if (heroVisible) play();
+  });
+  play();
 })();
 
 /* ─── SCROLL REVEAL ─── */
@@ -168,107 +308,79 @@ navLinks.forEach(function(link) {
 });
 
 /* ─── LIQUID GLASS MOUSE TRACKING ─── */
-document.querySelectorAll('.lg-card').forEach(function(card) {
-  card.addEventListener('mousemove', function(e) {
-    var rect = card.getBoundingClientRect();
-    var x = ((e.clientX - rect.left) / rect.width) * 100;
-    var y = ((e.clientY - rect.top) / rect.height) * 100;
-    card.style.setProperty('--mx', x + '%');
-    card.style.setProperty('--my', y + '%');
-  });
-});
-
-/* ─── SVG DISTORTION ANIMATE ON SCROLL ─── */
-var turbulence = document.querySelector('#glass-distortion feTurbulence');
-var scrollTick = false;
-window.addEventListener('scroll', function() {
-  if (!scrollTick && turbulence) {
-    requestAnimationFrame(function() {
-      var progress = window.scrollY / (document.body.scrollHeight - window.innerHeight);
-      var freq = 0.001 + progress * 0.004;
-      turbulence.setAttribute('baseFrequency', freq + ' ' + (freq * 4));
-      scrollTick = false;
+if (window.matchMedia('(hover: hover)').matches) {
+  document.querySelectorAll('.lg-card').forEach(function(card) {
+    card.addEventListener('mousemove', function(e) {
+      var rect = card.getBoundingClientRect();
+      card.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width) * 100 + '%');
+      card.style.setProperty('--my', ((e.clientY - rect.top) / rect.height) * 100 + '%');
     });
-    scrollTick = true;
-  }
-});
-
-/* ─── NAV SCROLL GLASS EFFECT ─── */
-window.addEventListener('scroll', function() {
-  var nav = document.querySelector('nav');
-  if (window.scrollY > 50) {
-    nav.style.background = 'rgba(5,8,16,0.92)';
-    nav.style.boxShadow = '0 1px 0 rgba(255,107,26,0.1)';
-  } else {
-    nav.style.background = 'rgba(5,8,16,0.7)';
-    nav.style.boxShadow = 'none';
-  }
-});
-
-/* ─── PARALLAX ORBS ON SCROLL ─── */
-var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-if (!prefersReducedMotion) {
-  var orbScrollTick = false;
-  window.addEventListener('scroll', function() {
-    if (!orbScrollTick) {
-      requestAnimationFrame(function() {
-        var sy = window.scrollY;
-        var orb1 = document.querySelector('.orb-1');
-        var orb2 = document.querySelector('.orb-2');
-        if (orb1) orb1.style.transform = 'translateY(' + sy * 0.15 + 'px)';
-        if (orb2) orb2.style.transform = 'translateY(' + (-sy * 0.1) + 'px)';
-        orbScrollTick = false;
-      });
-      orbScrollTick = true;
-    }
   });
 }
 
-/* ─── FLOATING SCROLL-TO-TOP ─── */
+/* ─── SCROLL-DRIVEN UI (one rAF-throttled listener) ─── */
 (function() {
-  var btn = document.getElementById('backToTopFloat');
-  if (!btn) return;
-  if (prefersReducedMotion) btn.style.transition = 'none';
-  var backToTopTick = false;
-  window.addEventListener('scroll', function() {
-    if (!backToTopTick) {
-      requestAnimationFrame(function() {
-        btn.classList.toggle('visible', window.scrollY > 700);
-        backToTopTick = false;
-      });
-      backToTopTick = true;
+  var nav = document.querySelector('.site-nav');
+  var backBtn = document.getElementById('backToTopFloat');
+  var orb1 = document.querySelector('.orb-1');
+  var orb2 = document.querySelector('.orb-2');
+  var ticking = false;
+
+  function update() {
+    var sy = window.scrollY;
+    if (nav) nav.classList.toggle('scrolled', sy > 50);
+    if (backBtn) backBtn.classList.toggle('visible', sy > 700);
+    if (!prefersReducedMotion) {
+      if (orb1) orb1.style.transform = 'translateY(' + sy * 0.15 + 'px)';
+      if (orb2) orb2.style.transform = 'translateY(' + (-sy * 0.1) + 'px)';
     }
-  });
+    ticking = false;
+  }
+  window.addEventListener('scroll', function() {
+    if (!ticking) { requestAnimationFrame(update); ticking = true; }
+  }, { passive: true });
+  update();
 })();
 
-/* ─── HERO H1 LETTER SPLIT ANIMATION ─── */
+/* ─── SCROLL TO TOP ─── */
+document.querySelectorAll('#backToTopFloat, [data-scroll-top]').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+  });
+});
+
+/* ─── CONTACT BEAMS: only animate while on screen ─── */
 (function() {
-  var h1 = document.querySelector('.hero h1');
-  if (!h1) return;
-  h1.style.opacity = '1';
-  h1.style.transform = 'none';
+  var svg = document.getElementById('pbSvg');
+  if (!svg || !svg.pauseAnimations) return;
+  if (prefersReducedMotion) { svg.pauseAnimations(); return; }
+  new IntersectionObserver(function(entries) {
+    entries[0].isIntersecting ? svg.unpauseAnimations() : svg.pauseAnimations();
+  }).observe(svg);
 })();
 
 /* ─── COUNTER ANIMATION FOR STATS ─── */
 function animateCounter(el, opts) {
-  var increment = opts.target / (opts.duration / (1000/60));
-  var current = 0;
-  var timer = setInterval(function() {
-    current += increment;
-    if (current >= opts.target) { current = opts.target; clearInterval(timer); }
+  var startTime = null;
+  function step(now) {
+    if (!startTime) startTime = now;
+    var p = Math.min((now - startTime) / opts.duration, 1);
+    var current = opts.target * p;
     el.textContent = opts.prefix + (opts.isFloat ? current.toFixed(1) : Math.floor(current)) + opts.suffix;
-  }, 1000/60);
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
 }
 
 var statsObserver = new IntersectionObserver(function(entries) {
   entries.forEach(function(entry) {
     if (!entry.isIntersecting) return;
+    statsObserver.unobserve(entry.target);
     var el = entry.target.querySelector('.metric-num');
-    if (!el || el.dataset.animated) return;
-    el.dataset.animated = '1';
+    if (!el || prefersReducedMotion) return;
     var text = el.textContent.trim();
     var nums = text.match(/[\d.]+/g) || [];
-    if (nums.length !== 1) { statsObserver.unobserve(entry.target); return; }
+    if (nums.length !== 1) return;
     var numStr = nums[0];
     var idx = text.indexOf(numStr);
     animateCounter(el, {
@@ -278,10 +390,15 @@ var statsObserver = new IntersectionObserver(function(entries) {
       isFloat: numStr.indexOf('.') !== -1,
       duration: 1200
     });
-    statsObserver.unobserve(entry.target);
   });
 }, { threshold: 0.5 });
 
 document.querySelectorAll('.metric-item').forEach(function(el) {
   statsObserver.observe(el);
 });
+
+/* ─── FOOTER YEAR ─── */
+(function() {
+  var y = document.getElementById('footerYear');
+  if (y) y.textContent = new Date().getFullYear();
+})();
