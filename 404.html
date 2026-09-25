@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,19 +9,30 @@
 <link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<script>
+  (function() {
+    var saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) {}
+    var light = window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches;
+    document.documentElement.setAttribute('data-theme', saved === 'light' || saved === 'dark' ? saved : (light ? 'light' : 'dark'));
+  })();
+</script>
 <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+<div class="ambient" aria-hidden="true"><span class="ambient-orb ambient-orb--1"></span><span class="ambient-orb ambient-orb--3"></span></div>
+<div class="noise-overlay" aria-hidden="true"></div>
 <main class="hero" id="main-content">
   <div class="wrapper hero-wrapper">
     <div class="notfound">
-      <div class="hero-eyebrow">404 · Page not found</div>
+      <span class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>404 · Page not found</span>
       <h1>This page burned its budget.</h1>
       <p class="hero-sub">The link is broken or the page has moved. Everything that matters is on the homepage.</p>
       <div class="hero-actions">
-        <a href="/" class="btn-primary">Back to Homepage</a>
-        <a href="/#contact" class="btn-ghost">Contact</a>
+        <a href="/" class="btn btn-primary">Back to homepage<span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></span></a>
+        <a href="/#contact" class="btn btn-glass">Contact</a>
       </div>
     </div>
   </div>

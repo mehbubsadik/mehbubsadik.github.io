@@ -5,6 +5,8 @@
   var slides = track.querySelectorAll('.ss-slide');
   var total = slides.length;
   var dotsWrap = document.getElementById('ssDots');
+  var countEl = document.getElementById('ssCount');
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var AUTO = 6000;
   var i = 0, timer = null, inView = false, hovered = false;
@@ -21,6 +23,7 @@
   function go(n) {
     i = (n + total) % total;
     track.style.transform = 'translateX(-' + (i * 100) + '%)';
+    if (countEl) countEl.textContent = pad(i + 1) + ' / ' + pad(total);
     for (var k = 0; k < total; k++) {
       dots[k].classList.toggle('active', k === i);
       dots[k].setAttribute('aria-current', k === i ? 'true' : 'false');
