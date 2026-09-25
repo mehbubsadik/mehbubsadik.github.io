@@ -362,43 +362,126 @@ document.querySelectorAll('#backToTopFloat, [data-scroll-top]').forEach(function
   }).observe(svg);
 })();
 
-/* ─── COUNTER ANIMATION FOR STATS ─── */
-function animateCounter(el, opts) {
-  var startTime = null;
-  function step(now) {
-    if (!startTime) startTime = now;
-    var p = Math.min((now - startTime) / opts.duration, 1);
-    var current = opts.target * p;
-    el.textContent = opts.prefix + (opts.isFloat ? current.toFixed(1) : Math.floor(current)) + opts.suffix;
-    if (p < 1) requestAnimationFrame(step);
-  }
-  requestAnimationFrame(step);
+/* ─── NUMBER COUNT-UP ───
+   Parses "€187,008.82", "$133.6K", "8.81x", "1,400+" etc. and counts from
+   zero with an ease-out-expo curve, keeping decimals, commas and affixes.
+   Ranges like "4.5x–9x" hold two numbers and are left static. */
+function easeOutExpo(t) { return t >= 1 ? 1 : 1 - Math.pow(2, -10 * t); }
+
+function parseFigure(text) {
+  if ((text.match(/\d[\d,]*\.?\d*/g) || []).length !== 1) return null;
+  var m = text.match(/^([^\d]*)(\d[\d,]*(?:\.\d+)?)(.*)$/);
+  if (!m) return null;
+  var num = m[2];
+  return {
+    prefix: m[1],
+    suffix: m[3],
+    value: parseFloat(num.replace(/,/g, '')),
+    decimals: num.indexOf('.') === -1 ? 0 : num.split('.')[1].length,
+    commas: num.indexOf(',') !== -1
+  };
 }
 
+function formatFigure(f, v) {
+  var s = v.toFixed(f.decimals);
+  if (f.commas) {
+    var parts = s.split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    s = parts.join('.');
+  }
+  return f.prefix + s + f.suffix;
+}
+
+function countUp(el, duration, delay) {
+  var finalText = el.textContent.trim();
+  var f = parseFigure(finalText);
+  if (!f) return;
+  /* Lock the final width so neighbouring metrics don't shuffle while digits change. */
+  if (!(el instanceof SVGElement)) el.style.minWidth = Math.ceil(el.getBoundingClientRect().width) + 'px';
+  el.textContent = formatFigure(f, 0);
+  setTimeout(function() {
+    var start = null;
+    requestAnimationFrame(function step(now) {
+      if (start === null) start = now;
+      var p = Math.min((now - start) / duration, 1);
+      el.textContent = p === 1 ? finalText : formatFigure(f, f.value * easeOutExpo(p));
+      if (p < 1) requestAnimationFrame(step);
+    });
+  }, delay || 0);
+}
+
+/* Metrics strip */
 var statsObserver = new IntersectionObserver(function(entries) {
   entries.forEach(function(entry) {
     if (!entry.isIntersecting) return;
     statsObserver.unobserve(entry.target);
     var el = entry.target.querySelector('.metric-num');
-    if (!el || prefersReducedMotion) return;
-    var text = el.textContent.trim();
-    var nums = text.match(/[\d.]+/g) || [];
-    if (nums.length !== 1) return;
-    var numStr = nums[0];
-    var idx = text.indexOf(numStr);
-    animateCounter(el, {
-      target: parseFloat(numStr),
-      prefix: text.slice(0, idx),
-      suffix: text.slice(idx + numStr.length),
-      isFloat: numStr.indexOf('.') !== -1,
-      duration: 1200
-    });
+    if (el && !prefersReducedMotion) countUp(el, 1400, 150);
   });
 }, { threshold: 0.5 });
 
 document.querySelectorAll('.metric-item').forEach(function(el) {
   statsObserver.observe(el);
 });
+
+/* ─── PROOF CARDS: chart + metric choreography ───
+   Runs once per card as it scrolls in. Order: metrics materialise and
+   count up, bars grow from the baseline left→right (or top→bottom for
+   horizontal bars), labels settle in after their bar, then reference
+   lines draw. Timing lives in CSS; JS only assigns each element its
+   position in the sequence (--i) and flips .is-in. Without JS or with
+   reduced motion, .motion-ready is never set and everything is static. */
+(function() {
+  var cards = document.querySelectorAll('#proof .proof-card');
+  if (!document.documentElement.classList.contains('motion-ready')) return;
+  if (!cards.length) { document.documentElement.classList.remove('motion-ready'); return; }
+
+  var STAGGER = 70; // ms between bars — keep in sync with the CSS calc()
+
+  function sequenceChart(svg) {
+    var bars = Array.prototype.slice.call(svg.querySelectorAll('.chart-bar'));
+    var horizontal = bars.length && bars[0].classList.contains('chart-bar--h');
+    var axis = horizontal ? 'y' : 'x';
+    function centre(el) {
+      var b = el.getBBox();
+      return horizontal ? b.y + b.height / 2 : b.x + b.width / 2;
+    }
+    bars.sort(function(a, b) { return centre(a) - centre(b); });
+    var centres = bars.map(centre);
+    bars.forEach(function(bar, i) { bar.style.setProperty('--i', i); });
+
+    /* Each label inherits the slot of the bar it sits next to. */
+    svg.querySelectorAll('text').forEach(function(label) {
+      if (!centres.length) { label.style.setProperty('--i', 0); return; }
+      var c = centre(label), best = 0;
+      centres.forEach(function(bc, i) { if (Math.abs(bc - c) < Math.abs(centres[best] - c)) best = i; });
+      label.style.setProperty('--i', best);
+    });
+    svg.style.setProperty('--n', bars.length);
+  }
+
+  cards.forEach(function(card) {
+    var svg = card.querySelector('.proof-chart svg');
+    if (svg) sequenceChart(svg);
+    card.querySelectorAll('.proof-metric').forEach(function(m, i) { m.style.setProperty('--i', i); });
+  });
+
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (!entry.isIntersecting) return;
+      io.unobserve(entry.target);
+      var card = entry.target;
+      card.classList.add('is-in');
+      card.querySelectorAll('.proof-metric .pm-val').forEach(function(el, i) {
+        countUp(el, 1500, 200 + i * 90);
+      });
+      var ringLabel = card.querySelector('.chart-val--lg');
+      if (ringLabel) countUp(ringLabel, 1400, 450);
+    });
+  }, { threshold: 0.3, rootMargin: '0px 0px -8% 0px' });
+
+  cards.forEach(function(card) { io.observe(card); });
+})();
 
 /* ─── FOOTER YEAR ─── */
 (function() {

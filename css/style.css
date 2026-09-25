@@ -1780,3 +1780,100 @@
 /* ─── 404 ─── */
 .notfound { padding: 6rem 0; max-width: 640px; }
 .notfound h1 { font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 3.8rem); line-height: 1.1; letter-spacing: -0.03em; color: var(--white); margin-bottom: 1.25rem; }
+
+/* ─── PROOF MOTION ───
+   One-time reveal when a case study scrolls in (class set in main.js).
+   Scoped to .motion-ready, which JS only adds when motion is allowed, so
+   no-JS and reduced-motion visitors get the finished charts straight away.
+   Only transform / opacity / filter / stroke-dashoffset / clip-path animate. */
+:root {
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
+  --proof-base: 250ms;   /* let the card's own reveal land first */
+  --proof-stagger: 70ms; /* keep in sync with STAGGER in main.js */
+}
+
+.proof-metric .pm-val { font-variant-numeric: tabular-nums; }
+.proof-chart .chart-val--lg { font-variant-numeric: tabular-nums; }
+
+/* Settled accent bars carry a soft glow — the "winner" in each chart. */
+.proof-chart .chart-bar--accent,
+.proof-chart .chart-ring--accent { filter: drop-shadow(0 0 6px rgba(255, 107, 26, 0.35)); }
+
+/* Metrics: materialise (opacity + lift + blur), staggered. */
+.motion-ready #proof .proof-metric {
+  opacity: 0;
+  transform: translateY(8px);
+  filter: blur(4px);
+  transition:
+    opacity 600ms var(--ease-out-quint),
+    transform 600ms var(--ease-out-quint),
+    filter 600ms var(--ease-out-quint);
+  transition-delay: calc(150ms + var(--i, 0) * 90ms);
+}
+.motion-ready #proof .is-in .proof-metric { opacity: 1; transform: none; filter: blur(0); }
+
+/* Bars grow out of the baseline (vertical) or the axis (horizontal). */
+.motion-ready #proof .proof-chart .chart-bar {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  transform: scaleY(0);
+  transition: transform 900ms var(--ease-out-quint);
+  transition-delay: calc(var(--proof-base) + var(--i, 0) * var(--proof-stagger));
+}
+.motion-ready #proof .proof-chart .chart-bar--h {
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+}
+.motion-ready #proof .proof-chart .chart-bar--accent {
+  filter: drop-shadow(0 0 0 rgba(255, 107, 26, 0));
+  transition:
+    transform 900ms var(--ease-out-quint) calc(var(--proof-base) + var(--i, 0) * var(--proof-stagger)),
+    filter 700ms var(--ease-out-quint) calc(var(--proof-base) + var(--n, 4) * var(--proof-stagger) + 600ms);
+}
+.motion-ready #proof .is-in .proof-chart .chart-bar { transform: none; }
+.motion-ready #proof .is-in .proof-chart .chart-bar--accent,
+.proof-chart .chart-ring--accent { filter: drop-shadow(0 0 6px rgba(255, 107, 26, 0.35)); }
+
+/* Labels settle in just after their bar arrives. */
+.motion-ready #proof .proof-chart text {
+  transform-box: fill-box;
+  opacity: 0;
+  transform: translateY(4px);
+  filter: blur(3px);
+  transition:
+    opacity 500ms var(--ease-out-quint),
+    transform 500ms var(--ease-out-quint),
+    filter 500ms var(--ease-out-quint);
+  transition-delay: calc(var(--proof-base) + var(--i, 0) * var(--proof-stagger) + 450ms);
+}
+.motion-ready #proof .is-in .proof-chart text { opacity: 1; transform: none; filter: blur(0); }
+
+/* Reference line draws left→right once the bars have landed. */
+.motion-ready #proof .proof-chart .chart-avg {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 900ms var(--ease-in-out-cubic);
+  transition-delay: calc(var(--proof-base) + var(--n, 4) * var(--proof-stagger) + 450ms);
+}
+.motion-ready #proof .is-in .proof-chart .chart-avg { clip-path: inset(0 0 0 0); }
+
+/* Donut sweeps clockwise in step with its centre count-up. */
+.motion-ready #proof .proof-chart .chart-ring--accent {
+  stroke-dashoffset: 251.3;
+  opacity: 0;
+  filter: drop-shadow(0 0 0 rgba(255, 107, 26, 0));
+  transition:
+    stroke-dashoffset 1400ms var(--ease-out-quint) 450ms,
+    opacity 200ms linear 450ms,
+    filter 700ms var(--ease-out-quint) 1500ms;
+}
+.motion-ready #proof .is-in .proof-chart .chart-ring--accent { stroke-dashoffset: 171.9; opacity: 1; filter: drop-shadow(0 0 6px rgba(255, 107, 26, 0.35)); }
+.motion-ready #proof .proof-chart .chart-val--lg { transition-delay: 450ms; }
+
+/* Caption and divider arrive last. */
+.motion-ready #proof .proof-chart-caption {
+  opacity: 0;
+  transition: opacity 600ms var(--ease-out-quint);
+  transition-delay: calc(var(--proof-base) + 900ms);
+}
+.motion-ready #proof .is-in .proof-chart-caption { opacity: 1; }
