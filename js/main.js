@@ -127,25 +127,92 @@ function showToast(msg) {
   });
 })();
 
-/* ─── MOBILE NAV ─── */
+/* ─── THEME — sun & clouds ↔ crescent moon & stars ───
+   The initial theme is set in <head> before paint. Here: the toggle, the
+   circular reveal between themes, and following the OS setting until the
+   visitor makes a choice of their own. */
+(function() {
+  var root = document.documentElement;
+  var toggle = document.getElementById('themeToggle');
+  var meta = document.querySelector('meta[name="theme-color"]');
+  var mq = window.matchMedia ? matchMedia('(prefers-color-scheme: light)') : null;
+
+  function current() { return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark'; }
+
+  function sync() {
+    var dark = current() === 'dark';
+    if (toggle) {
+      toggle.setAttribute('aria-checked', String(dark));
+      toggle.setAttribute('aria-label', dark ? 'Dark mode on — switch to light mode' : 'Light mode on — switch to dark mode');
+    }
+    if (meta) meta.setAttribute('content', dark ? '#070B16' : '#F4F1EC');
+  }
+
+  function apply(theme) {
+    root.setAttribute('data-theme', theme);
+    sync();
+  }
+
+  function savedChoice() {
+    try { return localStorage.getItem('theme'); } catch (e) { return null; }
+  }
+
+  sync();
+
+  if (toggle) {
+    toggle.addEventListener('click', function() {
+      var next = current() === 'dark' ? 'light' : 'dark';
+      try { localStorage.setItem('theme', next); } catch (e) {}
+      track('ThemeChange', { theme: next });
+
+      /* Circular reveal from the switch, where supported and wanted */
+      if (!document.startViewTransition || prefersReducedMotion) { apply(next); return; }
+      var r = toggle.getBoundingClientRect();
+      var x = r.left + r.width / 2;
+      var y = r.top + r.height / 2;
+      var radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+      var vt = document.startViewTransition(function() { apply(next); });
+      vt.ready.then(function() {
+        root.animate(
+          { clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + radius + 'px at ' + x + 'px ' + y + 'px)'] },
+          { duration: 700, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', pseudoElement: '::view-transition-new(root)' }
+        );
+      }).catch(function() {});
+    });
+  }
+
+  /* Follow the device setting live — until the visitor picks a theme */
+  if (mq && mq.addEventListener) {
+    mq.addEventListener('change', function(e) {
+      if (!savedChoice()) apply(e.matches ? 'light' : 'dark');
+    });
+  }
+})();
+
+/* ─── MOBILE MENU — full-screen glass sheet ─── */
 (function() {
   var toggle = document.getElementById('navToggle');
-  var nav = document.querySelector('.site-nav');
-  if (!toggle || !nav) return;
+  var menu = document.getElementById('mobileMenu');
+  if (!toggle || !menu) return;
+  var body = document.body;
 
   function setOpen(open) {
-    nav.classList.toggle('nav-open', open);
+    body.classList.toggle('menu-open', open);
     toggle.setAttribute('aria-expanded', String(open));
     toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    if (open) { menu.removeAttribute('inert'); body.style.overflow = 'hidden'; }
+    else { menu.setAttribute('inert', ''); body.style.overflow = ''; }
   }
-  toggle.addEventListener('click', function() {
-    setOpen(!nav.classList.contains('nav-open'));
-  });
-  nav.querySelectorAll('.nav-links a').forEach(function(a) {
+  toggle.addEventListener('click', function() { setOpen(!body.classList.contains('menu-open')); });
+  menu.querySelectorAll('a').forEach(function(a) {
     a.addEventListener('click', function() { setOpen(false); });
   });
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && nav.classList.contains('nav-open')) { setOpen(false); toggle.focus(); }
+    if (e.key === 'Escape' && body.classList.contains('menu-open')) { setOpen(false); toggle.focus(); }
+  });
+  /* If the viewport grows past the breakpoint, don't leave a stale open menu */
+  window.addEventListener('resize', function() {
+    if (innerWidth > 1080 && body.classList.contains('menu-open')) setOpen(false);
   });
 })();
 
@@ -309,6 +376,14 @@ navLinks.forEach(function(link) {
   var section = document.querySelector(link.getAttribute('href'));
   if (section) navSpyObserver.observe(section);
 });
+/* Back at the hero, nothing in the nav should look active */
+(function() {
+  var hero = document.getElementById('main-content');
+  if (!hero) return;
+  new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting) navLinks.forEach(function(l) { l.classList.remove('active'); });
+  }, { rootMargin: '-40% 0px -55% 0px' }).observe(hero);
+})();
 
 /* ─── LIQUID GLASS MOUSE TRACKING ─── */
 if (window.matchMedia('(hover: hover)').matches) {
@@ -321,28 +396,52 @@ if (window.matchMedia('(hover: hover)').matches) {
   });
 }
 
-/* ─── SCROLL-DRIVEN UI (one rAF-throttled listener) ─── */
+/* ─── SCROLL-DRIVEN UI (one rAF-throttled listener) ───
+   Floating nav tucks away while reading down, returns on the first
+   scroll up; back-to-top appears once the hero is well behind. */
 (function() {
-  var nav = document.querySelector('.site-nav');
+  var header = document.getElementById('siteHeader');
   var backBtn = document.getElementById('backToTopFloat');
-  var orb1 = document.querySelector('.orb-1');
-  var orb2 = document.querySelector('.orb-2');
+  var lastY = window.scrollY;
   var ticking = false;
 
   function update() {
     var sy = window.scrollY;
-    if (nav) nav.classList.toggle('scrolled', sy > 50);
-    if (backBtn) backBtn.classList.toggle('visible', sy > 700);
-    if (!prefersReducedMotion) {
-      if (orb1) orb1.style.transform = 'translateY(' + sy * 0.15 + 'px)';
-      if (orb2) orb2.style.transform = 'translateY(' + (-sy * 0.1) + 'px)';
+    var delta = sy - lastY;
+    if (header && !document.body.classList.contains('menu-open')) {
+      if (sy < 140 || delta < -6) header.classList.remove('is-hidden');
+      else if (delta > 6) header.classList.add('is-hidden');
     }
+    if (Math.abs(delta) > 6) lastY = sy;
+    if (backBtn) backBtn.classList.toggle('visible', sy > 900);
     ticking = false;
   }
   window.addEventListener('scroll', function() {
     if (!ticking) { requestAnimationFrame(update); ticking = true; }
   }, { passive: true });
+  /* Keyboard users tabbing into the nav should always find it visible */
+  if (header) header.addEventListener('focusin', function() { header.classList.remove('is-hidden'); });
   update();
+})();
+
+/* ─── MAGNETIC BUTTONS ───
+   Primary CTAs lean a few pixels toward the cursor. Fine pointers only. */
+(function() {
+  if (prefersReducedMotion || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  document.querySelectorAll('.magnetic').forEach(function(btn) {
+    var MAX = 6;
+    btn.addEventListener('mousemove', function(e) {
+      var r = btn.getBoundingClientRect();
+      var dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+      var dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+      btn.style.setProperty('--tx', (dx * MAX).toFixed(2) + 'px');
+      btn.style.setProperty('--ty', (dy * MAX * 0.6).toFixed(2) + 'px');
+    });
+    btn.addEventListener('mouseleave', function() {
+      btn.style.setProperty('--tx', '0px');
+      btn.style.setProperty('--ty', '0px');
+    });
+  });
 })();
 
 /* ─── SCROLL TO TOP ─── */
@@ -423,6 +522,14 @@ var statsObserver = new IntersectionObserver(function(entries) {
 document.querySelectorAll('.metric-item').forEach(function(el) {
   statsObserver.observe(el);
 });
+
+/* Hero track-record panel counts up once, as the intro cascade lands */
+(function() {
+  if (!document.documentElement.classList.contains('motion-ready')) return;
+  document.querySelectorAll('.hero-stat-val').forEach(function(el, i) {
+    countUp(el, 1600, 520 + i * 110);
+  });
+})();
 
 /* ─── PROOF CARDS: chart + metric choreography ───
    Runs once per card as it scrolls in. Order: metrics materialise and

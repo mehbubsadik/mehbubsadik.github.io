@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>S M Abdullah All Mehbub Sadik — Paid Media Strategist &amp; Growth Architect</title>
 <meta name="description" content="Paid Media Strategist &amp; Growth Architect for D2C and FMCG brands. $1.4M+ ad spend managed across Meta, TikTok and Google Ads — 990K+ purchases at a $1.41 average cost per purchase, 4.5x–9x ROAS.">
-<meta name="theme-color" content="#FF6B1A">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#070B16">
 <meta property="og:title" content="S M Abdullah All Mehbub Sadik — Paid Media Strategist &amp; Growth Architect">
 <meta property="og:description" content="$1.4M+ ad spend managed. 990K+ purchases at a $1.41 average CPP. 4.5x–9x ROAS for D2C &amp; FMCG brands.">
 <meta property="og:type" content="website">
@@ -18,9 +19,29 @@
 <link rel="canonical" href="https://mehbubsadik.online/">
 <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<script>
+  /* Theme + motion flags are resolved before first paint so nothing flashes.
+     Saved choice wins; otherwise follow the device setting. */
+  (function() {
+    var root = document.documentElement;
+    var saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) {}
+    var prefersLight = window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches;
+    var theme = saved === 'light' || saved === 'dark' ? saved : (prefersLight ? 'light' : 'dark');
+    root.setAttribute('data-theme', theme);
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', theme === 'light' ? '#F4F1EC' : '#070B16');
+    if (!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) && 'IntersectionObserver' in window) {
+      root.classList.add('motion-ready');
+    }
+  })();
+</script>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -38,42 +59,96 @@
 }
 </script>
 <link rel="stylesheet" href="css/style.css">
-<script>
-  /* Set before first paint so proof charts start in their pre-animation
-     state instead of visibly collapsing once main.js loads. */
-  if (!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) && 'IntersectionObserver' in window) {
-    document.documentElement.classList.add('motion-ready');
-  }
-</script>
 </head>
 <body>
 
 <a href="#main-content" class="skip-link">Skip to content</a>
 
+<!-- Page-wide light field: the colour the glass surfaces refract -->
+<div class="ambient" aria-hidden="true">
+  <span class="ambient-orb ambient-orb--1"></span>
+  <span class="ambient-orb ambient-orb--2"></span>
+  <span class="ambient-orb ambient-orb--3"></span>
+</div>
+<div class="grid-overlay" aria-hidden="true"></div>
 <div class="noise-overlay" aria-hidden="true"></div>
-<div class="orb orb-1" aria-hidden="true"></div>
-<div class="orb orb-2" aria-hidden="true"></div>
 
-<!-- NAV -->
-<nav class="site-nav" aria-label="Main">
-  <a href="#main-content" class="nav-logo">S M<span>.</span>Sadik</a>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="#about">About</a></li>
-    <li><a href="#expertise">Expertise</a></li>
-    <li><a href="#proof">Proof</a></li>
-    <li><a href="#process">Process</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <div class="nav-right">
-    <a href="https://calendar.app.google/6cgfUQxLvNfkjyj47" target="_blank" rel="noopener" class="nav-cta" data-track="Schedule">Book a Call</a>
-    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
+<!-- NAV — floating glass island -->
+<header class="site-header" id="siteHeader">
+  <nav class="site-nav" aria-label="Main">
+    <a href="#main-content" class="nav-logo" aria-label="S M Sadik — back to top">
+      <span class="nav-logo-mark" aria-hidden="true">S</span>
+      <span class="nav-logo-word">S M<span class="accent-dot">.</span>Sadik</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#expertise">Expertise</a></li>
+      <li><a href="#proof">Proof</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <button type="button" class="theme-toggle" id="themeToggle" role="switch" aria-checked="true" aria-label="Dark mode">
+        <span class="tt-track" aria-hidden="true">
+          <svg class="tt-stars" viewBox="0 0 34 26">
+            <path class="tt-star tt-star--1" d="M7 5.2l.9 2.1 2.1.9-2.1.9L7 11.2l-.9-2.1-2.1-.9 2.1-.9z"/>
+            <path class="tt-star tt-star--2" d="M20 3.4l.55 1.3 1.3.55-1.3.55L20 7.1l-.55-1.3-1.3-.55 1.3-.55z"/>
+            <circle class="tt-star tt-star--3" cx="15.5" cy="13" r=".9"/>
+            <circle class="tt-star tt-star--4" cx="5" cy="18.5" r=".7"/>
+            <path class="tt-star tt-star--5" d="M26.5 14.6l.45 1.05 1.05.45-1.05.45-.45 1.05-.45-1.05-1.05-.45 1.05-.45z"/>
+            <circle class="tt-star tt-star--6" cx="12" cy="22" r=".6"/>
+          </svg>
+          <svg class="tt-clouds" viewBox="0 0 40 26">
+            <g class="tt-cloud tt-cloud--back">
+              <circle cx="27" cy="8.5" r="3.6"/><circle cx="31.5" cy="7" r="4.4"/><circle cx="36" cy="9" r="3.2"/><rect x="24" y="8.5" width="15" height="3.8" rx="1.9"/>
+            </g>
+            <g class="tt-cloud tt-cloud--front">
+              <circle cx="15" cy="17.5" r="4.2"/><circle cx="20.5" cy="14.8" r="5.4"/><circle cx="26.4" cy="17.6" r="3.9"/><rect x="11" y="17.4" width="19" height="4.8" rx="2.4"/>
+            </g>
+          </svg>
+          <span class="tt-knob">
+            <span class="tt-crater tt-crater--1"></span>
+            <span class="tt-crater tt-crater--2"></span>
+            <span class="tt-crater tt-crater--3"></span>
+          </span>
+        </span>
+      </button>
+      <a href="https://calendar.app.google/6cgfUQxLvNfkjyj47" target="_blank" rel="noopener" class="btn btn-primary btn-sm nav-cta" data-track="Schedule">
+        Book a Call
+        <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></span>
+      </a>
+      <button type="button" class="nav-burger" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<!-- Full-screen glass menu (mobile / tablet) -->
+<div class="mobile-menu" id="mobileMenu" aria-label="Menu" inert>
+  <nav class="mobile-menu-inner" aria-label="Mobile">
+    <ol class="mobile-links">
+      <li><a href="#about"><span>01</span>About</a></li>
+      <li><a href="#expertise"><span>02</span>Expertise</a></li>
+      <li><a href="#proof"><span>03</span>Proof</a></li>
+      <li><a href="#process"><span>04</span>Process</a></li>
+      <li><a href="#experience"><span>05</span>Experience</a></li>
+      <li><a href="#contact"><span>06</span>Contact</a></li>
+    </ol>
+    <div class="mobile-menu-foot">
+      <a href="https://calendar.app.google/6cgfUQxLvNfkjyj47" target="_blank" rel="noopener" class="btn btn-primary" data-track="Schedule">
+        Book a Strategy Call
+        <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></span>
+      </a>
+      <a href="https://wa.me/8801932330670" target="_blank" rel="noopener" class="mobile-menu-contact" data-track="Contact">WhatsApp +880 1932 330670</a>
+    </div>
+  </nav>
+</div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<main>
 
 <!-- HERO -->
 <section class="hero" id="main-content">
@@ -81,136 +156,130 @@
   <div class="hero-scrim" aria-hidden="true"></div>
 
   <div class="wrapper hero-wrapper">
-    <div class="hero-inner">
+    <div class="hero-grid">
       <div class="hero-copy">
-        <div class="hero-eyebrow">Paid Media Strategist · Growth Architect · D2C &amp; FMCG</div>
-        <h1>
-          I don't run ads.<br>
-          I engineer <span class="accent">cash-flow.</span>
-        </h1>
+        <span class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Paid Media Strategist · Growth Architect</span>
+        <h1>I don't run ads.<br>I engineer <span class="accent-text">cash-flow.</span></h1>
         <p class="hero-sub">
           S M Abdullah All Mehbub Sadik — <strong>Paid Media Strategist</strong> with 3.5 years building Meta, TikTok &amp; Google performance engines for D2C &amp; FMCG brands. $1.4M+ deployed. Zero vanity metrics.
         </p>
         <div class="hero-actions">
-          <a href="https://calendar.app.google/6cgfUQxLvNfkjyj47" target="_blank" rel="noopener" class="btn-primary" data-track="Schedule">Book a Strategy Call</a>
-          <a href="#proof" class="btn-ghost">See the Numbers ↓</a>
+          <a href="https://calendar.app.google/6cgfUQxLvNfkjyj47" target="_blank" rel="noopener" class="btn btn-primary magnetic" data-track="Schedule">
+            Book a Strategy Call
+            <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></span>
+          </a>
+          <a href="#proof" class="btn btn-glass">See the numbers</a>
         </div>
-        <div class="avail-badge">
-          <span class="avail-dot"></span>
-          Taking on new clients — limited spots
-        </div>
+        <p class="avail"><span class="avail-dot" aria-hidden="true"></span>Taking on new clients — limited spots</p>
       </div>
-      <div class="hero-stats">
-        <div class="stat-card reveal reveal-delay-1">
-          <div class="stat-val">$1.4M+</div>
-          <div class="stat-label">Ad Spend Managed</div>
+
+      <aside class="hero-panel glass-pane" aria-label="Track record">
+        <div class="hero-panel-head">
+          <span>Track record</span>
+          <span class="hero-panel-tag">Jan 2023 → now</span>
         </div>
-        <div class="stat-card reveal reveal-delay-2">
-          <div class="stat-val">990K+</div>
-          <div class="stat-label">Purchases Generated</div>
+        <dl class="hero-stats">
+          <div class="hero-stat"><dt>Ad spend managed</dt><dd class="hero-stat-val">$1.4M+</dd></div>
+          <div class="hero-stat"><dt>Purchases generated</dt><dd class="hero-stat-val">990K+</dd></div>
+          <div class="hero-stat"><dt>Avg. cost per purchase</dt><dd class="hero-stat-val">$1.41</dd></div>
+          <div class="hero-stat"><dt>Peak account ROAS</dt><dd class="hero-stat-val hero-stat-val--accent">9x</dd></div>
+        </dl>
+        <div class="hero-panel-foot">
+          <span>Meta</span><span>TikTok</span><span>Google</span>
         </div>
-        <div class="stat-card reveal reveal-delay-3">
-          <div class="stat-val">$1.41</div>
-          <div class="stat-label">Avg. Cost Per Purchase</div>
-        </div>
-        <div class="stat-card reveal reveal-delay-4">
-          <div class="stat-val">9x</div>
-          <div class="stat-label">Peak Account ROAS</div>
-        </div>
-      </div>
+      </aside>
     </div>
   </div>
 </section>
 
 <!-- TRUSTED BY -->
-<div class="trusted-strip">
-  <div class="wrapper">
-    <div class="trusted-label">Trusted By Brands Across FMCG, D2C &amp; Hospitality</div>
-  </div>
-  <div class="trusted-track-wrap">
-    <div class="trusted-track">
-      <div class="trusted-track-inner">
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-kudos.png" alt="Kudos" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-axiom.png" alt="Axiom Collections" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-adrok.png" alt="Adrok Garden Resort" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-lascana.png" alt="Lascana" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-slieez.png" alt="Slieez" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-autostudio.png" alt="Auto Studio" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-emgroup.png" alt="EM Group" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-glc.png" alt="Germany Life Care" loading="lazy"></div>
-      </div>
-      <div class="trusted-track-inner" aria-hidden="true">
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-kudos.png" alt="" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-axiom.png" alt="" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-adrok.png" alt="" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-lascana.png" alt="" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-slieez.png" alt="" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-autostudio.png" alt="" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-emgroup.png" alt="" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-glc.png" alt="" loading="lazy"></div>
-      </div>
-      <div class="trusted-track-inner" aria-hidden="true">
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-kudos.png" alt="" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-axiom.png" alt="" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-adrok.png" alt="" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-lascana.png" alt="" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-slieez.png" alt="" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-autostudio.png" alt="" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-emgroup.png" alt="" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-glc.png" alt="" loading="lazy"></div>
-      </div>
-      <div class="trusted-track-inner" aria-hidden="true">
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-kudos.png" alt="" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-axiom.png" alt="" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-adrok.png" alt="" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-lascana.png" alt="" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-slieez.png" alt="" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-autostudio.png" alt="" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-emgroup.png" alt="" loading="lazy"></div>
-        <div class="trusted-logo-card"><img src="assets/images/logos/logo-glc.png" alt="" loading="lazy"></div>
-      </div>
+<section class="logos" aria-label="Brands I've worked with">
+  <p class="logos-label">Trusted by brands across FMCG, D2C &amp; hospitality</p>
+  <div class="logos-track-wrap">
+    <div class="logos-track">
+      <ul class="logos-set">
+        <li><img class="logo-mark logo-mark--wide" src="assets/images/logos/mono/logo-kudos.png" alt="Kudos" width="259" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--wide" src="assets/images/logos/mono/logo-axiom.png" alt="Axiom Collections" width="146" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--square" src="assets/images/logos/mono/logo-adrok.png" alt="Adrok Garden Resort" width="96" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--wordmark" src="assets/images/logos/mono/logo-lascana.png" alt="Lascana" width="383" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--square" src="assets/images/logos/mono/logo-slieez.png" alt="Slieez" width="96" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--wordmark" src="assets/images/logos/mono/logo-autostudio.png" alt="Auto Studio" width="221" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--wide" src="assets/images/logos/mono/logo-emgroup.png" alt="EM Group" width="126" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--square" src="assets/images/logos/mono/logo-glc.png" alt="Germany Life Care" width="96" height="96" loading="lazy"></li>
+      </ul>
+      <ul class="logos-set" aria-hidden="true">
+        <li><img class="logo-mark logo-mark--wide" src="assets/images/logos/mono/logo-kudos.png" alt="" width="259" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--wide" src="assets/images/logos/mono/logo-axiom.png" alt="" width="146" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--square" src="assets/images/logos/mono/logo-adrok.png" alt="" width="96" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--wordmark" src="assets/images/logos/mono/logo-lascana.png" alt="" width="383" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--square" src="assets/images/logos/mono/logo-slieez.png" alt="" width="96" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--wordmark" src="assets/images/logos/mono/logo-autostudio.png" alt="" width="221" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--wide" src="assets/images/logos/mono/logo-emgroup.png" alt="" width="126" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--square" src="assets/images/logos/mono/logo-glc.png" alt="" width="96" height="96" loading="lazy"></li>
+      </ul>
+      <ul class="logos-set" aria-hidden="true">
+        <li><img class="logo-mark logo-mark--wide" src="assets/images/logos/mono/logo-kudos.png" alt="" width="259" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--wide" src="assets/images/logos/mono/logo-axiom.png" alt="" width="146" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--square" src="assets/images/logos/mono/logo-adrok.png" alt="" width="96" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--wordmark" src="assets/images/logos/mono/logo-lascana.png" alt="" width="383" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--square" src="assets/images/logos/mono/logo-slieez.png" alt="" width="96" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--wordmark" src="assets/images/logos/mono/logo-autostudio.png" alt="" width="221" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--wide" src="assets/images/logos/mono/logo-emgroup.png" alt="" width="126" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--square" src="assets/images/logos/mono/logo-glc.png" alt="" width="96" height="96" loading="lazy"></li>
+      </ul>
+      <ul class="logos-set" aria-hidden="true">
+        <li><img class="logo-mark logo-mark--wide" src="assets/images/logos/mono/logo-kudos.png" alt="" width="259" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--wide" src="assets/images/logos/mono/logo-axiom.png" alt="" width="146" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--square" src="assets/images/logos/mono/logo-adrok.png" alt="" width="96" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--wordmark" src="assets/images/logos/mono/logo-lascana.png" alt="" width="383" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--square" src="assets/images/logos/mono/logo-slieez.png" alt="" width="96" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--wordmark" src="assets/images/logos/mono/logo-autostudio.png" alt="" width="221" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--wide" src="assets/images/logos/mono/logo-emgroup.png" alt="" width="126" height="96" loading="lazy"></li>
+        <li><img class="logo-mark logo-mark--square" src="assets/images/logos/mono/logo-glc.png" alt="" width="96" height="96" loading="lazy"></li>
+      </ul>
     </div>
   </div>
-</div>
+</section>
 
-<!-- METRICS STRIP -->
-<div class="metrics-strip">
+<!-- METRICS — bento -->
+<section class="metrics" aria-label="Key numbers">
   <div class="wrapper">
-    <div class="metrics-grid">
-      <div class="metric-item lg-card reveal reveal-delay-1">
+    <div class="metrics-bento">
+      <div class="metric-item metric-item--hero lg-card reveal">
+        <span class="metric-kicker">Account-level ROAS range</span>
         <span class="metric-num">4.5x–9x</span>
-        <span class="metric-desc">Account-Level ROAS Range</span>
+        <p class="metric-note">Blended ROAS across D2C &amp; FMCG ad accounts — reported at account level, not campaign spikes.</p>
+      </div>
+      <div class="metric-item lg-card reveal reveal-delay-1">
+        <span class="metric-num">€187K</span>
+        <span class="metric-desc">Single account, 30-day spend</span>
       </div>
       <div class="metric-item lg-card reveal reveal-delay-2">
-        <span class="metric-num">€187K</span>
-        <span class="metric-desc">Single Account, 30-Day Spend</span>
-      </div>
-      <div class="metric-item lg-card reveal reveal-delay-3">
         <span class="metric-num">109</span>
-        <span class="metric-desc">Peak Campaigns Live Simultaneously</span>
+        <span class="metric-desc">Peak campaigns live at once</span>
       </div>
-      <div class="metric-item lg-card reveal reveal-delay-4">
+      <div class="metric-item lg-card reveal reveal-delay-1">
         <span class="metric-num">31</span>
-        <span class="metric-desc">Ad Accounts Managed</span>
+        <span class="metric-desc">Ad accounts managed</span>
       </div>
-      <div class="metric-item lg-card reveal reveal-delay-5">
+      <div class="metric-item lg-card reveal reveal-delay-2">
         <span class="metric-num">1,400+</span>
-        <span class="metric-desc">Campaigns Executed</span>
+        <span class="metric-desc">Campaigns executed</span>
       </div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- ABOUT -->
-<section id="about">
-  <div class="section-glow section-glow--about" aria-hidden="true"></div>
+<section id="about" class="section">
   <div class="wrapper">
-    <div class="about-inner reveal">
-      <div class="about-photo-wrap">
+    <div class="about-grid">
+      <figure class="about-photo-frame reveal">
         <img src="assets/images/about-photo.jpg" alt="Portrait of S M Abdullah All Mehbub Sadik" class="about-photo" width="480" height="643" loading="lazy">
-      </div>
-      <div class="about-text">
-        <div class="section-label">About</div>
+        <figcaption class="about-photo-chip"><span class="avail-dot" aria-hidden="true"></span>Dhaka · working with UK/EU brands</figcaption>
+      </figure>
+      <div class="about-text reveal reveal-delay-1">
+        <span class="eyebrow">About</span>
         <h2 class="section-title">Zero-error, by habit.</h2>
         <p class="about-bio">I spent a year on the ops floor at Honda's Dhaka plant, checking numbers most people wouldn't look at twice. It's a boring way to learn a lesson, but it's the one that stuck. Get a number wrong there and something real breaks downstream. I still work that way. Every campaign gets checked the same way a production line does, not because it's exciting but because it's the only way I trust what I show a client.</p>
         <ul class="about-facts">
@@ -223,81 +292,79 @@
   </div>
 </section>
 
-<div class="divider"></div>
-
-<!-- EXPERTISE -->
-<section id="expertise">
-  <div class="section-glow section-glow--expertise" aria-hidden="true"></div>
+<!-- EXPERTISE — asymmetric bento -->
+<section id="expertise" class="section">
   <div class="wrapper">
-    <div class="section-label reveal">What I Do</div>
-    <h2 class="section-title reveal reveal-delay-1">Built for performance.<br>Obsessed with profit.</h2>
-    <p class="section-desc">Every system I build is designed around one outcome: predictable revenue with protected margins. No guesswork. No fluff.</p>
+    <header class="section-head">
+      <span class="eyebrow reveal">What I do</span>
+      <h2 class="section-title reveal reveal-delay-1">Built for performance.<br>Obsessed with profit.</h2>
+      <p class="section-desc reveal reveal-delay-2">Every system I build is designed around one outcome: predictable revenue with protected margins. No guesswork. No fluff.</p>
+    </header>
 
-    <div class="expertise-grid">
-      <div class="exp-card lg-card reveal reveal-delay-1">
+    <div class="expertise-bento">
+      <article class="exp-card exp-card--lg lg-card reveal">
         <div class="exp-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
-        <h3 class="exp-title">Meta Paid Acquisition</h3>
+        <h3 class="exp-title">Meta paid acquisition</h3>
         <p class="exp-desc">Facebook &amp; Instagram campaign architecture from scratch — CBO, ABO, funnel stages, creative rotation, audience stacking, and Advantage+ integration.</p>
-      </div>
-      <div class="exp-card lg-card reveal reveal-delay-2">
+        <ul class="exp-tags"><li>CBO / ABO</li><li>Advantage+</li><li>CAPI &amp; Pixel</li><li>Funnel stages</li></ul>
+      </article>
+      <article class="exp-card exp-card--sm lg-card reveal reveal-delay-1">
         <div class="exp-icon"><svg class="icon" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-        <h3 class="exp-title">Creative Sandbox System</h3>
-        <p class="exp-desc">Systematic creative testing framework: hook rate, 1.5s scroll-stop analysis, ad fatigue diagnosis, UGC vs. static performance benchmarking.</p>
-      </div>
-      <div class="exp-card lg-card reveal reveal-delay-3">
+        <h3 class="exp-title">Creative Sandbox system</h3>
+        <p class="exp-desc">Systematic creative testing: hook rate, 1.5s scroll-stop analysis, ad fatigue diagnosis, UGC vs. static benchmarking.</p>
+      </article>
+      <article class="exp-card exp-card--md lg-card reveal">
         <div class="exp-icon"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
         <h3 class="exp-title">TikTok Ads</h3>
         <p class="exp-desc">Ran 43 TikTok campaigns in parallel on a health &amp; FMCG account — $5.7K spend, 4,008 conversions at a $1.43 cost per conversion and a $0.29 CPM.</p>
-      </div>
-      <div class="exp-card lg-card reveal reveal-delay-1">
+      </article>
+      <article class="exp-card exp-card--md lg-card reveal reveal-delay-1">
         <div class="exp-icon"><svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-        <h3 class="exp-title">Offer Engineering</h3>
+        <h3 class="exp-title">Offer engineering</h3>
         <p class="exp-desc">High-ticket bundling, AOV maximization, LTV architecture, and pricing psychology to increase revenue-per-customer without scaling spend.</p>
-      </div>
-      <div class="exp-card lg-card reveal reveal-delay-2">
+      </article>
+      <article class="exp-card exp-card--md lg-card reveal reveal-delay-2">
         <div class="exp-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-        <h3 class="exp-title">Audience Architecture</h3>
+        <h3 class="exp-title">Audience architecture</h3>
         <p class="exp-desc">Custom audiences (Purchasers, Video Viewers, Engagers), 1%–3% Lookalike stacking, retargeting funnels, and suppression lists for zero budget bleed.</p>
-      </div>
-      <div class="exp-card lg-card reveal reveal-delay-3">
+      </article>
+      <article class="exp-card exp-card--sm lg-card reveal">
         <div class="exp-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
-        <h3 class="exp-title">Growth Partnerships</h3>
+        <h3 class="exp-title">Growth partnerships</h3>
         <p class="exp-desc">Remote growth partner for international D2C/FMCG brands on subscription-style retainers — proposals, SOPs, client reporting, creative production pipelines.</p>
-      </div>
-      <a href="#systems" class="exp-card exp-card--wide lg-card reveal">
+      </article>
+      <a href="#systems" class="exp-card exp-card--lg exp-card--link lg-card reveal reveal-delay-1">
         <div class="exp-icon"><svg class="icon" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
-        <div>
-          <h3 class="exp-title">Web &amp; Systems Development <span class="exp-arrow">→</span></h3>
-          <p class="exp-desc">Landing pages, order dashboards, and internal tools that plug straight into the ad funnel — built with Next.js, Supabase, and Claude Code. The same hand that runs the ads builds what they point to.</p>
-        </div>
+        <h3 class="exp-title">Web &amp; systems development</h3>
+        <p class="exp-desc">Landing pages, order dashboards, and internal tools that plug straight into the ad funnel — built with Next.js, Supabase, and Claude Code. The same hand that runs the ads builds what they point to.</p>
+        <span class="exp-arrow" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></span>
       </a>
     </div>
 
-    <div class="platforms-block">
-      <div class="section-label">Platforms I Operate On</div>
-      <div class="platforms-grid">
-        <div class="platform-pill"><span class="dot"></span>Meta Ads Manager</div>
-        <div class="platform-pill"><span class="dot"></span>TikTok Ads</div>
-        <div class="platform-pill"><span class="dot"></span>Google Ads (Demand Gen)</div>
-        <div class="platform-pill"><span class="dot"></span>Meta CAPI &amp; Pixel</div>
-        <div class="platform-pill"><span class="dot"></span>Lookalike Audience Stacking</div>
-        <div class="platform-pill"><span class="dot"></span>GA4 &amp; Attribution</div>
-        <div class="platform-pill"><span class="dot"></span>CapCut / Premiere Pro</div>
-        <div class="platform-pill"><span class="dot"></span>Advanced Excel</div>
-      </div>
+    <div class="platforms-block reveal">
+      <span class="platforms-label">Platforms I operate on</span>
+      <ul class="platforms-grid">
+        <li class="platform-pill">Meta Ads Manager</li>
+        <li class="platform-pill">TikTok Ads</li>
+        <li class="platform-pill">Google Ads (Demand Gen)</li>
+        <li class="platform-pill">Meta CAPI &amp; Pixel</li>
+        <li class="platform-pill">Lookalike Audience Stacking</li>
+        <li class="platform-pill">GA4 &amp; Attribution</li>
+        <li class="platform-pill">CapCut / Premiere Pro</li>
+        <li class="platform-pill">Advanced Excel</li>
+      </ul>
     </div>
   </div>
 </section>
 
-<div class="divider"></div>
-
 <!-- PROOF OF WORK — every figure below is read straight off the Ads Manager exports shown in the slideshow -->
-<section id="proof">
-  <div class="section-glow section-glow--proof" aria-hidden="true"></div>
+<section id="proof" class="section">
   <div class="wrapper">
-    <div class="section-label reveal">Proof of Work</div>
-    <h2 class="section-title reveal reveal-delay-1">Numbers don't lie.</h2>
-    <p class="section-desc">Every figure below is taken straight from Meta, TikTok and Google Ads Manager — the raw screenshots are in the slideshow further down.</p>
+    <header class="section-head">
+      <span class="eyebrow reveal">Proof of work</span>
+      <h2 class="section-title reveal reveal-delay-1">Numbers don't lie.</h2>
+      <p class="section-desc reveal reveal-delay-2">Every figure below is taken straight from Meta, TikTok and Google Ads Manager — the raw screenshots are in the slideshow further down.</p>
+    </header>
 
     <div class="proof-grid">
 
@@ -305,7 +372,7 @@
       <article class="proof-card proof-card--featured lg-card reveal reveal-delay-1">
         <div class="proof-main">
           <div class="proof-badge">Meta · European D2C</div>
-          <h3 class="proof-title">€187K in 30 Days — European D2C Scale</h3>
+          <h3 class="proof-title">€187K in 30 days — European D2C scale</h3>
           <p class="proof-period">15 Oct – 15 Nov 2025</p>
           <p class="proof-body">A 30-day Meta push for a European D2C brand. Eight core campaigns carried 73% of the budget, and blended cost per purchase held at €44.35 in a €10.91-CPM EU auction.</p>
           <div class="proof-metrics">
@@ -351,7 +418,7 @@
       <!-- 2 · Health D2C — 16.56x retargeting -->
       <article class="proof-card lg-card reveal reveal-delay-1">
         <div class="proof-badge">Meta · Health D2C</div>
-        <h3 class="proof-title">16.56x Retargeting on an 8.81x Account</h3>
+        <h3 class="proof-title">16.56x retargeting on an 8.81x account</h3>
         <p class="proof-period">1 – 17 Feb 2026 · 28 campaigns</p>
         <p class="proof-body">ABO prospecting returned 8.5x–9.2x and fed a FOMO retargeting layer that hit 16.56x ROAS at $0.71 per purchase, taking the whole account to 8.81x.</p>
         <div class="proof-metrics">
@@ -380,7 +447,7 @@
       <!-- 3 · Meta portfolio — 6 accounts lifetime -->
       <article class="proof-card lg-card reveal reveal-delay-2">
         <div class="proof-badge">Meta · Multi-Account Ops</div>
-        <h3 class="proof-title">966 Campaigns Across 6 Ad Accounts</h3>
+        <h3 class="proof-title">966 campaigns across 6 ad accounts</h3>
         <p class="proof-period">Lifetime · Mar 2023 – Apr 2026</p>
         <p class="proof-body">Built, QA'd and scaled hundreds of campaigns across a multi-account structure. The largest account alone ran 445 campaigns and delivered 55.6M impressions.</p>
         <div class="proof-metrics">
@@ -416,7 +483,7 @@
       <!-- 4 · TikTok — 43 campaigns -->
       <article class="proof-card lg-card reveal reveal-delay-1">
         <div class="proof-badge">TikTok Ads</div>
-        <h3 class="proof-title">43 TikTok Campaigns at $1.43 per Conversion</h3>
+        <h3 class="proof-title">43 TikTok campaigns at $1.43 per conversion</h3>
         <p class="proof-period">1 – 26 Mar 2026 · Health &amp; FMCG</p>
         <p class="proof-body">Built and ran 43 TikTok campaigns in parallel. At a $0.29 CPM, the account generated 4,008 conversions from 19.98M impressions, and cost per conversion stayed tight across every scaled campaign.</p>
         <div class="proof-metrics">
@@ -453,7 +520,7 @@
       <!-- 5 · Google Demand Gen -->
       <article class="proof-card lg-card reveal reveal-delay-2">
         <div class="proof-badge">Google Ads</div>
-        <h3 class="proof-title">Demand Gen Launch — Germany Market</h3>
+        <h3 class="proof-title">Demand Gen launch — Germany market</h3>
         <p class="proof-period">Google Demand Gen · run alongside the Meta mix</p>
         <p class="proof-body">Launched and managed a Google Demand Gen campaign next to the Meta program. It reached 51K impressions and 16K+ engagements at a $0.58 CPM.</p>
         <div class="proof-metrics">
@@ -473,26 +540,36 @@
         </div>
       </article>
     </div>
-
-    <div class="drive-cta reveal">
+    <div class="drive-cta lg-card reveal">
       <div class="drive-cta-text">
         <div class="drive-cta-title">Full campaign screenshots &amp; CSV exports</div>
         <div class="drive-cta-sub">Google Drive portfolio folder — the complete Ads Manager exports behind every number on this page.</div>
       </div>
-      <a href="https://drive.google.com/drive/folders/1TH1DPWuZvly98Q3spo76g4GHR7zGspHb" target="_blank" rel="noopener" class="btn-ghost" data-track="ViewContent">View Drive Portfolio ↗</a>
+      <a href="https://drive.google.com/drive/folders/1TH1DPWuZvly98Q3spo76g4GHR7zGspHb" target="_blank" rel="noopener" class="btn btn-glass btn-sm" data-track="ViewContent">
+        View Drive portfolio
+        <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></span>
+      </a>
     </div>
   </div>
 </section>
 
 <!-- CAMPAIGN PROOF SLIDESHOW -->
-<section id="slideshow" class="section-tight" aria-roledescription="carousel" aria-label="Ads Manager screenshots">
+<section id="slideshow" class="section" aria-roledescription="carousel" aria-label="Ads Manager screenshots">
   <div class="wrapper">
-    <div class="section-label reveal">Campaign Proof</div>
-    <h2 class="section-title reveal reveal-delay-1">Inside the ad accounts.</h2>
-    <p class="section-desc reveal reveal-delay-2">Unedited exports from Meta &amp; TikTok Ads Manager. Campaign and account names are blurred for client confidentiality.</p>
+    <header class="section-head">
+      <span class="eyebrow reveal">Campaign proof</span>
+      <h2 class="section-title reveal reveal-delay-1">Inside the ad accounts.</h2>
+      <p class="section-desc reveal reveal-delay-2">Unedited exports from Meta &amp; TikTok Ads Manager. Campaign and account names are blurred for client confidentiality.</p>
+    </header>
 
-    <div class="ss-frame reveal reveal-delay-2" id="ssFrame" tabindex="0">
-      <div class="ss-track" id="ssTrack">
+    <div class="ss-frame reveal" id="ssFrame" tabindex="0">
+      <div class="ss-chrome" aria-hidden="true">
+        <span class="ss-lights"><i></i><i></i><i></i></span>
+        <span class="ss-address">Ads Manager · exports</span>
+        <span class="ss-count" id="ssCount">01 / 06</span>
+      </div>
+      <div class="ss-viewport">
+        <div class="ss-track" id="ssTrack">
         <figure class="ss-slide">
           <img src="assets/images/proof-eu-187k.webp" alt="Meta Ads Manager, 15 Oct to 15 Nov 2025: €187,008.82 total spend at €44.35 cost per purchase" width="1800" height="963" loading="lazy">
           <figcaption><strong>European D2C · Meta</strong> 15 Oct – 15 Nov 2025 · €187,008.82 spend · €44.35 cost / purchase</figcaption>
@@ -517,41 +594,46 @@
           <img src="assets/images/proof-262-campaigns.webp" alt="Meta Ads Manager lifetime view: 262 campaigns, $18,876.90 spend, top campaign at 13.28x ROAS" width="1800" height="799" loading="lazy">
           <figcaption><strong>D2C · Meta</strong> Lifetime · 262 campaigns · $18,876.90 spend · top campaign 13.28x ROAS</figcaption>
         </figure>
+        </div>
+        <button class="ss-arrow ss-prev" id="ssPrev" aria-label="Previous slide"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg></button>
+        <button class="ss-arrow ss-next" id="ssNext" aria-label="Next slide"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button>
       </div>
-
-      <button class="ss-arrow ss-prev" id="ssPrev" aria-label="Previous slide">‹</button>
-      <button class="ss-arrow ss-next" id="ssNext" aria-label="Next slide">›</button>
       <div class="ss-dots" id="ssDots"></div>
     </div>
   </div>
 </section>
 
 <!-- PROCESS (LOOM) -->
-<section id="process" class="section-tight">
+<section id="process" class="section">
   <div class="wrapper">
-    <div class="section-label reveal">How I Work</div>
-    <h2 class="section-title reveal reveal-delay-1">Five minutes. My entire process.</h2>
-    <p class="section-desc reveal reveal-delay-2">A full walkthrough of exactly how I structure, launch, and scale ad accounts — no fluff, no generic advice.</p>
+    <header class="section-head section-head--split">
+      <div>
+        <span class="eyebrow reveal">How I work</span>
+        <h2 class="section-title reveal reveal-delay-1">Five minutes.<br>My entire process.</h2>
+      </div>
+      <p class="section-desc reveal reveal-delay-2">A full walkthrough of exactly how I structure, launch, and scale ad accounts — no fluff, no generic advice.</p>
+    </header>
 
-    <div class="loom-frame reveal reveal-delay-2">
+    <div class="loom-frame reveal">
       <iframe src="https://www.loom.com/embed/8c28a179e9bf497e95ee46f5decafd18" loading="lazy" allowfullscreen title="How I run ad campaigns — process walkthrough"></iframe>
     </div>
   </div>
 </section>
 
-<div class="divider"></div>
-
 <!-- EXPERIENCE -->
-<section id="experience">
-  <div class="section-glow section-glow--experience" aria-hidden="true"></div>
+<section id="experience" class="section">
   <div class="wrapper">
-    <div class="section-label reveal">Track Record</div>
-    <h2 class="section-title reveal reveal-delay-1">Where I've shipped results.</h2>
+    <header class="section-head">
+      <span class="eyebrow reveal">Track record</span>
+      <h2 class="section-title reveal reveal-delay-1">Where I've shipped results.</h2>
+    </header>
 
     <div class="timeline">
-      <div class="timeline-item reveal reveal-delay-1">
+      <span class="timeline-rail" aria-hidden="true"><span class="timeline-rail-fill"></span></span>
+      <div class="timeline-item reveal">
         <div class="tl-period">Jan 2023 – Present</div>
-        <div>
+        <span class="tl-dot" aria-hidden="true"></span>
+        <div class="tl-body">
           <h3 class="tl-role">Growth Architect &amp; Creative Lead</h3>
           <div class="tl-company">Freelance / Agency Partner · Remote (UK/EU Clients)</div>
           <ul class="tl-points">
@@ -563,9 +645,10 @@
           </ul>
         </div>
       </div>
-      <div class="timeline-item reveal reveal-delay-2">
+      <div class="timeline-item reveal">
         <div class="tl-period">Jan 2022 – Dec 2022</div>
-        <div>
+        <span class="tl-dot" aria-hidden="true"></span>
+        <div class="tl-body">
           <h3 class="tl-role">Operations &amp; Data Analyst (Marketing Support)</h3>
           <div class="tl-company">Bangladesh Honda (PVT) Ltd. · Dhaka</div>
           <ul class="tl-points">
@@ -579,51 +662,50 @@
   </div>
 </section>
 
-<div class="divider"></div>
-
 <!-- CREATIVE WORK -->
-<section id="creative" class="section-tight">
-  <div class="section-glow section-glow--creative" aria-hidden="true"></div>
+<section id="creative" class="section">
   <div class="wrapper">
-    <div class="section-label reveal">Creative Work</div>
-    <h2 class="section-title reveal reveal-delay-1">Motion &amp; Video Ads.</h2>
-    <p class="section-desc reveal reveal-delay-2">Video ads &amp; motion graphics produced for D2C, FMCG and hospitality brands.</p>
+    <header class="section-head">
+      <span class="eyebrow reveal">Creative work</span>
+      <h2 class="section-title reveal reveal-delay-1">Motion &amp; video ads.</h2>
+      <p class="section-desc reveal reveal-delay-2">Video ads &amp; motion graphics produced for D2C, FMCG and hospitality brands.</p>
+    </header>
 
     <div class="creative-grid">
-      <button type="button" class="creative-card lg-card reveal reveal-delay-1" data-video-id="aF8rmsDPwIU" data-video-type="regular" aria-label="Play video: Pran Latina Juice">
+      <button type="button" class="creative-card creative-card--featured lg-card reveal" data-video-id="aF8rmsDPwIU" data-video-type="regular" aria-label="Play video: Pran Latina Juice">
         <span class="creative-thumb">
-          <span class="creative-play"><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><polygon points="5,3 19,12 5,21"/></svg></span>
-          <span class="creative-overlay"></span>
           <img src="https://img.youtube.com/vi/aF8rmsDPwIU/maxresdefault.jpg" alt="" loading="lazy" data-yt-thumb="aF8rmsDPwIU">
+          <span class="creative-overlay"></span>
+          <span class="creative-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></span>
         </span>
         <span class="creative-info">
-          <span class="proof-badge">FMCG · Motion Graphics</span>
+          <span class="proof-badge">FMCG · Motion graphics</span>
           <span class="creative-title">Pran Latina Juice</span>
           <span class="creative-sub">Product motion ad for an FMCG beverage brand</span>
         </span>
       </button>
 
-      <button type="button" class="creative-card lg-card reveal reveal-delay-2" data-video-id="Y-NPFEq5pIU" data-video-type="shorts" aria-label="Play video: AXIOM Jewelry">
+      <button type="button" class="creative-card lg-card reveal reveal-delay-1" data-video-id="Y-NPFEq5pIU" data-video-type="shorts" aria-label="Play video: AXIOM Jewelry">
         <span class="creative-thumb">
-          <span class="creative-play"><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><polygon points="5,3 19,12 5,21"/></svg></span>
-          <span class="creative-overlay"></span>
           <img src="https://img.youtube.com/vi/Y-NPFEq5pIU/maxresdefault.jpg" alt="" loading="lazy" data-yt-thumb="Y-NPFEq5pIU">
+          <span class="creative-overlay"></span>
+          <span class="creative-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></span>
         </span>
         <span class="creative-info">
-          <span class="proof-badge">Jewelry · Motion Graphics</span>
+          <span class="proof-badge">Jewelry · Motion graphics</span>
           <span class="creative-title">AXIOM Jewelry</span>
           <span class="creative-sub">Premium motion ad for an international jewelry brand</span>
         </span>
       </button>
 
-      <button type="button" class="creative-card lg-card reveal reveal-delay-3" data-video-id="vwHHjswOx1s" data-video-type="regular" aria-label="Play video: Adrok Garden Resort">
+      <button type="button" class="creative-card lg-card reveal reveal-delay-2" data-video-id="vwHHjswOx1s" data-video-type="regular" aria-label="Play video: Adrok Garden Resort">
         <span class="creative-thumb">
-          <span class="creative-play"><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><polygon points="5,3 19,12 5,21"/></svg></span>
-          <span class="creative-overlay"></span>
           <img src="https://img.youtube.com/vi/vwHHjswOx1s/maxresdefault.jpg" alt="" loading="lazy" data-yt-thumb="vwHHjswOx1s">
+          <span class="creative-overlay"></span>
+          <span class="creative-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></span>
         </span>
         <span class="creative-info">
-          <span class="proof-badge">Hospitality · Video Edit</span>
+          <span class="proof-badge">Hospitality · Video edit</span>
           <span class="creative-title">Adrok Garden Resort</span>
           <span class="creative-sub">Cinematic video ad for a hill resort</span>
         </span>
@@ -632,43 +714,36 @@
   </div>
 </section>
 
-<!-- VIDEO LIGHTBOX -->
-<div class="lightbox" id="videoLightbox" role="dialog" aria-modal="true" aria-label="Video player" hidden>
-  <div class="lightbox-inner" id="lightboxInner">
-    <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close video">✕</button>
-    <iframe id="lightboxFrame" title="Video player" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
-  </div>
-</div>
-
 <!-- WEB & SYSTEMS -->
-<section id="systems" class="section-tight">
-  <div class="section-glow section-glow--systems" aria-hidden="true"></div>
+<section id="systems" class="section">
   <div class="wrapper">
-    <div class="section-label reveal">Web &amp; Systems</div>
-    <h2 class="section-title reveal reveal-delay-1">What the ads point to.</h2>
-    <p class="section-desc reveal reveal-delay-2">Landing pages, order flows, and internal dashboards — built with Next.js, Supabase, and Claude Code so the systems behind the ads hold up as well as the ads do.</p>
+    <header class="section-head">
+      <span class="eyebrow reveal">Web &amp; systems</span>
+      <h2 class="section-title reveal reveal-delay-1">What the ads point to.</h2>
+      <p class="section-desc reveal reveal-delay-2">Landing pages, order flows, and internal dashboards — built with Next.js, Supabase, and Claude Code so the systems behind the ads hold up as well as the ads do.</p>
+    </header>
 
     <div class="systems-grid">
-      <article class="proof-card lg-card reveal reveal-delay-1">
+      <article class="proof-card lg-card reveal">
         <div class="proof-badge">Next.js · Supabase</div>
-        <h3 class="proof-title">Booking &amp; Ops Dashboard — Travel Platform</h3>
+        <h3 class="proof-title">Booking &amp; ops dashboard — travel platform</h3>
         <p class="proof-body">A customer-facing booking flow paired with an internal admin panel — built for a travel booking client to manage reservations, availability, and day-to-day operations without juggling spreadsheets.</p>
         <ul class="stack-tags">
           <li>Booking flow</li><li>Admin panel</li><li>Availability engine</li><li class="stack-tag--live">Live in production</li>
         </ul>
       </article>
-      <article class="proof-card lg-card reveal reveal-delay-2">
-        <div class="proof-badge">Next.js · Order System</div>
-        <h3 class="proof-title">Order, Sales &amp; Packaging Dashboard — Healthcare D2C</h3>
+      <article class="proof-card lg-card reveal reveal-delay-1">
+        <div class="proof-badge">Next.js · Order system</div>
+        <h3 class="proof-title">Order, sales &amp; packaging dashboard — healthcare D2C</h3>
         <p class="proof-body">A landing page, order form, and internal sales and packaging dashboard for a healthcare D2C brand — one system connecting the storefront to the people fulfilling every order.</p>
         <ul class="stack-tags">
           <li>Landing page</li><li>Order form</li><li>Sales + packaging dashboard</li><li class="stack-tag--live">Live in production</li>
         </ul>
       </article>
-      <article class="proof-card lg-card reveal reveal-delay-3">
-        <div class="proof-badge">This Site</div>
-        <h3 class="proof-title">This Site — Designed &amp; Shipped Solo</h3>
-        <p class="proof-body">The shader hero, glass UI, lead capture and conversion tracking you're using right now. I designed, built and shipped it solo with Claude Code on GitHub Pages, with the same discipline I apply to ad accounts: every section has a job.</p>
+      <article class="proof-card lg-card reveal reveal-delay-2">
+        <div class="proof-badge">This site</div>
+        <h3 class="proof-title">This site — designed &amp; shipped solo</h3>
+        <p class="proof-body">The shader hero, liquid-glass UI, light/dark themes, lead capture and conversion tracking you're using right now. I designed, built and shipped it solo with Claude Code on GitHub Pages, with the same discipline I apply to ad accounts: every section has a job.</p>
         <ul class="stack-tags">
           <li>WebGL</li><li>Vanilla JS</li><li>Lead capture</li><li class="stack-tag--live">Live on GitHub Pages</li>
         </ul>
@@ -677,10 +752,8 @@
   </div>
 </section>
 
-<div class="divider"></div>
-
 <!-- CONTACT -->
-<section id="contact" class="pb-section">
+<section id="contact" class="contact-section">
   <svg class="pb-svg" id="pbSvg" aria-hidden="true" focusable="false" viewBox="0 0 1200 520" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
     <!-- Base paths (static, dim) -->
     <path d="M0 260 Q200 180 480 240 Q560 255 600 260" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/>
@@ -812,17 +885,15 @@
       </linearGradient>
     </defs>
   </svg>
-
-  <div class="pb-content">
-    <div class="pb-card">
-      <div class="pb-card-glow"></div>
-      <div class="pb-label">Let's Talk</div>
-      <h2 class="pb-title">Ready to build a<br><span class="pb-accent">zero-error revenue engine?</span></h2>
-      <p class="pb-sub">Performance marketing for D2C &amp; FMCG brands on a subscription retainer. Results, not excuses.</p>
-      <div class="pb-actions">
-        <a href="https://calendar.app.google/6cgfUQxLvNfkjyj47" target="_blank" rel="noopener" class="pb-btn-primary" data-track="Schedule">
-          <span>Book a Strategy Call</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  <div class="wrapper contact-wrapper">
+    <div class="contact-card glass-pane reveal">
+      <span class="eyebrow">Let's talk</span>
+      <h2 class="contact-title">Ready to build a<br><span class="accent-text">zero-error revenue engine?</span></h2>
+      <p class="contact-sub">Performance marketing for D2C &amp; FMCG brands on a subscription retainer. Results, not excuses.</p>
+      <div class="contact-actions">
+        <a href="https://calendar.app.google/6cgfUQxLvNfkjyj47" target="_blank" rel="noopener" class="btn btn-primary magnetic" data-track="Schedule">
+          Book a Strategy Call
+          <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></span>
         </a>
       </div>
 
@@ -869,32 +940,44 @@
           <span>What's the bottleneck right now? <em>(optional)</em></span>
           <textarea name="message" rows="3" placeholder="e.g. CPP creeping up after scaling past $300/day"></textarea>
         </label>
-        <button type="submit" class="pb-btn-primary lead-submit">Send Brief</button>
+        <button type="submit" class="btn btn-primary lead-submit">Send Brief</button>
         <p class="lead-status" id="leadStatus" role="status" aria-live="polite"></p>
         <p class="lead-note">Replies within 24 hours. Your details are only used to reply to you.</p>
       </form>
-
-      <div class="pb-contact-info">
+      <div class="contact-info">
         <a href="mailto:sadik@sadikgrowth.online" data-track="Contact">sadik@sadikgrowth.online</a>
         <button type="button" class="copy-email" id="copyEmail" aria-label="Copy email address">Copy</button>
-        <span class="pb-dot">·</span>
+        <span class="contact-sep" aria-hidden="true"></span>
         <a href="https://wa.me/8801932330670" target="_blank" rel="noopener" data-track="Contact">WhatsApp +880 1932 330670</a>
-        <span class="pb-dot">·</span>
+        <span class="contact-sep" aria-hidden="true"></span>
         <a href="https://www.linkedin.com/in/mehbubsadik/" target="_blank" rel="noopener">LinkedIn ↗</a>
       </div>
     </div>
   </div>
 </section>
 
+</main>
+
+<!-- VIDEO LIGHTBOX -->
+<div class="lightbox" id="videoLightbox" role="dialog" aria-modal="true" aria-label="Video player" hidden>
+  <div class="lightbox-inner" id="lightboxInner">
+    <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close video">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg>
+    </button>
+    <iframe id="lightboxFrame" title="Video player" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
+  </div>
+</div>
+
 <button id="backToTopFloat" class="back-to-top-float" aria-label="Back to top">
-  <svg class="icon" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13V3M3.5 7.5L8 3l4.5 4.5"/></svg>
 </button>
 
 <!-- FOOTER -->
-<footer>
+<footer class="site-footer">
   <div class="wrapper">
     <div class="footer-inner">
       <div class="footer-brand">
+        <span class="nav-logo-mark" aria-hidden="true">S</span>
         <span class="footer-mark">S M<span class="accent-dot">.</span>Sadik</span>
         <span class="footer-tagline">© <span id="footerYear">2026</span> · Paid media that pays for itself.</span>
       </div>
@@ -909,7 +992,7 @@
         <a href="#contact">Contact</a>
       </nav>
       <button class="footer-top" data-scroll-top aria-label="Back to top">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13V3M3.5 7.5L8 3l4.5 4.5"/></svg>
       </button>
     </div>
   </div>
