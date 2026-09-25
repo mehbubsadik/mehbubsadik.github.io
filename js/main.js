@@ -120,6 +120,20 @@ function copyEmail(e) {
     animId = requestAnimationFrame(render);
   }
   render();
+
+  /* Pause the render loop while the hero is scrolled out of view —
+     the shader is expensive and shouldn't run for the whole session. */
+  var heroObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        if (!animId) render();
+      } else if (animId) {
+        cancelAnimationFrame(animId);
+        animId = null;
+      }
+    });
+  }, { threshold: 0 });
+  heroObserver.observe(canvas.parentElement);
 })();
 
 /* ─── SCROLL REVEAL ─── */
