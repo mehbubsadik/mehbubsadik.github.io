@@ -411,7 +411,7 @@
         <div class="proof-badge">TikTok Ads</div>
         <h3 class="proof-title">43 TikTok Campaigns at $1.43 per Conversion</h3>
         <p class="proof-period">1 – 26 Mar 2026 · Health &amp; FMCG</p>
-        <p class="proof-body">Built and ran 43 TikTok campaigns in parallel. At a $0.29 CPM, the account generated 4,008 conversions from 20M impressions, and cost per conversion stayed tight across every scaled campaign.</p>
+        <p class="proof-body">Built and ran 43 TikTok campaigns in parallel. At a $0.29 CPM, the account generated 4,008 conversions from 19.98M impressions, and cost per conversion stayed tight across every scaled campaign.</p>
         <div class="proof-metrics">
           <div class="proof-metric"><span class="pm-val">$5,724</span><span class="pm-label">Spend</span></div>
           <div class="proof-metric"><span class="pm-val">4,008</span><span class="pm-label">Conversions</span></div>
@@ -839,21 +839,25 @@
         </div>
         <div class="lead-row">
           <label class="lead-field">
+            <span>WhatsApp / phone</span>
+            <input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="+44 7700 900123" pattern="[\+0-9 \(\)\.\-]{7,20}" required>
+          </label>
+          <label class="lead-field">
             <span>Brand / website</span>
             <input type="text" name="brand" autocomplete="url" placeholder="yourbrand.com" required>
           </label>
-          <label class="lead-field">
-            <span>Monthly ad spend</span>
-            <select name="monthly_spend" required>
-              <option value="" selected disabled>Select a range</option>
-              <option>Under $1K</option>
-              <option>$1K – $5K</option>
-              <option>$5K – $20K</option>
-              <option>$20K – $50K</option>
-              <option>$50K+</option>
-            </select>
-          </label>
         </div>
+        <label class="lead-field">
+          <span>Monthly ad spend</span>
+          <select name="monthly_spend" required>
+            <option value="" selected disabled>Select a range</option>
+            <option>Under $1K</option>
+            <option>$1K – $5K</option>
+            <option>$5K – $20K</option>
+            <option>$20K – $50K</option>
+            <option>$50K+</option>
+          </select>
+        </label>
         <label class="lead-field">
           <span>What's the bottleneck right now? <em>(optional)</em></span>
           <textarea name="message" rows="3" placeholder="e.g. CPP creeping up after scaling past $300/day"></textarea>

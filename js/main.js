@@ -89,8 +89,11 @@ function showToast(msg) {
     var invalid = Array.prototype.find.call(form.elements, function(el) {
       return el.willValidate && !el.checkValidity();
     });
+    /* Belt and braces on top of the pattern attribute: a real number has 7+ digits. */
+    var phone = form.elements.phone;
+    if (!invalid && phone && phone.value.replace(/\D/g, '').length < 7) invalid = phone;
     if (invalid) {
-      setStatus('Please fill in your name, a valid email, your brand and your monthly spend.', 'error');
+      setStatus('Please fill in your name, a valid email, a phone number with country code, your brand and your monthly spend.', 'error');
       invalid.focus();
       return;
     }
