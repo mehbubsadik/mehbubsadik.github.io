@@ -105,14 +105,14 @@ function showToast(msg) {
     submit.textContent = 'Sending…';
     setStatus('');
 
-    fetch(form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/'), {
+    fetch('/api/submit-lead', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify(data)
     })
       .then(function(r) { return r.json().then(function(j) { return { ok: r.ok, body: j }; }); })
       .then(function(res) {
-        if (!res.ok || String(res.body.success) !== 'true') throw new Error('send failed');
+        if (!res.ok || res.body.success !== true) throw new Error('send failed');
         form.reset();
         setStatus('✓ Brief received — I\'ll reply within 24 hours.', 'success');
         track('Lead', { monthly_spend: data.monthly_spend });
