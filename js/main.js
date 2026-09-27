@@ -463,7 +463,8 @@ document.querySelectorAll('#backToTopFloat, [data-scroll-top]').forEach(function
 
 /* ─── NUMBER COUNT-UP ───
    Parses "€187,008.82", "$133.6K", "8.81x", "1,400+" etc. and counts from
-   zero with an ease-out-expo curve, keeping decimals, commas and affixes.
+   zero (small whole numbers like "1M+" from near the target) with an
+   ease-out-expo curve, keeping decimals, commas and affixes.
    Ranges like "4.5x–9x" hold two numbers and are left static. */
 function easeOutExpo(t) { return t >= 1 ? 1 : 1 - Math.pow(2, -10 * t); }
 
@@ -495,15 +496,25 @@ function countUp(el, duration, delay) {
   var finalText = el.textContent.trim();
   var f = parseFigure(finalText);
   if (!f) return;
+  /* Small whole-number targets ("1M+") have too few integer steps to animate and
+     would sit on "0M+". Count them in tenths from a base near the target instead;
+     every other figure keeps counting from zero exactly as before. */
+  var small = f.decimals === 0 && f.value > 0 && f.value < 3;
+  var shown = small ? { prefix: f.prefix, suffix: f.suffix, decimals: 1, commas: false } : f;
+  var from = small ? f.value * 0.6 : 0;
   /* Lock the final width so neighbouring metrics don't shuffle while digits change. */
   if (!(el instanceof SVGElement)) el.style.minWidth = Math.ceil(el.getBoundingClientRect().width) + 'px';
-  el.textContent = formatFigure(f, 0);
+  el.textContent = formatFigure(shown, from);
   setTimeout(function() {
     var start = null;
     requestAnimationFrame(function step(now) {
       if (start === null) start = now;
       var p = Math.min((now - start) / duration, 1);
-      el.textContent = p === 1 ? finalText : formatFigure(f, f.value * easeOutExpo(p));
+      var v = from + (f.value - from) * easeOutExpo(p);
+      /* Land on the real text as soon as the tenths read the target, so a small
+         figure never lingers on "1.0M+" before settling on "1M+". */
+      var done = p === 1 || (small && v >= f.value - 0.05);
+      el.textContent = done ? finalText : formatFigure(shown, v);
       if (p < 1) requestAnimationFrame(step);
     });
   }, delay || 0);
