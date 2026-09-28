@@ -1,6 +1,7 @@
 <!-- Shared site nav. Injected into <header class="site-header" data-include="/partials/nav.html">
      by js/include.js. Page-specific values come from the page's <script id="page-links"> JSON:
-     data-slot fills link lists, data-config-* overrides an attribute or text.
+     data-slot fills link lists, data-config-* overrides an attribute or text,
+     data-config-link shows a highlighted link only if the page sets that key.
      Elements marked data-place="after" are moved out of the header to sit right after it. -->
 <nav class="site-nav" aria-label="Main">
   <a href="/" class="nav-logo" aria-label="S M Sadik, main site" data-config-href="logoHref" data-config-label="logoLabel">
@@ -9,6 +10,9 @@
   </a>
   <ul class="nav-links" data-slot="nav"></ul>
   <div class="nav-right">
+    <a href="/" class="nav-highlight" data-config-link="highlight" data-track="ViewContent">
+      <span class="eyebrow-dot" aria-hidden="true"></span><span data-link-label></span>
+    </a>
     <button type="button" class="theme-toggle" id="themeToggle" role="switch" aria-checked="true" aria-label="Dark mode">
       <span class="tt-track" aria-hidden="true">
         <svg class="tt-stars" viewBox="0 0 34 26">
@@ -49,6 +53,10 @@
   <nav class="mobile-menu-inner" aria-label="Mobile">
     <ol class="mobile-links" data-slot="mobile"></ol>
     <div class="mobile-menu-foot">
+      <a href="/" class="nav-highlight nav-highlight--menu" data-config-link="highlight" data-track="ViewContent">
+        <span class="eyebrow-dot" aria-hidden="true"></span><span data-link-label></span>
+        <span class="nav-highlight-arrow" aria-hidden="true">→</span>
+      </a>
       <a href="https://calendar.app.google/6cgfUQxLvNfkjyj47" target="_blank" rel="noopener" class="btn btn-primary" data-track="Schedule">
         <span data-config-text="ctaMobile">Book a Strategy Call</span>
         <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></span>
