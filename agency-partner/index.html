@@ -108,7 +108,7 @@
           I run <strong>paid media</strong> and build <strong>websites</strong> for agencies that have more client work than people. You stay the face of the account and keep your margin. I do the work in the background and hand it back ready to send.
         </p>
         <div class="hero-actions">
-          <a href="#contact" class="btn btn-primary magnetic">
+          <a href="#brief" class="btn btn-primary magnetic" data-open-brief>
             Send a project brief
             <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></span>
           </a>
@@ -280,77 +280,19 @@
 
 <!-- CONTACT: agency brief (tagged lead_type=agency, separate from the homepage brand form) -->
 <section id="contact" class="contact-section">
-  <div class="wrapper contact-wrapper">
+  <div class="wrapper contact-wrapper contact-grid">
     <div class="contact-card glass-pane reveal">
       <span class="eyebrow">Agency partners</span>
       <h2 class="contact-title">Got overflow work?<br><span class="accent-text">Send it over.</span></h2>
       <p class="contact-sub">Tell me what's on your plate. Within 24 hours you'll hear back on whether I can take it on, along with a rough timeline and a price.</p>
       <div class="contact-actions">
-        <a href="https://calendar.app.google/6cgfUQxLvNfkjyj47" target="_blank" rel="noopener" class="btn btn-primary magnetic" data-track="Schedule">
-          Book a Partner Call
+        <a href="#brief" class="btn btn-primary magnetic" data-open-brief>
+          Send a Project Brief
           <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></span>
         </a>
+        <a href="https://calendar.app.google/6cgfUQxLvNfkjyj47" target="_blank" rel="noopener" class="btn btn-glass" data-track="Schedule">Book a Partner Call</a>
       </div>
-
-      <div class="lead-divider"><span>or send a project brief</span></div>
-
-      <form class="lead-form" id="leadForm" method="POST" novalidate
-        data-msg-invalid="Please fill in your name, a valid email, a phone number with country code, your agency, the lane you need and the monthly client spend."
-        data-msg-success="✓ Brief received. I'll reply within 24 hours."
-        data-msg-error="Couldn't send right now. Email sadik@sadikgrowth.online or WhatsApp +880 1932 330670 instead.">
-        <input type="text" name="_honey" class="lead-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <input type="hidden" name="lead_type" value="agency">
-
-        <div class="lead-row">
-          <label class="lead-field">
-            <span>Name</span>
-            <input type="text" name="name" autocomplete="name" required>
-          </label>
-          <label class="lead-field">
-            <span>Work email</span>
-            <input type="email" name="email" autocomplete="email" required>
-          </label>
-        </div>
-        <div class="lead-row">
-          <label class="lead-field">
-            <span>WhatsApp / phone</span>
-            <input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="+44 7700 900123" pattern="[\+0-9 \(\)\.\-]{7,20}" required>
-          </label>
-          <label class="lead-field">
-            <span>Agency name / website</span>
-            <input type="text" name="brand" autocomplete="organization" placeholder="youragency.com" required>
-          </label>
-        </div>
-        <div class="lead-row">
-          <label class="lead-field">
-            <span>Which lane?</span>
-            <select name="service" required>
-              <option value="" selected disabled>Select one</option>
-              <option>Performance ads</option>
-              <option>Web development</option>
-              <option>Both</option>
-            </select>
-          </label>
-          <label class="lead-field">
-            <span>Monthly client ad spend</span>
-            <select name="monthly_spend" required>
-              <option value="" selected disabled>Select a range</option>
-              <option>Web builds only</option>
-              <option>Under $5K</option>
-              <option>$5K to $20K</option>
-              <option>$20K to $50K</option>
-              <option>$50K+</option>
-            </select>
-          </label>
-        </div>
-        <label class="lead-field">
-          <span>What do you need help with? <em>(optional)</em></span>
-          <textarea name="message" rows="3" placeholder="e.g. Two ecommerce clients need Meta campaigns rebuilt before the end of the month"></textarea>
-        </label>
-        <button type="submit" class="btn btn-primary lead-submit">Send Brief</button>
-        <p class="lead-status" id="leadStatus" role="status" aria-live="polite"></p>
-        <p class="lead-note">Replies within 24 hours. NDA available before you share client details.</p>
-      </form>
+      <p class="contact-note">NDA available before you share client details</p>
       <div class="contact-info">
         <a href="mailto:sadik@sadikgrowth.online?subject=Agency%20partnership%20enquiry" data-track="Contact">sadik@sadikgrowth.online</a>
         <button type="button" class="copy-email" id="copyEmail" aria-label="Copy email address">Copy</button>
@@ -360,10 +302,97 @@
         <a href="https://www.linkedin.com/in/mehbubsadik/" target="_blank" rel="noopener">LinkedIn ↗</a>
       </div>
     </div>
+
+    <!-- What partners hand over: scrolls vertically on desktop, horizontally on mobile (see js/main.js CTA MARQUEE) -->
+    <div class="cta-marquee reveal reveal-delay-1" data-marquee>
+      <ul class="cta-marquee-track" aria-label="What agencies hand over">
+        <li>White-label Meta Ads</li>
+        <li>TikTok &amp; Google Ads</li>
+        <li>Landing pages</li>
+        <li>Full websites</li>
+        <li>Order dashboards</li>
+        <li>Creative testing</li>
+        <li>NDA before we start</li>
+        <li>Your brand, my backend</li>
+      </ul>
+    </div>
   </div>
 </section>
 
 </main>
+
+<!-- PROJECT BRIEF MODAL: opened by any [data-open-brief] link or by visiting /agency-partner#brief -->
+<dialog class="brief-modal" id="briefModal" aria-labelledby="briefTitle">
+  <div class="brief-inner">
+    <div class="brief-head">
+      <div>
+        <span class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Project brief</span>
+        <h2 class="brief-title" id="briefTitle">What's on your <span class="accent-text">plate?</span></h2>
+        <p class="brief-sub">A few fields. You'll get a yes or no, a timeline and a price within 24 hours.</p>
+      </div>
+      <button type="button" class="brief-close" data-close-brief aria-label="Close the brief form">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg>
+      </button>
+    </div>
+    <form class="lead-form" id="leadForm" method="POST" novalidate
+      data-msg-invalid="Please fill in your name, a valid email, a phone number with country code, your agency, the lane you need and the monthly client spend."
+      data-msg-success="✓ Brief received. I'll reply within 24 hours."
+      data-msg-error="Couldn't send right now. Email sadik@sadikgrowth.online or WhatsApp +880 1932 330670 instead.">
+      <input type="text" name="_honey" class="lead-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <input type="hidden" name="lead_type" value="agency">
+
+      <div class="lead-row">
+        <label class="lead-field">
+          <span>Name</span>
+          <input type="text" name="name" autocomplete="name" required>
+        </label>
+        <label class="lead-field">
+          <span>Work email</span>
+          <input type="email" name="email" autocomplete="email" required>
+        </label>
+      </div>
+      <div class="lead-row">
+        <label class="lead-field">
+          <span>WhatsApp / phone</span>
+          <input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="+44 7700 900123" pattern="[\+0-9 \(\)\.\-]{7,20}" required>
+        </label>
+        <label class="lead-field">
+          <span>Agency name / website</span>
+          <input type="text" name="brand" autocomplete="organization" placeholder="youragency.com" required>
+        </label>
+      </div>
+      <div class="lead-row">
+        <label class="lead-field">
+          <span>Which lane?</span>
+          <select name="service" required>
+            <option value="" selected disabled>Select one</option>
+            <option>Performance ads</option>
+            <option>Web development</option>
+            <option>Both</option>
+          </select>
+        </label>
+        <label class="lead-field">
+          <span>Monthly client ad spend</span>
+          <select name="monthly_spend" required>
+            <option value="" selected disabled>Select a range</option>
+            <option>Web builds only</option>
+            <option>Under $5K</option>
+            <option>$5K to $20K</option>
+            <option>$20K to $50K</option>
+            <option>$50K+</option>
+          </select>
+        </label>
+      </div>
+      <label class="lead-field">
+        <span>What do you need help with? <em>(optional)</em></span>
+        <textarea name="message" rows="3" placeholder="e.g. Two ecommerce clients need Meta campaigns rebuilt before the end of the month"></textarea>
+      </label>
+      <button type="submit" class="btn btn-primary lead-submit">Send Brief</button>
+      <p class="lead-status" id="leadStatus" role="status" aria-live="polite"></p>
+      <p class="lead-note">Replies within 24 hours. NDA available before you share client details.</p>
+    </form>
+  </div>
+</dialog>
 
 <!-- FOOTER (+ floating back-to-top): shared partial, see js/include.js -->
 <footer class="site-footer" data-include="/partials/footer.html"></footer>

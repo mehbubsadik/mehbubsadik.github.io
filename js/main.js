@@ -138,6 +138,80 @@ function showToast(msg) {
   });
 })();
 
+/* ─── QUICK BRIEF MODAL ───
+   Any [data-open-brief] link opens the page's brief form in a native
+   <dialog>; visiting #brief opens it on load (use it as an ad destination).
+   Opening pushes #brief, so the phone back button closes the modal
+   instead of leaving the page. Field values survive a close. */
+(function() {
+  var dialog = document.getElementById('briefModal');
+  if (!dialog) return;
+  var root = document.documentElement;
+  var pushed = false;
+
+  function open(push) {
+    if (dialog.open) return;
+    if (dialog.showModal) dialog.showModal(); else dialog.setAttribute('open', '');
+    root.classList.add('brief-open');
+    if (push && location.hash !== '#brief') {
+      history.pushState({ brief: true }, '', '#brief');
+      pushed = true;
+    }
+    /* Desktop: start typing straight away. Touch: don't throw the keyboard up
+       over the intro before the visitor has read it. */
+    if (window.matchMedia('(pointer: fine)').matches) {
+      var first = dialog.querySelector('input:not([type="hidden"]):not(.lead-hp)');
+      if (first) first.focus();
+    }
+    track('Contact', { method: 'open_brief' });
+  }
+
+  function close() {
+    if (!dialog.open) return;
+    if (dialog.close) dialog.close(); else { dialog.removeAttribute('open'); onClosed(); }
+  }
+
+  function onClosed() {
+    root.classList.remove('brief-open');
+    if (pushed) { pushed = false; history.back(); }
+    else if (location.hash === '#brief') history.replaceState(history.state, '', location.pathname + location.search);
+  }
+
+  dialog.addEventListener('close', onClosed);
+  /* Only a backdrop click has the <dialog> itself as target (.brief-inner holds the padding) */
+  dialog.addEventListener('click', function(e) { if (e.target === dialog) close(); });
+  dialog.querySelectorAll('[data-close-brief]').forEach(function(btn) { btn.addEventListener('click', close); });
+
+  document.addEventListener('click', function(e) {
+    var trigger = e.target.closest('[data-open-brief]');
+    if (!trigger) return;
+    e.preventDefault();
+    open(true);
+  });
+
+  window.addEventListener('popstate', function() {
+    if (dialog.open && location.hash !== '#brief') { pushed = false; close(); }
+    else if (!dialog.open && location.hash === '#brief') open(false);
+  });
+
+  if (location.hash === '#brief') open(false);
+})();
+
+/* ─── CTA MARQUEE ───
+   The list is written once in the HTML; a hidden copy makes the loop
+   seamless. It stops moving while off screen. */
+document.querySelectorAll('[data-marquee]').forEach(function(marquee) {
+  var track = marquee.querySelector('.cta-marquee-track');
+  if (!track) return;
+  var copy = track.cloneNode(true);
+  copy.setAttribute('aria-hidden', 'true');
+  copy.removeAttribute('aria-label');
+  marquee.appendChild(copy);
+  new IntersectionObserver(function(entries) {
+    marquee.classList.toggle('is-paused', !entries[0].isIntersecting);
+  }).observe(marquee);
+});
+
 /* ─── THEME — sun & clouds ↔ crescent moon & stars ───
    The initial theme is set in <head> before paint. Here: the toggle, the
    circular reveal between themes, and following the OS setting until the

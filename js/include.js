@@ -9,7 +9,8 @@
    main.js: code there that binds to the nav/footer waits via onPartialsReady.
 
    Page JSON keys: nav, mobile (defaults to nav), footer -> [{href, label, className?}]
-                   logoHref, logoLabel, ctaMobile -> strings (optional) */
+                   logoHref, logoLabel, ctaMobile -> strings (optional)
+                   highlight -> {href, label, labelBack?} (optional accent chip in the nav + mobile menu) */
 (function() {
   var queue = [];
   var ready = false;
@@ -60,6 +61,23 @@
         if (value) node.setAttribute(pair[1], value);
         node.removeAttribute(pair[0]);
       });
+    });
+    /* Optional highlighted link: rendered only when the page sets {href, label} */
+    root.querySelectorAll('[data-config-link]').forEach(function(node) {
+      var value = config[node.getAttribute('data-config-link')];
+      if (!value || !value.href) { node.parentNode.removeChild(node); return; }
+      node.setAttribute('href', value.href);
+      var label = node.querySelector('[data-link-label]') || node;
+      label.textContent = value.label;
+      if (label !== node) label.removeAttribute('data-link-label');
+      var back = node.querySelector('[data-link-label-back]');
+      if (back && value.labelBack) {
+        back.textContent = value.labelBack;
+        back.removeAttribute('data-link-label-back');
+      } else if (back) {
+        back.parentNode.removeChild(back);
+      }
+      node.removeAttribute('data-config-link');
     });
     root.querySelectorAll('[data-config-text]').forEach(function(node) {
       var value = config[node.getAttribute('data-config-text')];
