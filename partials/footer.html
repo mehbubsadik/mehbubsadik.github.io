@@ -1,0 +1,20 @@
+<!-- Shared site footer. Injected into <footer class="site-footer" data-include="/partials/footer.html">
+     by js/include.js; the footer-nav links come from the page's <script id="page-links"> JSON.
+     data-place="before" moves the floating back-to-top button out to sit just before the footer. -->
+<button id="backToTopFloat" class="back-to-top-float" aria-label="Back to top" data-place="before">
+  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13V3M3.5 7.5L8 3l4.5 4.5"/></svg>
+</button>
+
+<div class="wrapper">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="nav-logo-mark" aria-hidden="true">S</span>
+      <span class="footer-mark">S M<span class="accent-dot">.</span>Sadik</span>
+      <span class="footer-tagline">© <span id="footerYear">2026</span> · Paid media that pays for itself.</span>
+    </div>
+    <nav class="footer-nav" aria-label="Footer" data-slot="footer"></nav>
+    <button class="footer-top" data-scroll-top aria-label="Back to top">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13V3M3.5 7.5L8 3l4.5 4.5"/></svg>
+    </button>
+  </div>
+</div>
