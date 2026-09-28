@@ -42,9 +42,28 @@
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&amp;display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <link rel="preload" href="/partials/nav.html" as="fetch" crossorigin>
 <link rel="preload" href="/partials/footer.html" as="fetch" crossorigin>
 <link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "White-label performance marketing and web development",
+  "name": "White-Label Partner Program",
+  "description": "White-label Meta, TikTok and Google Ads execution plus website and dashboard builds, delivered under an agency's own brand.",
+  "provider": {
+    "@type": "Person",
+    "name": "S M Abdullah All Mehbub Sadik",
+    "url": "https://mehbubsadik.online/",
+    "sameAs": ["https://www.linkedin.com/in/mehbubsadik/"]
+  },
+  "areaServed": "Worldwide",
+  "audience": { "@type": "Audience", "audienceType": "Marketing and web development agencies" },
+  "url": "https://mehbubsadik.online/agency-partner"
+}
+</script>
 </head>
 <body>
 
@@ -387,6 +406,7 @@
         <span>What do you need help with? <em>(optional)</em></span>
         <textarea name="message" rows="3" placeholder="e.g. Two ecommerce clients need Meta campaigns rebuilt before the end of the month"></textarea>
       </label>
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAAFGOX--dCGqk50i_" data-theme="auto"></div>
       <button type="submit" class="btn btn-primary lead-submit">Send Brief</button>
       <p class="lead-status" id="leadStatus" role="status" aria-live="polite"></p>
       <p class="lead-note">Replies within 24 hours. NDA available before you share client details.</p>

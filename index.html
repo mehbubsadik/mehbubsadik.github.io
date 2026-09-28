@@ -63,6 +63,7 @@
 }
 </script>
 <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <link rel="preload" href="/partials/nav.html" as="fetch" crossorigin>
 <link rel="preload" href="/partials/footer.html" as="fetch" crossorigin>
 <link rel="stylesheet" href="css/style.css">
@@ -954,6 +955,7 @@
         <span>What's the bottleneck right now? <em>(optional)</em></span>
         <textarea name="message" rows="3" placeholder="e.g. CPP creeping up after scaling past $300/day"></textarea>
       </label>
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAAFGOX--dCGqk50i_" data-theme="auto"></div>
       <button type="submit" class="btn btn-primary lead-submit">Send Brief</button>
       <p class="lead-status" id="leadStatus" role="status" aria-live="polite"></p>
       <p class="lead-note">Replies within 24 hours. Your details are only used to reply to you.</p>

@@ -2,8 +2,8 @@
    Paste the IDs in to switch tracking on. Left blank, nothing loads and
    track() is a no-op, so the site works the same without them. */
 var TRACKING = {
-  metaPixelId: '',   // e.g. '123456789012345'
-  ga4Id: ''          // e.g. 'G-XXXXXXXXXX'
+  metaPixelId: '1537418298421513',
+  ga4Id: 'G-7GWFWTG5M2'
 };
 
 var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
