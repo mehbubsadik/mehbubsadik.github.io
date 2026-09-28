@@ -49,6 +49,9 @@
     function check() {
       if (img.naturalWidth && img.naturalWidth <= 120) {
         img.src = 'https://img.youtube.com/vi/' + img.getAttribute('data-yt-thumb') + '/hqdefault.jpg';
+      } else if (img.naturalWidth) {
+        var thumb = img.closest('.creative-thumb');
+        if (thumb) thumb.classList.add('is-loaded');
       }
     }
     if (img.complete) check();
