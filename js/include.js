@@ -10,7 +10,7 @@
 
    Page JSON keys: nav, mobile (defaults to nav), footer -> [{href, label, className?}]
                    logoHref, logoLabel, ctaMobile -> strings (optional)
-                   highlight -> {href, label} (optional accent chip in the nav + mobile menu) */
+                   highlight -> {href, label, labelBack?} (optional accent chip in the nav + mobile menu) */
 (function() {
   var queue = [];
   var ready = false;
@@ -70,6 +70,13 @@
       var label = node.querySelector('[data-link-label]') || node;
       label.textContent = value.label;
       if (label !== node) label.removeAttribute('data-link-label');
+      var back = node.querySelector('[data-link-label-back]');
+      if (back && value.labelBack) {
+        back.textContent = value.labelBack;
+        back.removeAttribute('data-link-label-back');
+      } else if (back) {
+        back.parentNode.removeChild(back);
+      }
       node.removeAttribute('data-config-link');
     });
     root.querySelectorAll('[data-config-text]').forEach(function(node) {

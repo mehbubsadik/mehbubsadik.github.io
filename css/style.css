@@ -1804,6 +1804,139 @@ main { position: relative; z-index: var(--z-base); }
   cursor: pointer;
 }
 
+/* CTA + marquee: card on the left, a column of what I work on scrolling on
+   the right. The fade is a mask, not per-frame JS, so it costs nothing. */
+.contact-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+.contact-grid .contact-card { max-width: none; }
+.contact-actions { flex-wrap: wrap; gap: 0.85rem; }
+.contact-note { font-size: 0.8125rem; color: var(--text-3); margin: 1.1rem 0 1.6rem; }
+
+.cta-marquee {
+  --marquee-gap: 1.7rem;
+  display: flex;
+  flex-direction: column;
+  height: 470px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 30%, #000 70%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 30%, #000 70%, transparent 100%);
+}
+.cta-marquee-track {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--marquee-gap);
+  padding-bottom: var(--marquee-gap);
+  animation: marqueeY 26s linear infinite;
+}
+.cta-marquee:hover .cta-marquee-track,
+.cta-marquee.is-paused .cta-marquee-track { animation-play-state: paused; }
+.cta-marquee li {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.9rem, 3.1vw, 2.8rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  color: var(--text);
+}
+.cta-marquee li::before {
+  content: '';
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft), 0 0 12px var(--accent-glow);
+}
+@keyframes marqueeY { to { transform: translateY(-100%); } }
+@keyframes marqueeX { to { transform: translateX(-100%); } }
+
+/* Quick brief modal (native <dialog>). Not .glass-pane: that sets
+   position: relative, which would pull the dialog out of the top layer's
+   fixed positioning. .brief-inner carries the padding so a click whose
+   target is the <dialog> itself can only be a click on the backdrop. */
+.brief-modal {
+  position: fixed;
+  width: min(640px, calc(100% - 2rem));
+  max-width: none;
+  max-height: min(92dvh, 900px);
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  color: var(--text);
+  background: color-mix(in srgb, var(--surface-solid) 94%, transparent);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  backdrop-filter: blur(24px) saturate(160%);
+  box-shadow:
+    0 0 0 var(--bezel) var(--bezel-fill),
+    0 0 0 calc(var(--bezel) + 1px) var(--bezel-line),
+    inset 0 1px 0 var(--glass-highlight),
+    0 40px 90px -30px rgba(2, 4, 12, 0.8);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.brief-modal[open] { animation: briefIn 420ms var(--ease-out); }
+.brief-modal::backdrop { background: rgba(4, 6, 13, 0.62); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+[data-theme="light"] .brief-modal::backdrop { background: rgba(40, 26, 12, 0.32); }
+.brief-modal[open]::backdrop { animation: briefFade 300ms var(--ease-out); }
+@keyframes briefIn { from { opacity: 0; transform: translateY(18px) scale(0.98); } }
+@keyframes briefFade { from { opacity: 0; } }
+.brief-open body { overflow: hidden; }
+.brief-inner { padding: clamp(1.5rem, 4vw, 2.25rem); }
+.brief-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem; }
+.brief-head .eyebrow { margin-bottom: 1rem; }
+.brief-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.7rem, 3.4vw, 2.3rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+.brief-sub { margin-top: 0.6rem; font-size: 0.9375rem; color: var(--text-2); }
+.brief-close {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: var(--text);
+  background: var(--chip-bg);
+  border: 1px solid var(--line-strong);
+  transition: border-color var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+}
+.brief-close:hover { border-color: var(--accent-line); transform: rotate(90deg); }
+.brief-close svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.brief-modal .lead-form { margin-bottom: 0; }
+
+@media (max-width: 960px) {
+  .contact-grid { grid-template-columns: 1fr; }
+  .contact-grid .cta-marquee { order: -1; }
+  .cta-marquee {
+    flex-direction: row;
+    height: auto;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent);
+  }
+  .cta-marquee-track { flex-direction: row; padding: 0 var(--marquee-gap) 0 0; animation-name: marqueeX; animation-duration: 32s; }
+  .cta-marquee li { white-space: nowrap; font-size: clamp(1.5rem, 5vw, 2.1rem); }
+}
+@media (max-width: 720px) {
+  /* Phones: the modal becomes a full-screen sheet so the keyboard can't hide the form */
+  .brief-modal { width: 100%; height: 100dvh; max-height: 100dvh; border: none; border-radius: 0; box-shadow: none; }
+  .brief-inner { padding: max(1.25rem, env(safe-area-inset-top)) var(--gutter) max(1.75rem, env(safe-area-inset-bottom)); }
+  .contact-actions .btn { flex: 1 1 auto; justify-content: center; }
+}
+
 /* ─── 17. FOOTER · FLOATING · TOAST ─────────────────────────────────────── */
 
 .site-footer { position: relative; z-index: var(--z-base); padding: 1.75rem 0 2rem; }
@@ -1965,8 +2098,8 @@ main { position: relative; z-index: var(--z-base); }
   align-items: center;
   gap: 0.5rem;
   height: 36px;
-  padding: 0 0.9rem;
-  border-radius: var(--radius-pill);
+  padding: 0 0.95rem 0 0.8rem;
+  border-radius: 7px;
   font-size: 0.8125rem;
   font-weight: 600;
   white-space: nowrap;
@@ -1974,16 +2107,69 @@ main { position: relative; z-index: var(--z-base); }
   color: var(--accent-text);
   background: var(--accent-soft);
   border: 1px solid var(--accent-line);
-  box-shadow: inset 0 1px 0 var(--glass-highlight), 0 0 20px -8px var(--accent-glow);
-  transition: border-color var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+  box-shadow: inset 0 1px 0 var(--glass-highlight);
+  transition: border-color var(--dur-base) var(--ease-out), --peel 450ms var(--ease-spring);
 }
-.nav-highlight:hover { border-color: var(--accent); box-shadow: inset 0 1px 0 var(--glass-highlight), 0 0 24px -6px var(--accent-glow); }
+.nav-highlight:hover { border-color: var(--accent); }
 .nav-highlight .eyebrow-dot { animation: highlightPulse 2.4s var(--ease-in-out) infinite; }
 @keyframes highlightPulse {
   50% { box-shadow: 0 0 0 6px transparent, 0 0 14px var(--accent-glow); }
 }
-.nav-highlight--menu { height: 48px; padding: 0 1.2rem; font-size: 0.9375rem; }
+.nav-highlight--menu { --peel-open: 20px; height: 48px; padding: 0 1.3rem 0 1.1rem; font-size: 0.9375rem; }
 .nav-highlight-arrow { margin-left: 0.15rem; }
+
+/* ─── PEEL LABEL ───
+   "White-label" taken literally: the element is a label with a folded
+   corner. Every 8s the corner lifts and (on touch screens, which have no
+   hover) the text flips to show whose name goes on the work. On hover or
+   focus it peels open and flips. Reduced motion: static label. */
+@property --peel { syntax: '<length>'; inherits: true; initial-value: 8px; }
+.peel {
+  --peel: 8px;
+  position: relative;
+  clip-path: polygon(0 0, calc(100% - var(--peel)) 0, 100% var(--peel), 100% 100%, 0 100%);
+  animation: peelPeek 8s var(--ease-in-out) 2s infinite;
+}
+.peel::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: var(--peel);
+  height: var(--peel);
+  background: linear-gradient(225deg, transparent 50%, var(--tangerine-300) 50%);
+  border-bottom-left-radius: 3px;
+  filter: drop-shadow(-1px 1px 1.5px rgba(60, 18, 0, 0.35));
+  pointer-events: none;
+}
+.peel-text { display: inline-grid; overflow: hidden; vertical-align: top; }
+.peel-front, .peel-back {
+  grid-area: 1 / 1;
+  transition: transform 450ms var(--ease-spring), opacity 250ms var(--ease-out);
+}
+.peel-back { transform: translateY(110%); opacity: 0; }
+@keyframes peelPeek {
+  0%, 72%, 100% { --peel: 8px; }
+  78%, 92% { --peel: var(--peel-open, 15px); }
+}
+.peel:hover, .peel:focus-visible,
+.hero-agency:hover .peel, .hero-agency:focus-visible .peel { animation: none; --peel: var(--peel-open, 15px); }
+.peel:hover .peel-front, .peel:focus-visible .peel-front,
+.hero-agency:hover .peel-front, .hero-agency:focus-visible .peel-front { transform: translateY(-110%); opacity: 0; }
+.peel:hover .peel-back, .peel:focus-visible .peel-back,
+.hero-agency:hover .peel-back, .hero-agency:focus-visible .peel-back { transform: none; opacity: 1; }
+@media (hover: none) {
+  .peel .peel-front { animation: peelFront 8s var(--ease-in-out) 2s infinite; }
+  .peel .peel-back { animation: peelBack 8s var(--ease-in-out) 2s infinite; }
+}
+@keyframes peelFront {
+  0%, 74%, 100% { transform: none; opacity: 1; }
+  78%, 92% { transform: translateY(-110%); opacity: 0; }
+}
+@keyframes peelBack {
+  0%, 74%, 100% { transform: translateY(110%); opacity: 0; }
+  78%, 92% { transform: none; opacity: 1; }
+}
 
 .hero-agency {
   display: inline-flex;
@@ -2005,6 +2191,7 @@ main { position: relative; z-index: var(--z-base); }
 }
 .hero-agency:hover { border-color: var(--accent); }
 .hero-agency-tag {
+  --peel-open: 11px;
   flex-shrink: 0;
   font-family: var(--font-mono);
   font-size: 0.6875rem;
@@ -2013,8 +2200,9 @@ main { position: relative; z-index: var(--z-base); }
   color: var(--accent-text);
   background: var(--accent-soft);
   border: 1px solid var(--accent-line);
-  border-radius: var(--radius-pill);
-  padding: 0.3rem 0.65rem;
+  border-radius: 5px;
+  padding: 0.3rem 0.8rem 0.3rem 0.65rem;
+  transition: --peel 450ms var(--ease-spring);
 }
 .hero-agency-arrow {
   flex-shrink: 0;

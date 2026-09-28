@@ -89,7 +89,7 @@
 {
   "logoHref": "#main-content",
   "logoLabel": "S M Sadik — back to top",
-  "highlight": { "href": "/agency-partner", "label": "For Agencies" },
+  "highlight": { "href": "/agency-partner", "label": "For Agencies", "labelBack": "Your brand →" },
   "nav": [
     { "href": "#about", "label": "About" },
     { "href": "#expertise", "label": "Expertise" },
@@ -135,7 +135,7 @@
           <a href="#proof" class="btn btn-glass">See the numbers</a>
         </div>
         <a href="/agency-partner" class="hero-agency" data-track="ViewContent">
-          <span class="hero-agency-tag">For agencies</span>
+          <span class="hero-agency-tag peel"><span class="peel-text"><span class="peel-front">For agencies</span><span class="peel-back" aria-hidden="true">Your logo</span></span></span>
           <span class="hero-agency-text">White-label ads &amp; web builds, delivered under your brand</span>
           <span class="hero-agency-arrow" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></span>
         </a>
@@ -862,62 +862,19 @@
       </linearGradient>
     </defs>
   </svg>
-  <div class="wrapper contact-wrapper">
+  <div class="wrapper contact-wrapper contact-grid">
     <div class="contact-card glass-pane reveal">
       <span class="eyebrow">Let's talk</span>
       <h2 class="contact-title">Ready to build a<br><span class="accent-text">zero-error revenue engine?</span></h2>
       <p class="contact-sub">Performance marketing for D2C &amp; FMCG brands on a subscription retainer. Results, not excuses.</p>
       <div class="contact-actions">
-        <a href="https://calendar.app.google/6cgfUQxLvNfkjyj47" target="_blank" rel="noopener" class="btn btn-primary magnetic" data-track="Schedule">
-          Book a Strategy Call
+        <a href="#brief" class="btn btn-primary magnetic" data-open-brief>
+          Send a Quick Brief
           <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></span>
         </a>
+        <a href="https://calendar.app.google/6cgfUQxLvNfkjyj47" target="_blank" rel="noopener" class="btn btn-glass" data-track="Schedule">Book a Strategy Call</a>
       </div>
-
-      <div class="lead-divider"><span>or send a quick brief</span></div>
-
-      <form class="lead-form" id="leadForm" method="POST" novalidate>
-        <input type="text" name="_honey" class="lead-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-
-        <div class="lead-row">
-          <label class="lead-field">
-            <span>Name</span>
-            <input type="text" name="name" autocomplete="name" required>
-          </label>
-          <label class="lead-field">
-            <span>Work email</span>
-            <input type="email" name="email" autocomplete="email" required>
-          </label>
-        </div>
-        <div class="lead-row">
-          <label class="lead-field">
-            <span>WhatsApp / phone</span>
-            <input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="+44 7700 900123" pattern="[\+0-9 \(\)\.\-]{7,20}" required>
-          </label>
-          <label class="lead-field">
-            <span>Brand / website</span>
-            <input type="text" name="brand" autocomplete="url" placeholder="yourbrand.com" required>
-          </label>
-        </div>
-        <label class="lead-field">
-          <span>Monthly ad spend</span>
-          <select name="monthly_spend" required>
-            <option value="" selected disabled>Select a range</option>
-            <option>Under $1K</option>
-            <option>$1K – $5K</option>
-            <option>$5K – $20K</option>
-            <option>$20K – $50K</option>
-            <option>$50K+</option>
-          </select>
-        </label>
-        <label class="lead-field">
-          <span>What's the bottleneck right now? <em>(optional)</em></span>
-          <textarea name="message" rows="3" placeholder="e.g. CPP creeping up after scaling past $300/day"></textarea>
-        </label>
-        <button type="submit" class="btn btn-primary lead-submit">Send Brief</button>
-        <p class="lead-status" id="leadStatus" role="status" aria-live="polite"></p>
-        <p class="lead-note">Replies within 24 hours. Your details are only used to reply to you.</p>
-      </form>
+      <p class="contact-note">Six quick fields · reply within 24 hours</p>
       <div class="contact-info">
         <a href="mailto:sadik@sadikgrowth.online" data-track="Contact">sadik@sadikgrowth.online</a>
         <button type="button" class="copy-email" id="copyEmail" aria-label="Copy email address">Copy</button>
@@ -927,10 +884,82 @@
         <a href="https://www.linkedin.com/in/mehbubsadik/" target="_blank" rel="noopener">LinkedIn ↗</a>
       </div>
     </div>
+
+    <!-- What I work on: scrolls vertically on desktop, horizontally on mobile (see js/main.js CTA MARQUEE) -->
+    <div class="cta-marquee reveal reveal-delay-1" data-marquee>
+      <ul class="cta-marquee-track" aria-label="What I work on">
+        <li>Meta Ads that scale</li>
+        <li>4.5x–9x ROAS</li>
+        <li>TikTok Ads</li>
+        <li>Creative testing</li>
+        <li>1,400+ campaigns</li>
+        <li>CAPI &amp; Pixel tracking</li>
+        <li>Offer engineering</li>
+        <li>Landing pages that convert</li>
+      </ul>
+    </div>
   </div>
 </section>
 
 </main>
+
+<!-- QUICK BRIEF MODAL: opened by any [data-open-brief] link or by visiting /#brief -->
+<dialog class="brief-modal" id="briefModal" aria-labelledby="briefTitle">
+  <div class="brief-inner">
+    <div class="brief-head">
+      <div>
+        <span class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Quick brief</span>
+        <h2 class="brief-title" id="briefTitle">Where are the numbers <span class="accent-text">stalling?</span></h2>
+        <p class="brief-sub">Six quick fields. I reply within 24 hours with what I'd fix first.</p>
+      </div>
+      <button type="button" class="brief-close" data-close-brief aria-label="Close the brief form">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg>
+      </button>
+    </div>
+    <form class="lead-form" id="leadForm" method="POST" novalidate>
+      <input type="text" name="_honey" class="lead-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+      <div class="lead-row">
+        <label class="lead-field">
+          <span>Name</span>
+          <input type="text" name="name" autocomplete="name" required>
+        </label>
+        <label class="lead-field">
+          <span>Work email</span>
+          <input type="email" name="email" autocomplete="email" required>
+        </label>
+      </div>
+      <div class="lead-row">
+        <label class="lead-field">
+          <span>WhatsApp / phone</span>
+          <input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="+44 7700 900123" pattern="[\+0-9 \(\)\.\-]{7,20}" required>
+        </label>
+        <label class="lead-field">
+          <span>Brand / website</span>
+          <input type="text" name="brand" autocomplete="url" placeholder="yourbrand.com" required>
+        </label>
+      </div>
+      <label class="lead-field">
+        <span>Monthly ad spend</span>
+        <select name="monthly_spend" required>
+          <option value="" selected disabled>Select a range</option>
+          <option>Under $1K</option>
+          <option>$1K – $5K</option>
+          <option>$5K – $20K</option>
+          <option>$20K – $50K</option>
+          <option>$50K+</option>
+        </select>
+      </label>
+      <label class="lead-field">
+        <span>What's the bottleneck right now? <em>(optional)</em></span>
+        <textarea name="message" rows="3" placeholder="e.g. CPP creeping up after scaling past $300/day"></textarea>
+      </label>
+      <button type="submit" class="btn btn-primary lead-submit">Send Brief</button>
+      <p class="lead-status" id="leadStatus" role="status" aria-live="polite"></p>
+      <p class="lead-note">Replies within 24 hours. Your details are only used to reply to you.</p>
+    </form>
+  </div>
+</dialog>
 
 <!-- VIDEO LIGHTBOX -->
 <div class="lightbox" id="videoLightbox" role="dialog" aria-modal="true" aria-label="Video player" hidden>
