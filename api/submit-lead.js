@@ -11,6 +11,32 @@ function clean(value) {
   return typeof value === 'string' ? value.trim() : '';
 }
 
+/* Cloudflare Turnstile: verifies the token the widget attaches as
+   cf-turnstile-response. TURNSTILE_SECRET_KEY lives only in Vercel's
+   env vars, never in this file. If the secret isn't set yet, the check
+   is skipped so the form keeps working while the key is being added. */
+async function verifyTurnstile(token, remoteip) {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (!secret) return true;
+  if (!token) return false;
+
+  const params = new URLSearchParams({ secret, response: token });
+  if (remoteip) params.set('remoteip', remoteip);
+
+  try {
+    const r = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params
+    });
+    const data = await r.json();
+    return data.success === true;
+  } catch (err) {
+    console.error('submit-lead: Turnstile verification request failed', err);
+    return false;
+  }
+}
+
 async function readBody(req) {
   // Vercel parses JSON bodies into req.body; fall back to the raw stream.
   if (req.body && typeof req.body === 'object') return req.body;
@@ -38,6 +64,12 @@ export default async function handler(req, res) {
   // Honeypot filled → a bot. Pretend it worked and drop it.
   if (clean(body._honey)) {
     return res.status(200).json({ success: true });
+  }
+
+  const remoteip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || undefined;
+  const humanPassed = await verifyTurnstile(body['cf-turnstile-response'], remoteip);
+  if (!humanPassed) {
+    return res.status(400).json({ success: false, error: 'Verification failed. Please try again.' });
   }
 
   const missing = REQUIRED.filter((field) => !clean(body[field]));
