@@ -1,9 +1,28 @@
 <!-- Shared site footer. Injected into <footer class="site-footer" data-include="/partials/footer.html">
      by js/include.js; the footer-nav links come from the page's <script id="page-links"> JSON.
-     data-place="before" moves the floating back-to-top button out to sit just before the footer. -->
+     data-place="before" moves the floating back-to-top button (and the cookie
+     banner) out to sit before the footer, so they aren't nested inside it. -->
 <button id="backToTopFloat" class="back-to-top-float" aria-label="Back to top" data-place="before">
   <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13V3M3.5 7.5L8 3l4.5 4.5"/></svg>
 </button>
+
+<!-- Cookie consent: hidden until main.js finds no stored choice yet. Nothing
+     analytics-related loads (GA4, Meta Pixel) before "Accept all" is clicked.
+     "Only essential" is the decline path, worded so it reads as a real
+     choice rather than a rejection. Bottom-left corner panel on .glass-pane
+     (see css/style.css), not the toast material — a persistent choice, not
+     a transient message. -->
+<div class="cookie-banner glass-pane" id="cookieBanner" hidden role="dialog" aria-live="polite" aria-label="Cookie preferences" data-place="before">
+  <div class="cookie-banner-head">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    Cookie preferences
+  </div>
+  <p>This site uses analytics cookies (Google Analytics, Meta Pixel) to see what's working. See the <a href="/privacy">privacy policy</a>.</p>
+  <div class="cookie-banner-actions">
+    <button type="button" class="btn btn-glass btn-sm" data-consent-decline>Only essential</button>
+    <button type="button" class="btn btn-primary btn-sm" data-consent-accept>Accept all</button>
+  </div>
+</div>
 
 <div class="wrapper">
   <div class="footer-inner">
