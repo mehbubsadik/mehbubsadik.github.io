@@ -8,6 +8,11 @@ var TRACKING = {
 
 var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+/* Nav, footer and their controls arrive from /partials via include.js.
+   Code that binds to them runs through onChrome; everything else runs now.
+   Without include.js on the page, onChrome just runs the code at once. */
+var onChrome = window.onPartialsReady || function(fn) { fn(); };
+
 (function loadTracking() {
   if (TRACKING.metaPixelId) {
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -62,7 +67,7 @@ function showToast(msg) {
   btn.addEventListener('click', function() {
     if (!navigator.clipboard) { showToast(email); return; }
     navigator.clipboard.writeText(email).then(function() {
-      showToast('✓ Email copied — ' + email);
+      showToast('✓ Email copied: ' + email);
       track('Contact', { method: 'copy_email' });
     }, function() {
       showToast(email);
@@ -76,6 +81,12 @@ function showToast(msg) {
   if (!form) return;
   var status = document.getElementById('leadStatus');
   var submit = form.querySelector('.lead-submit');
+  /* A page can override the copy via data-msg-* (the agency page does). */
+  var msg = {
+    invalid: form.getAttribute('data-msg-invalid') || 'Please fill in your name, a valid email, a phone number with country code, your brand and your monthly spend.',
+    success: form.getAttribute('data-msg-success') || '✓ Brief received — I\'ll reply within 24 hours.',
+    error: form.getAttribute('data-msg-error') || 'Couldn\'t send right now — email sadik@sadikgrowth.online or WhatsApp +880 1932 330670 instead.'
+  };
 
   function setStatus(msg, kind) {
     status.textContent = msg;
@@ -93,7 +104,7 @@ function showToast(msg) {
     var phone = form.elements.phone;
     if (!invalid && phone && phone.value.replace(/\D/g, '').length < 7) invalid = phone;
     if (invalid) {
-      setStatus('Please fill in your name, a valid email, a phone number with country code, your brand and your monthly spend.', 'error');
+      setStatus(msg.invalid, 'error');
       invalid.focus();
       return;
     }
@@ -114,11 +125,11 @@ function showToast(msg) {
       .then(function(res) {
         if (!res.ok || res.body.success !== true) throw new Error('send failed');
         form.reset();
-        setStatus('✓ Brief received — I\'ll reply within 24 hours.', 'success');
-        track('Lead', { monthly_spend: data.monthly_spend });
+        setStatus(msg.success, 'success');
+        track('Lead', { monthly_spend: data.monthly_spend, lead_type: data.lead_type || 'brand' });
       })
       .catch(function() {
-        setStatus('Couldn\'t send right now — email sadik@sadikgrowth.online or WhatsApp +880 1932 330670 instead.', 'error');
+        setStatus(msg.error, 'error');
       })
       .then(function() {
         submit.disabled = false;
@@ -131,7 +142,7 @@ function showToast(msg) {
    The initial theme is set in <head> before paint. Here: the toggle, the
    circular reveal between themes, and following the OS setting until the
    visitor makes a choice of their own. */
-(function() {
+onChrome(function() {
   var root = document.documentElement;
   var toggle = document.getElementById('themeToggle');
   var meta = document.querySelector('meta[name="theme-color"]');
@@ -187,10 +198,10 @@ function showToast(msg) {
       if (!savedChoice()) apply(e.matches ? 'light' : 'dark');
     });
   }
-})();
+});
 
 /* ─── MOBILE MENU — full-screen glass sheet ─── */
-(function() {
+onChrome(function() {
   var toggle = document.getElementById('navToggle');
   var menu = document.getElementById('mobileMenu');
   if (!toggle || !menu) return;
@@ -214,7 +225,7 @@ function showToast(msg) {
   window.addEventListener('resize', function() {
     if (innerWidth > 1080 && body.classList.contains('menu-open')) setOpen(false);
   });
-})();
+});
 
 /* ─── WEBGL SHADER — TANGERINE RECOLOR ─── */
 (function() {
@@ -361,29 +372,31 @@ document.querySelectorAll('.reveal').forEach(function(el) {
 });
 
 /* ─── NAV SCROLL-SPY ─── */
-var navLinks = document.querySelectorAll('.nav-links a');
-var navSpyObserver = new IntersectionObserver(function(entries) {
-  entries.forEach(function(entry) {
-    if (!entry.isIntersecting) return;
-    var href = '#' + entry.target.id;
-    navLinks.forEach(function(link) {
-      link.classList.toggle('active', link.getAttribute('href') === href);
+onChrome(function() {
+  var navLinks = document.querySelectorAll('.nav-links a');
+  var navSpyObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (!entry.isIntersecting) return;
+      var href = '#' + entry.target.id;
+      navLinks.forEach(function(link) {
+        link.classList.toggle('active', link.getAttribute('href') === href);
+      });
     });
-  });
-}, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+  }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
 
-navLinks.forEach(function(link) {
-  var section = document.querySelector(link.getAttribute('href'));
-  if (section) navSpyObserver.observe(section);
-});
-/* Back at the hero, nothing in the nav should look active */
-(function() {
+  navLinks.forEach(function(link) {
+    /* Only in-page anchors are spied on; a link to another page is left alone */
+    var href = link.getAttribute('href');
+    var section = /^#[\w-]+$/.test(href) ? document.querySelector(href) : null;
+    if (section) navSpyObserver.observe(section);
+  });
+  /* Back at the hero, nothing in the nav should look active */
   var hero = document.getElementById('main-content');
   if (!hero) return;
   new IntersectionObserver(function(entries) {
     if (entries[0].isIntersecting) navLinks.forEach(function(l) { l.classList.remove('active'); });
   }, { rootMargin: '-40% 0px -55% 0px' }).observe(hero);
-})();
+});
 
 /* ─── LIQUID GLASS MOUSE TRACKING ─── */
 if (window.matchMedia('(hover: hover)').matches) {
@@ -399,7 +412,7 @@ if (window.matchMedia('(hover: hover)').matches) {
 /* ─── SCROLL-DRIVEN UI (one rAF-throttled listener) ───
    Floating nav tucks away while reading down, returns on the first
    scroll up; back-to-top appears once the hero is well behind. */
-(function() {
+onChrome(function() {
   var header = document.getElementById('siteHeader');
   var backBtn = document.getElementById('backToTopFloat');
   var lastY = window.scrollY;
@@ -422,7 +435,7 @@ if (window.matchMedia('(hover: hover)').matches) {
   /* Keyboard users tabbing into the nav should always find it visible */
   if (header) header.addEventListener('focusin', function() { header.classList.remove('is-hidden'); });
   update();
-})();
+});
 
 /* ─── MAGNETIC BUTTONS ───
    Primary CTAs lean a few pixels toward the cursor. Fine pointers only. */
@@ -445,9 +458,11 @@ if (window.matchMedia('(hover: hover)').matches) {
 })();
 
 /* ─── SCROLL TO TOP ─── */
-document.querySelectorAll('#backToTopFloat, [data-scroll-top]').forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+onChrome(function() {
+  document.querySelectorAll('#backToTopFloat, [data-scroll-top]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+    });
   });
 });
 
@@ -602,7 +617,7 @@ document.querySelectorAll('.metric-item').forEach(function(el) {
 })();
 
 /* ─── FOOTER YEAR ─── */
-(function() {
+onChrome(function() {
   var y = document.getElementById('footerYear');
   if (y) y.textContent = new Date().getFullYear();
-})();
+});

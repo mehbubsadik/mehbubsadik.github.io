@@ -1892,6 +1892,82 @@ main { position: relative; z-index: var(--z-base); }
   margin-bottom: 1.25rem;
 }
 
+/* ─── AGENCY PARTNER PAGE (/agency-partner) ───
+   Reuses the homepage materials (.lg-card, .glass-pane, .exp-*, .proof-*,
+   .lead-*); only the layouts below are new. No shader canvas on this page. */
+.agency-hero h1 { font-size: clamp(2.75rem, 5.4vw, 4.9rem); }
+.split-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 0 0 1px var(--line);
+}
+.split-col {
+  padding: 1.25rem 1.15rem;
+  background: color-mix(in srgb, var(--surface-solid) 55%, transparent);
+}
+.split-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-3);
+  margin-bottom: 0.85rem;
+}
+.split-col--accent .split-label { color: var(--accent-text); }
+.split-list { display: flex; flex-direction: column; gap: 0.65rem; }
+.split-list li {
+  position: relative;
+  padding-left: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--text);
+}
+.split-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-3);
+}
+.split-col--accent .split-list li::before { background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+
+.steps-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.9rem; }
+.step-card { padding: 1.75rem; display: flex; flex-direction: column; }
+.step-num {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--accent-text);
+  margin-bottom: 2.25rem;
+}
+
+.lane-grid,
+.standards-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.9rem; }
+.lane-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-3);
+  margin-bottom: 0.4rem;
+}
+
+/* Homepage footer teaser pointing to this page */
+.footer-nav a.footer-agency { color: var(--accent-text); }
+
+@media (max-width: 960px) {
+  .steps-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 720px) {
+  .steps-grid, .lane-grid, .standards-grid { grid-template-columns: 1fr; }
+  .step-num { margin-bottom: 1.25rem; }
+}
+@media (max-width: 420px) {
+  .split-grid { grid-template-columns: 1fr; }
+}
+
 /* ─── 18. MOTION ────────────────────────────────────────────────────────── */
 
 /* Entry reveal: rise + un-blur. Scoped to .motion-ready (set in <head>) so
