@@ -7,12 +7,14 @@
 </button>
 
 <!-- Cookie consent: hidden until main.js finds no stored choice yet. Nothing
-     analytics-related loads (GA4, Meta Pixel) before "Accept" is clicked. -->
+     analytics-related loads (GA4, Meta Pixel) before "Accept all" is clicked.
+     "Only essential" is the decline path, worded so it reads as a real
+     choice rather than a rejection. -->
 <div class="cookie-banner" id="cookieBanner" hidden role="dialog" aria-live="polite" aria-label="Cookie preferences" data-place="before">
-  <p>I use analytics cookies (Google Analytics, Meta Pixel) to see what's working on this site. Nothing loads until you say yes. See the <a href="/privacy">privacy policy</a>.</p>
+  <p>This site uses analytics cookies (Google Analytics, Meta Pixel) to see what's working. See the <a href="/privacy">privacy policy</a>.</p>
   <div class="cookie-banner-actions">
-    <button type="button" class="btn btn-glass btn-sm" data-consent-decline>Decline</button>
-    <button type="button" class="btn btn-primary btn-sm" data-consent-accept>Accept</button>
+    <button type="button" class="btn btn-glass btn-sm" data-consent-decline>Only essential</button>
+    <button type="button" class="btn btn-primary btn-sm" data-consent-accept>Accept all</button>
   </div>
 </div>
 

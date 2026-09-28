@@ -39,8 +39,8 @@ function loadTracking() {
 
 /* ─── COOKIE CONSENT ───
    Opt-in, not opt-out: GA4 and the Meta Pixel only load after a visitor
-   clicks "Accept" on the banner in partials/footer.html. Nothing analytics-
-   related runs on "Decline" or before a choice is made. The choice itself
+   clicks "Accept all" on the banner in partials/footer.html. Nothing
+   analytics-related runs on "Only essential" or before a choice is made. The choice itself
    (just the string below) is stored in localStorage, not a cookie. */
 (function() {
   var KEY = 'cookie-consent';
