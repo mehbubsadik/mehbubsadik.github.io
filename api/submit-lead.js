@@ -59,6 +59,15 @@ export default async function handler(req, res) {
     auth: { persistSession: false, autoRefreshToken: false }
   });
 
+  // The /agency-partner form sends lead_type "agency". It is tagged through
+  // the existing source column (no schema change), and its lane choice is
+  // folded into the message. Every other submission stays a brand lead.
+  const isAgency = clean(body.lead_type) === 'agency';
+  const service = clean(body.service);
+  const message = isAgency && service
+    ? ['Lane: ' + service, clean(body.message)].filter(Boolean).join('\n\n')
+    : clean(body.message);
+
   // No .select() after insert: anon has INSERT only, not SELECT.
   const { error } = await supabase.from('leads').insert({
     name: clean(body.name),
@@ -66,8 +75,8 @@ export default async function handler(req, res) {
     phone: clean(body.phone),
     brand: clean(body.brand),
     monthly_spend: clean(body.monthly_spend),
-    message: clean(body.message) || null,
-    source: 'mehbubsadik.online'
+    message: message || null,
+    source: isAgency ? 'mehbubsadik.online/agency-partner' : 'mehbubsadik.online'
   });
 
   if (error) {

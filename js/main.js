@@ -62,7 +62,7 @@ function showToast(msg) {
   btn.addEventListener('click', function() {
     if (!navigator.clipboard) { showToast(email); return; }
     navigator.clipboard.writeText(email).then(function() {
-      showToast('✓ Email copied — ' + email);
+      showToast('✓ Email copied: ' + email);
       track('Contact', { method: 'copy_email' });
     }, function() {
       showToast(email);
@@ -76,6 +76,12 @@ function showToast(msg) {
   if (!form) return;
   var status = document.getElementById('leadStatus');
   var submit = form.querySelector('.lead-submit');
+  /* A page can override the copy via data-msg-* (the agency page does). */
+  var msg = {
+    invalid: form.getAttribute('data-msg-invalid') || 'Please fill in your name, a valid email, a phone number with country code, your brand and your monthly spend.',
+    success: form.getAttribute('data-msg-success') || '✓ Brief received — I\'ll reply within 24 hours.',
+    error: form.getAttribute('data-msg-error') || 'Couldn\'t send right now — email sadik@sadikgrowth.online or WhatsApp +880 1932 330670 instead.'
+  };
 
   function setStatus(msg, kind) {
     status.textContent = msg;
@@ -93,7 +99,7 @@ function showToast(msg) {
     var phone = form.elements.phone;
     if (!invalid && phone && phone.value.replace(/\D/g, '').length < 7) invalid = phone;
     if (invalid) {
-      setStatus('Please fill in your name, a valid email, a phone number with country code, your brand and your monthly spend.', 'error');
+      setStatus(msg.invalid, 'error');
       invalid.focus();
       return;
     }
@@ -114,11 +120,11 @@ function showToast(msg) {
       .then(function(res) {
         if (!res.ok || res.body.success !== true) throw new Error('send failed');
         form.reset();
-        setStatus('✓ Brief received — I\'ll reply within 24 hours.', 'success');
-        track('Lead', { monthly_spend: data.monthly_spend });
+        setStatus(msg.success, 'success');
+        track('Lead', { monthly_spend: data.monthly_spend, lead_type: data.lead_type || 'brand' });
       })
       .catch(function() {
-        setStatus('Couldn\'t send right now — email sadik@sadikgrowth.online or WhatsApp +880 1932 330670 instead.', 'error');
+        setStatus(msg.error, 'error');
       })
       .then(function() {
         submit.disabled = false;
