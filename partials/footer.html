@@ -9,8 +9,14 @@
 <!-- Cookie consent: hidden until main.js finds no stored choice yet. Nothing
      analytics-related loads (GA4, Meta Pixel) before "Accept all" is clicked.
      "Only essential" is the decline path, worded so it reads as a real
-     choice rather than a rejection. -->
-<div class="cookie-banner" id="cookieBanner" hidden role="dialog" aria-live="polite" aria-label="Cookie preferences" data-place="before">
+     choice rather than a rejection. Bottom-left corner panel on .glass-pane
+     (see css/style.css), not the toast material — a persistent choice, not
+     a transient message. -->
+<div class="cookie-banner glass-pane" id="cookieBanner" hidden role="dialog" aria-live="polite" aria-label="Cookie preferences" data-place="before">
+  <div class="cookie-banner-head">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    Cookie preferences
+  </div>
   <p>This site uses analytics cookies (Google Analytics, Meta Pixel) to see what's working. See the <a href="/privacy">privacy policy</a>.</p>
   <div class="cookie-banner-actions">
     <button type="button" class="btn btn-glass btn-sm" data-consent-decline>Only essential</button>

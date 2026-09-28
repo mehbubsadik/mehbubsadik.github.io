@@ -2014,42 +2014,62 @@ main { position: relative; z-index: var(--z-base); }
 }
 .toast.visible { opacity: 1; transform: translate(-50%, 0); }
 
-/* ─── COOKIE CONSENT BANNER ───
+/* ─── COOKIE CONSENT PANEL ───
    Hidden by default (main.js only reveals it while consent is undecided).
-   Same glass material as the toast, but anchored full-width at the bottom
-   so it never covers page content the visitor came for. */
+   Anchored bottom-left as a small, structured panel — the same corner-card
+   pattern used by Stripe, Vercel and most dev-tool sites — rather than a
+   full-width bar or a centred toast, so it reads as a deliberate settings
+   panel instead of a transient pop-up. Built on .glass-pane (the same
+   material as the hero panel and contact card) so it matches the site's
+   heaviest material tier, not the lightweight toast. */
 .cookie-banner {
   position: fixed;
-  left: 50%;
-  bottom: clamp(0.9rem, 3vw, 1.5rem);
-  transform: translateX(-50%);
+  left: clamp(1rem, 3vw, 1.75rem);
+  bottom: clamp(1rem, 3vw, 1.75rem);
   z-index: var(--z-toast);
-  width: min(560px, calc(100% - 2rem));
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.9rem 1.25rem;
-  padding: 1.1rem 1.25rem;
-  border-radius: var(--radius-lg);
-  background: var(--glass-fill-lens);
-  border: 1px solid var(--accent-line);
-  -webkit-backdrop-filter: blur(18px) saturate(160%);
-  backdrop-filter: blur(18px) saturate(160%);
-  box-shadow: inset 0 1px 0 var(--glass-highlight), 0 18px 40px -20px rgba(2, 4, 12, 0.6);
+  width: min(380px, calc(100vw - clamp(2rem, 6vw, 3.5rem)));
+  padding: 1.35rem;
 }
 .cookie-banner[hidden] { display: none; }
+.cookie-banner-head {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.85rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.cookie-banner-head svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--accent-text);
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
 .cookie-banner p {
-  margin: 0;
-  flex: 1 1 280px;
+  margin: 0 0 1.1rem;
   font-size: 0.875rem;
-  line-height: 1.5;
+  line-height: 1.55;
   color: var(--text-2);
 }
 .cookie-banner-actions {
   display: flex;
   gap: 0.6rem;
-  flex-shrink: 0;
-  margin-left: auto;
+}
+.cookie-banner-actions .btn {
+  flex: 1;
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+@media (max-width: 400px) {
+  .cookie-banner-actions { flex-direction: column; }
 }
 
 /* ─── LEGAL CONTENT (privacy policy) ─── */
