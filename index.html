@@ -118,7 +118,30 @@
 
 <!-- HERO -->
 <section class="hero" id="main-content">
-  <canvas id="shader-canvas" class="hero-canvas" aria-hidden="true"></canvas>
+  <!-- Signature hero visual: an ascending growth-line chart instead of an
+       abstract shader — a literal "cash-flow trending up" image that ties
+       straight to the headline. Lightweight SVG + CSS (no canvas/WebGL), so
+       it stays cheap on the Meta-ad-driven mobile traffic this site gets. -->
+  <svg class="hero-chart" id="heroChart" aria-hidden="true" focusable="false" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <line x1="0" y1="120" x2="1200" y2="120" class="hero-chart-grid"/>
+    <line x1="0" y1="240" x2="1200" y2="240" class="hero-chart-grid"/>
+    <line x1="0" y1="360" x2="1200" y2="360" class="hero-chart-grid"/>
+    <path class="hero-chart-area" d="M0,430 C120,420 200,440 280,400 C380,350 420,410 520,360 C620,310 660,280 760,260 C860,240 900,180 1020,140 C1100,115 1160,95 1200,80 L1200,500 L0,500 Z"/>
+    <path class="hero-chart-line" id="heroChartLine" d="M0,430 C120,420 200,440 280,400 C380,350 420,410 520,360 C620,310 660,280 760,260 C860,240 900,180 1020,140 C1100,115 1160,95 1200,80"/>
+    <circle class="hero-chart-pulse" cx="1200" cy="80" r="5"/>
+    <circle class="hero-chart-dot" cx="1200" cy="80" r="4"/>
+    <defs>
+      <linearGradient id="heroChartFill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#FF6B1A" stop-opacity="0.26"/>
+        <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="heroChartStroke" x1="0" y1="1" x2="1" y2="0">
+        <stop offset="0%" stop-color="#2E9E8A"/>
+        <stop offset="55%" stop-color="#FFC85A"/>
+        <stop offset="100%" stop-color="#FF6B1A"/>
+      </linearGradient>
+    </defs>
+  </svg>
   <div class="hero-scrim" aria-hidden="true"></div>
 
   <div class="wrapper hero-wrapper">
@@ -153,7 +176,15 @@
           <div class="hero-stat"><dt>Ad spend managed</dt><dd class="hero-stat-val">$1.5M+</dd></div>
           <div class="hero-stat"><dt>Results generated</dt><dd class="hero-stat-val">1M+</dd></div>
           <div class="hero-stat"><dt>Avg. cost per result</dt><dd class="hero-stat-val">$1.48</dd></div>
-          <div class="hero-stat"><dt>Peak account ROAS</dt><dd class="hero-stat-val hero-stat-val--accent">9x</dd></div>
+          <div class="hero-stat">
+            <dt>Peak account ROAS</dt>
+            <dd class="hero-stat-val hero-stat-val--accent">
+              9x
+              <svg class="hero-stat-spark" viewBox="0 0 56 20" aria-hidden="true" focusable="false">
+                <polyline points="0,17 9,15 18,16 27,10 36,11 45,4 56,2"/>
+              </svg>
+            </dd>
+          </div>
         </dl>
         <div class="hero-panel-foot">
           <span>Meta</span><span>TikTok</span><span>Google</span>

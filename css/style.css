@@ -113,9 +113,6 @@
   --grid-line: rgba(255, 255, 255, 0.04);
   --noise-opacity: 0.055;
   --noise-blend: overlay;
-  --shader-opacity: 0.55;
-  --shader-filter: none;
-  --shader-blend: normal;
 
   /* Data */
   --chart-muted: rgba(255, 255, 255, 0.12);
@@ -166,10 +163,6 @@
   --grid-line: rgba(14, 18, 32, 0.045);
   --noise-opacity: 0.04;
   --noise-blend: multiply;
-  /* inverted to dark-on-light, then toned warm so no cool cast survives on cream */
-  --shader-opacity: 0.42;
-  --shader-filter: invert(1) grayscale(1) sepia(0.7) saturate(2.2) hue-rotate(-12deg);
-  --shader-blend: multiply;
 
   --chart-muted: rgba(14, 18, 32, 0.1);
   --chart-ring-track: rgba(14, 18, 32, 0.07);
@@ -903,18 +896,39 @@ main { position: relative; z-index: var(--z-base); }
   padding: 120px 0 80px;
   overflow: hidden;
 }
-.hero-canvas {
+.hero-chart {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   z-index: 0;
   pointer-events: none;
-  opacity: var(--shader-opacity);
-  filter: var(--shader-filter);
-  mix-blend-mode: var(--shader-blend);
   -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
   mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+}
+.hero-chart-grid { stroke: var(--grid-line); stroke-width: 1; }
+.hero-chart-area { fill: url(#heroChartFill); }
+.hero-chart-line {
+  fill: none;
+  stroke: url(#heroChartStroke);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 6px rgba(255, 107, 26, 0.4));
+}
+.hero-chart-dot { fill: #FF6B1A; }
+.hero-chart-pulse {
+  fill: none;
+  stroke: #FF6B1A;
+  stroke-width: 1;
+  opacity: 0.5;
+  animation: heroChartPulse 2.6s var(--ease-in-out) infinite;
+}
+@keyframes heroChartPulse {
+  0% { r: 5; opacity: 0.5; }
+  100% { r: 16; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-chart-pulse { animation: none; opacity: 0.25; }
 }
 /* Keeps the copy legible over the shader and melts the hero into the page */
 .hero-scrim {
@@ -1036,6 +1050,9 @@ main { position: relative; z-index: var(--z-base); }
 }
 .hero-stat dt { font-size: 0.8125rem; color: var(--text-3); line-height: 1.35; }
 .hero-stat-val {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   font-family: var(--font-mono);
   font-weight: 500;
   font-size: clamp(1.75rem, 2.6vw, 2.25rem);
@@ -1045,6 +1062,22 @@ main { position: relative; z-index: var(--z-base); }
   font-variant-numeric: tabular-nums;
 }
 .hero-stat-val--accent { color: var(--accent-text); }
+/* Tiny rising sparkline riding next to the ROAS figure — a one-glance echo
+   of the hero's growth-chart motif, not a whole second chart. */
+.hero-stat-spark {
+  width: 34px;
+  height: 13px;
+  overflow: visible;
+  flex-shrink: 0;
+}
+.hero-stat-spark polyline {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.75;
+}
 .hero-panel-foot {
   position: relative;
   z-index: 1;
