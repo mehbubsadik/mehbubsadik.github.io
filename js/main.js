@@ -1,6 +1,8 @@
 /* ─── TRACKING CONFIG ───
    Paste the IDs in to switch tracking on. Left blank, nothing loads and
-   track() is a no-op, so the site works the same without them. */
+   track() is a no-op, so the site works the same without them.
+   Neither ID actually loads until a visitor accepts the cookie banner below
+   — see ─── COOKIE CONSENT ─── */
 var TRACKING = {
   metaPixelId: '1537418298421513',
   ga4Id: 'G-7GWFWTG5M2'
@@ -13,7 +15,7 @@ var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-redu
    Without include.js on the page, onChrome just runs the code at once. */
 var onChrome = window.onPartialsReady || function(fn) { fn(); };
 
-(function loadTracking() {
+function loadTracking() {
   if (TRACKING.metaPixelId) {
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
     n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
@@ -33,6 +35,36 @@ var onChrome = window.onPartialsReady || function(fn) { fn(); };
     gtag('js', new Date());
     gtag('config', TRACKING.ga4Id);
   }
+}
+
+/* ─── COOKIE CONSENT ───
+   Opt-in, not opt-out: GA4 and the Meta Pixel only load after a visitor
+   clicks "Accept" on the banner in partials/footer.html. Nothing analytics-
+   related runs on "Decline" or before a choice is made. The choice itself
+   (just the string below) is stored in localStorage, not a cookie. */
+(function() {
+  var KEY = 'cookie-consent';
+  var choice;
+  try { choice = localStorage.getItem(KEY); } catch (e) { choice = null; }
+
+  if (choice === 'granted') { loadTracking(); return; }
+  if (choice === 'denied') return;
+
+  onChrome(function() {
+    var banner = document.getElementById('cookieBanner');
+    if (!banner) return; /* fail closed: no banner, no tracking */
+    banner.hidden = false;
+
+    function decide(value) {
+      try { localStorage.setItem(KEY, value); } catch (e) {}
+      banner.hidden = true;
+      if (value === 'granted') loadTracking();
+    }
+    var accept = banner.querySelector('[data-consent-accept]');
+    var decline = banner.querySelector('[data-consent-decline]');
+    if (accept) accept.addEventListener('click', function() { decide('granted'); });
+    if (decline) decline.addEventListener('click', function() { decide('denied'); });
+  });
 })();
 
 /* Standard Meta event names (Lead, Schedule, Contact, ViewContent) so they

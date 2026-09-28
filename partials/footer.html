@@ -1,9 +1,20 @@
 <!-- Shared site footer. Injected into <footer class="site-footer" data-include="/partials/footer.html">
      by js/include.js; the footer-nav links come from the page's <script id="page-links"> JSON.
-     data-place="before" moves the floating back-to-top button out to sit just before the footer. -->
+     data-place="before" moves the floating back-to-top button (and the cookie
+     banner) out to sit before the footer, so they aren't nested inside it. -->
 <button id="backToTopFloat" class="back-to-top-float" aria-label="Back to top" data-place="before">
   <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13V3M3.5 7.5L8 3l4.5 4.5"/></svg>
 </button>
+
+<!-- Cookie consent: hidden until main.js finds no stored choice yet. Nothing
+     analytics-related loads (GA4, Meta Pixel) before "Accept" is clicked. -->
+<div class="cookie-banner" id="cookieBanner" hidden role="dialog" aria-live="polite" aria-label="Cookie preferences" data-place="before">
+  <p>I use analytics cookies (Google Analytics, Meta Pixel) to see what's working on this site. Nothing loads until you say yes. See the <a href="/privacy">privacy policy</a>.</p>
+  <div class="cookie-banner-actions">
+    <button type="button" class="btn btn-glass btn-sm" data-consent-decline>Decline</button>
+    <button type="button" class="btn btn-primary btn-sm" data-consent-accept>Accept</button>
+  </div>
+</div>
 
 <div class="wrapper">
   <div class="footer-inner">

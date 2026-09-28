@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy | S M Sadik</title>
+<meta name="description" content="What data this site collects through the lead form and analytics, why, and how to request it be deleted."><meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#070B16">
+<link rel="canonical" href="https://mehbubsadik.online/privacy">
+<link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<script>
+  /* Same pre-paint theme + motion flags as the rest of the site. */
+  (function() {
+    var root = document.documentElement;
+    var saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) {}
+    var prefersLight = window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches;
+    var theme = saved === 'light' || saved === 'dark' ? saved : (prefersLight ? 'light' : 'dark');
+    root.setAttribute('data-theme', theme);
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', theme === 'light' ? '#F4F1EC' : '#070B16');
+    if (!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) && 'IntersectionObserver' in window) {
+      root.classList.add('motion-ready');
+    }
+  })();
+</script>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+<link rel="preload" href="/partials/nav.html" as="fetch" crossorigin>
+<link rel="preload" href="/partials/footer.html" as="fetch" crossorigin>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<div class="ambient" aria-hidden="true">
+  <span class="ambient-orb ambient-orb--1"></span>
+  <span class="ambient-orb ambient-orb--2"></span>
+  <span class="ambient-orb ambient-orb--3"></span>
+</div>
+<div class="grid-overlay" aria-hidden="true"></div>
+<div class="noise-overlay" aria-hidden="true"></div>
+
+<header class="site-header" id="siteHeader" data-include="/partials/nav.html">
+  <nav class="site-nav" aria-label="Main"></nav>
+</header>
+<script type="application/json" id="page-links">
+{
+  "logoHref": "/",
+  "logoLabel": "S M Sadik, back to the main site",
+  "nav": [
+    { "href": "/", "label": "Home" },
+    { "href": "/agency-partner", "label": "For agencies" }
+  ],
+  "mobile": [
+    { "href": "/", "label": "Home" },
+    { "href": "/agency-partner", "label": "For agencies" }
+  ],
+  "footer": [
+    { "href": "/", "label": "Home" },
+    { "href": "/agency-partner", "label": "For agencies" },
+    { "href": "/#contact", "label": "Contact" }
+  ]
+}
+</script>
+
+<main>
+<section class="section" id="main-content" style="padding-top: clamp(7rem, 12vw, 9rem);">
+  <div class="wrapper">
+    <header class="section-head">
+      <span class="eyebrow reveal"><span class="eyebrow-dot" aria-hidden="true"></span>Legal</span>
+      <h1 class="section-title reveal reveal-delay-1">Privacy Policy</h1>
+      <p class="section-desc reveal reveal-delay-2">Last updated: 28 September 2026. This page explains what mehbubsadik.online collects, why, and how to get your data removed.</p>
+    </header>
+
+    <div class="legal-content reveal">
+      <h2>Who this is</h2>
+      <p>This site is run by S M Abdullah All Mehbub Sadik, a freelance paid media strategist and web developer. For anything on this page, contact <a href="mailto:sadik@sadikgrowth.online">sadik@sadikgrowth.online</a>.</p>
+
+      <h2>What I collect when you use the brief form</h2>
+      <p>The "Send Brief" form on this site and on <a href="/agency-partner">/agency-partner</a> asks for your name, work email, phone number, brand or agency name, monthly ad spend range, and an optional message. Submitting it sends that data to a database (Supabase) that only I can read. It's used for exactly one thing: replying to your enquiry. It isn't sold, rented, or shared with anyone outside the service providers listed below, and it isn't added to any mailing list.</p>
+      <p>Before your submission reaches that database, it passes a bot check (Cloudflare Turnstile) so the form isn't spammed with fake leads. Turnstile only confirms you're a human — it doesn't track you for advertising.</p>
+
+      <h2>What I collect just by you visiting</h2>
+      <p>With your consent (see the cookie banner), this site uses:</p>
+      <ul>
+        <li><strong>Google Analytics (GA4)</strong> — page views, approximate location, device and browser type, and which pages you visit, so I can see what's working on my own site.</li>
+        <li><strong>Meta Pixel</strong> — similar browsing data, used to measure and improve my own ad campaigns for this business.</li>
+      </ul>
+      <p>Neither loads, and no analytics cookie is set, until you click "Accept" on the cookie banner. If you click "Decline," or don't decide, they stay off and only strictly necessary cookies (like your light/dark theme choice) are used.</p>
+      <p>This site's fonts (Geist, Clash Display) are loaded from Google Fonts and Fontshare's servers, which means your browser requests them directly from those providers — a normal part of how web fonts work, independent of the cookie choice above.</p>
+
+      <h2>Service providers involved</h2>
+      <p>Depending on what you do on this site, your data may pass through: <strong>Vercel</strong> (hosting), <strong>Supabase</strong> (the leads database), <strong>Cloudflare</strong> (bot protection on the form), <strong>Google</strong> (Analytics and Fonts), and <strong>Meta</strong> (the Pixel, if you accept cookies). Each has its own privacy policy governing how they handle data on their end.</p>
+
+      <h2>How long I keep it</h2>
+      <p>Leads submitted through the brief form are kept for as long as needed to respond to you and for my own business records. You can ask me to delete yours at any time.</p>
+
+      <h2>Your choices</h2>
+      <ul>
+        <li>Decline analytics cookies any time from the cookie banner, or by clearing your browser's local storage for this site.</li>
+        <li>Ask what data I hold about you, or ask me to delete it, by emailing <a href="mailto:sadik@sadikgrowth.online?subject=Privacy%20request">sadik@sadikgrowth.online</a>.</li>
+      </ul>
+
+      <h2>Changes</h2>
+      <p>If this policy changes in any meaningful way, the "Last updated" date at the top of this page will change with it.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer" data-include="/partials/footer.html"></footer>
+
+<script src="/js/include.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>
