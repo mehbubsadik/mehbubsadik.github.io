@@ -333,134 +333,22 @@ onChrome(function() {
   });
 });
 
-/* ─── WEBGL SHADER — TANGERINE RECOLOR ─── */
+/* ─── HERO CHART: draw-in + count-up sync ───
+   Draws the growth line in once on load (skipped for reduced motion, which
+   just shows the finished line). Lightweight SVG animation — replaces the
+   old WebGL shader canvas, since this hero background now needs to survive
+   on Meta-ad mobile traffic, not spend a frame budget on a fragment shader. */
 (function() {
-  var canvas = document.getElementById('shader-canvas');
-  if (!canvas) return;
-
-  var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-  if (!gl) return;
-
-  var vertSrc = `
-    attribute vec2 position;
-    void main() {
-      gl_Position = vec4(position, 0.0, 1.0);
-    }
-  `;
-
-  var fragSrc = `
-    precision highp float;
-    uniform vec2 resolution;
-    uniform float time;
-
-    void main(void) {
-      vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
-      float t = time * 0.05;
-      float lineWidth = 0.002;
-
-      float intensity = 0.0;
-
-      for(int i = 0; i < 5; i++){
-        float fi = float(i);
-        intensity += lineWidth * fi * fi / abs(
-          fract(t + fi * 0.01) * 5.0
-          - length(uv)
-          + mod(uv.x + uv.y, 0.2)
-        );
-      }
-
-      /* inner teal -> mid white -> outer hot tangerine */
-      float rad = length(uv);
-      vec3 teal      = vec3(0.05, 0.85, 0.80);
-      vec3 white     = vec3(1.00, 1.00, 1.00);
-      vec3 tangerine = vec3(1.00, 0.35, 0.05);
-
-      vec3 ramp = mix(teal, white, smoothstep(0.0, 0.42, rad));
-      ramp      = mix(ramp, tangerine, smoothstep(0.42, 1.05, rad));
-
-      vec3 color = ramp * intensity;
-      color += vec3(pow(intensity, 3.0)) * 0.14;
-
-      float vignette = 1.0 - smoothstep(0.55, 1.35, rad);
-      color *= vignette;
-
-      gl_FragColor = vec4(color, 1.0);
-    }
-  `;
-
-  function compileShader(type, src) {
-    var s = gl.createShader(type);
-    gl.shaderSource(s, src);
-    gl.compileShader(s);
-    return s;
-  }
-
-  var prog = gl.createProgram();
-  gl.attachShader(prog, compileShader(gl.VERTEX_SHADER, vertSrc));
-  gl.attachShader(prog, compileShader(gl.FRAGMENT_SHADER, fragSrc));
-  gl.linkProgram(prog);
-  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return;
-  gl.useProgram(prog);
-
-  var buf = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
-
-  var pos = gl.getAttribLocation(prog, 'position');
-  gl.enableVertexAttribArray(pos);
-  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
-
-  var uRes = gl.getUniformLocation(prog, 'resolution');
-  var uTime = gl.getUniformLocation(prog, 'time');
-
-  /* Cap the pixel ratio: a 3x phone would otherwise shade 9x the pixels
-     for a background that sits at 55% opacity anyway. */
-  var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-  var hero = canvas.parentElement;
-
-  function resize() {
-    canvas.width  = Math.round(hero.clientWidth  * dpr);
-    canvas.height = Math.round(hero.clientHeight * dpr);
-    gl.viewport(0, 0, canvas.width, canvas.height);
-    gl.uniform2f(uRes, canvas.width, canvas.height);
-  }
-
-  /* Time comes from the clock, not the frame count, so the rings move at
-     the same speed on 60Hz and 120Hz screens. Units match the old
-     0.05-per-frame-at-60fps pace. */
-  /* Reduced motion gets one static frame, offset so the rings are spread out. */
-  var start = performance.now() - (prefersReducedMotion ? 20000 : 0);
-  var animId = null;
-
-  function draw(now) {
-    gl.uniform1f(uTime, (now - start) / 1000 * 3);
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-  }
-  function loop(now) {
-    draw(now);
-    animId = requestAnimationFrame(loop);
-  }
-  function play() { if (!animId && !prefersReducedMotion) animId = requestAnimationFrame(loop); }
-  function pause() { if (animId) { cancelAnimationFrame(animId); animId = null; } }
-
-  if (typeof ResizeObserver !== 'undefined') {
-    new ResizeObserver(function() { resize(); if (!animId) draw(performance.now()); }).observe(hero);
-  } else {
-    window.addEventListener('resize', resize);
-  }
-  resize();
-  draw(performance.now());
-
-  /* Only render while the hero is on screen and the tab is visible. */
-  var heroVisible = true;
-  new IntersectionObserver(function(entries) {
-    heroVisible = entries[0].isIntersecting;
-    heroVisible ? play() : pause();
-  }).observe(hero);
-  document.addEventListener('visibilitychange', function() {
-    if (document.hidden) pause(); else if (heroVisible) play();
+  var path = document.getElementById('heroChartLine');
+  if (!path) return;
+  var len = path.getTotalLength();
+  path.style.strokeDasharray = len;
+  path.style.strokeDashoffset = prefersReducedMotion ? '0' : len;
+  if (prefersReducedMotion) return;
+  requestAnimationFrame(function() {
+    path.style.transition = 'stroke-dashoffset 1.8s ' + 'cubic-bezier(0.22,1,0.36,1)';
+    requestAnimationFrame(function() { path.style.strokeDashoffset = '0'; });
   });
-  play();
 })();
 
 /* ─── SCROLL REVEAL ─── */
@@ -571,16 +459,6 @@ onChrome(function() {
     });
   });
 });
-
-/* ─── CONTACT BEAMS: only animate while on screen ─── */
-(function() {
-  var svg = document.getElementById('pbSvg');
-  if (!svg || !svg.pauseAnimations) return;
-  if (prefersReducedMotion) { svg.pauseAnimations(); return; }
-  new IntersectionObserver(function(entries) {
-    entries[0].isIntersecting ? svg.unpauseAnimations() : svg.pauseAnimations();
-  }).observe(svg);
-})();
 
 /* ─── NUMBER COUNT-UP ───
    Parses "€187,008.82", "$133.6K", "8.81x", "1,400+" etc. and counts from

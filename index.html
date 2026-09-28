@@ -118,7 +118,30 @@
 
 <!-- HERO -->
 <section class="hero" id="main-content">
-  <canvas id="shader-canvas" class="hero-canvas" aria-hidden="true"></canvas>
+  <!-- Signature hero visual: an ascending growth-line chart instead of an
+       abstract shader — a literal "cash-flow trending up" image that ties
+       straight to the headline. Lightweight SVG + CSS (no canvas/WebGL), so
+       it stays cheap on the Meta-ad-driven mobile traffic this site gets. -->
+  <svg class="hero-chart" id="heroChart" aria-hidden="true" focusable="false" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <line x1="0" y1="120" x2="1200" y2="120" class="hero-chart-grid"/>
+    <line x1="0" y1="240" x2="1200" y2="240" class="hero-chart-grid"/>
+    <line x1="0" y1="360" x2="1200" y2="360" class="hero-chart-grid"/>
+    <path class="hero-chart-area" d="M0,430 C120,420 200,440 280,400 C380,350 420,410 520,360 C620,310 660,280 760,260 C860,240 900,180 1020,140 C1100,115 1160,95 1200,80 L1200,500 L0,500 Z"/>
+    <path class="hero-chart-line" id="heroChartLine" d="M0,430 C120,420 200,440 280,400 C380,350 420,410 520,360 C620,310 660,280 760,260 C860,240 900,180 1020,140 C1100,115 1160,95 1200,80"/>
+    <circle class="hero-chart-pulse" cx="1200" cy="80" r="5"/>
+    <circle class="hero-chart-dot" cx="1200" cy="80" r="4"/>
+    <defs>
+      <linearGradient id="heroChartFill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#FF6B1A" stop-opacity="0.26"/>
+        <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="heroChartStroke" x1="0" y1="1" x2="1" y2="0">
+        <stop offset="0%" stop-color="#2E9E8A"/>
+        <stop offset="55%" stop-color="#FFC85A"/>
+        <stop offset="100%" stop-color="#FF6B1A"/>
+      </linearGradient>
+    </defs>
+  </svg>
   <div class="hero-scrim" aria-hidden="true"></div>
 
   <div class="wrapper hero-wrapper">
@@ -153,7 +176,15 @@
           <div class="hero-stat"><dt>Ad spend managed</dt><dd class="hero-stat-val">$1.5M+</dd></div>
           <div class="hero-stat"><dt>Results generated</dt><dd class="hero-stat-val">1M+</dd></div>
           <div class="hero-stat"><dt>Avg. cost per result</dt><dd class="hero-stat-val">$1.48</dd></div>
-          <div class="hero-stat"><dt>Peak account ROAS</dt><dd class="hero-stat-val hero-stat-val--accent">9x</dd></div>
+          <div class="hero-stat">
+            <dt>Peak account ROAS</dt>
+            <dd class="hero-stat-val hero-stat-val--accent">
+              9x
+              <svg class="hero-stat-spark" viewBox="0 0 56 20" aria-hidden="true" focusable="false">
+                <polyline points="0,17 9,15 18,16 27,10 36,11 45,4 56,2"/>
+              </svg>
+            </dd>
+          </div>
         </dl>
         <div class="hero-panel-foot">
           <span>Meta</span><span>TikTok</span><span>Google</span>
@@ -733,137 +764,7 @@
 
 <!-- CONTACT -->
 <section id="contact" class="contact-section">
-  <svg class="pb-svg" id="pbSvg" aria-hidden="true" focusable="false" viewBox="0 0 1200 520" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-    <!-- Base paths (static, dim) -->
-    <path d="M0 260 Q200 180 480 240 Q560 255 600 260" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/>
-    <path d="M0 160 Q150 140 300 180 Q440 215 480 240 Q540 255 600 260" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/>
-    <path d="M0 360 Q180 340 350 320 Q470 305 520 278 Q560 265 600 260" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/>
-    <path d="M0 80  Q120 100 260 140 Q420 190 480 235 Q548 252 600 260" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/>
-    <path d="M0 430 Q200 400 360 370 Q480 345 540 295 Q570 278 600 260" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/>
-    <path d="M1200 260 Q1000 180 720 240 Q640 255 600 260" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/>
-    <path d="M1200 160 Q1050 140 900 180 Q760 215 720 240 Q660 255 600 260" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/>
-    <path d="M1200 360 Q1020 340 850 320 Q730 305 680 278 Q640 265 600 260" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/>
-    <path d="M1200 80  Q1080 100 940 140 Q780 190 720 235 Q652 252 600 260" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/>
-    <path d="M1200 430 Q1000 400 840 370 Q720 345 660 295 Q630 278 600 260" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/>
-
-    <!-- Animated beam paths (glowing, on top) -->
-    <path id="pb1" d="M0 260 Q200 180 480 240 Q560 255 600 260" stroke="url(#g1)" stroke-width="2" stroke-linecap="round" fill="none"/>
-    <path id="pb2" d="M0 160 Q150 140 300 180 Q440 215 480 240 Q540 255 600 260" stroke="url(#g2)" stroke-width="2" stroke-linecap="round" fill="none"/>
-    <path id="pb3" d="M0 360 Q180 340 350 320 Q470 305 520 278 Q560 265 600 260" stroke="url(#g3)" stroke-width="2" stroke-linecap="round" fill="none"/>
-    <path id="pb4" d="M0 80 Q120 100 260 140 Q420 190 480 235 Q548 252 600 260" stroke="url(#g4)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-    <path id="pb5" d="M0 430 Q200 400 360 370 Q480 345 540 295 Q570 278 600 260" stroke="url(#g5)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-    <path id="pb6" d="M1200 260 Q1000 180 720 240 Q640 255 600 260" stroke="url(#g6)" stroke-width="2" stroke-linecap="round" fill="none"/>
-    <path id="pb7" d="M1200 160 Q1050 140 900 180 Q760 215 720 240 Q660 255 600 260" stroke="url(#g7)" stroke-width="2" stroke-linecap="round" fill="none"/>
-    <path id="pb8" d="M1200 360 Q1020 340 850 320 Q730 305 680 278 Q640 265 600 260" stroke="url(#g8)" stroke-width="2" stroke-linecap="round" fill="none"/>
-    <path id="pb9" d="M1200 80 Q1080 100 940 140 Q780 190 720 235 Q652 252 600 260" stroke="url(#g9)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-    <path id="pb10" d="M1200 430 Q1000 400 840 370 Q720 345 660 295 Q630 278 600 260" stroke="url(#g10)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-
-    <!-- Connection node at center -->
-    <circle cx="600" cy="260" r="4" fill="#FF6B1A" opacity="0.9"/>
-    <circle cx="600" cy="260" r="8" fill="none" stroke="#FF6B1A" stroke-width="1" opacity="0.4"/>
-    <circle id="pbPulseRing" cx="600" cy="260" r="14" fill="none" stroke="#FF6B1A" stroke-width="0.5" opacity="0.2">
-      <animate attributeName="r" values="14;22;14" dur="3s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="0.2;0;0.2" dur="3s" repeatCount="indefinite"/>
-    </circle>
-
-    <defs>
-      <!-- LEFT BEAMS: gradients animate from left→center -->
-      <linearGradient id="g1" gradientUnits="userSpaceOnUse" x1="0" y1="260" x2="600" y2="260">
-        <stop offset="0%" stop-color="#FF6B1A" stop-opacity="0">
-          <animate attributeName="offset" values="0;0.8;0" dur="4s" repeatCount="indefinite"/>
-        </stop>
-        <stop offset="30%" stop-color="#FF6B1A" stop-opacity="0.9">
-          <animate attributeName="offset" values="0.3;1;0.3" dur="4s" repeatCount="indefinite"/>
-        </stop>
-        <stop offset="60%" stop-color="#FFB347" stop-opacity="0.4">
-          <animate attributeName="offset" values="0.6;1.2;0.6" dur="4s" repeatCount="indefinite"/>
-        </stop>
-        <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"/>
-      </linearGradient>
-      <linearGradient id="g2" gradientUnits="userSpaceOnUse" x1="0" y1="160" x2="600" y2="260">
-        <stop offset="0%" stop-color="#FF6B1A" stop-opacity="0">
-          <animate attributeName="offset" values="0;0.8;0" dur="5s" begin="-1s" repeatCount="indefinite"/>
-        </stop>
-        <stop offset="30%" stop-color="#FF8C42" stop-opacity="0.8">
-          <animate attributeName="offset" values="0.3;1;0.3" dur="5s" begin="-1s" repeatCount="indefinite"/>
-        </stop>
-        <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"/>
-      </linearGradient>
-      <linearGradient id="g3" gradientUnits="userSpaceOnUse" x1="0" y1="360" x2="600" y2="260">
-        <stop offset="0%" stop-color="#FF6B1A" stop-opacity="0">
-          <animate attributeName="offset" values="0;0.8;0" dur="6s" begin="-2s" repeatCount="indefinite"/>
-        </stop>
-        <stop offset="35%" stop-color="#FF6B1A" stop-opacity="0.7">
-          <animate attributeName="offset" values="0.35;1;0.35" dur="6s" begin="-2s" repeatCount="indefinite"/>
-        </stop>
-        <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"/>
-      </linearGradient>
-      <linearGradient id="g4" gradientUnits="userSpaceOnUse" x1="0" y1="80" x2="600" y2="260">
-        <stop offset="0%" stop-color="#FFB347" stop-opacity="0">
-          <animate attributeName="offset" values="0;0.85;0" dur="7s" begin="-0.5s" repeatCount="indefinite"/>
-        </stop>
-        <stop offset="40%" stop-color="#FFB347" stop-opacity="0.6">
-          <animate attributeName="offset" values="0.4;1.1;0.4" dur="7s" begin="-0.5s" repeatCount="indefinite"/>
-        </stop>
-        <stop offset="100%" stop-color="#FFB347" stop-opacity="0"/>
-      </linearGradient>
-      <linearGradient id="g5" gradientUnits="userSpaceOnUse" x1="0" y1="430" x2="600" y2="260">
-        <stop offset="0%" stop-color="#FF6B1A" stop-opacity="0">
-          <animate attributeName="offset" values="0;0.9;0" dur="5.5s" begin="-3s" repeatCount="indefinite"/>
-        </stop>
-        <stop offset="35%" stop-color="#FF6B1A" stop-opacity="0.5">
-          <animate attributeName="offset" values="0.35;1.1;0.35" dur="5.5s" begin="-3s" repeatCount="indefinite"/>
-        </stop>
-        <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"/>
-      </linearGradient>
-      <!-- RIGHT BEAMS -->
-      <linearGradient id="g6" gradientUnits="userSpaceOnUse" x1="1200" y1="260" x2="600" y2="260">
-        <stop offset="0%" stop-color="#FF6B1A" stop-opacity="0">
-          <animate attributeName="offset" values="0;0.8;0" dur="4.5s" begin="-2s" repeatCount="indefinite"/>
-        </stop>
-        <stop offset="30%" stop-color="#FF6B1A" stop-opacity="0.9">
-          <animate attributeName="offset" values="0.3;1;0.3" dur="4.5s" begin="-2s" repeatCount="indefinite"/>
-        </stop>
-        <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"/>
-      </linearGradient>
-      <linearGradient id="g7" gradientUnits="userSpaceOnUse" x1="1200" y1="160" x2="600" y2="260">
-        <stop offset="0%" stop-color="#FF8C42" stop-opacity="0">
-          <animate attributeName="offset" values="0;0.8;0" dur="5.5s" begin="-1.5s" repeatCount="indefinite"/>
-        </stop>
-        <stop offset="30%" stop-color="#FF8C42" stop-opacity="0.8">
-          <animate attributeName="offset" values="0.3;1;0.3" dur="5.5s" begin="-1.5s" repeatCount="indefinite"/>
-        </stop>
-        <stop offset="100%" stop-color="#FF8C42" stop-opacity="0"/>
-      </linearGradient>
-      <linearGradient id="g8" gradientUnits="userSpaceOnUse" x1="1200" y1="360" x2="600" y2="260">
-        <stop offset="0%" stop-color="#FF6B1A" stop-opacity="0">
-          <animate attributeName="offset" values="0;0.8;0" dur="6.5s" begin="-0.8s" repeatCount="indefinite"/>
-        </stop>
-        <stop offset="35%" stop-color="#FF6B1A" stop-opacity="0.7">
-          <animate attributeName="offset" values="0.35;1;0.35" dur="6.5s" begin="-0.8s" repeatCount="indefinite"/>
-        </stop>
-        <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"/>
-      </linearGradient>
-      <linearGradient id="g9" gradientUnits="userSpaceOnUse" x1="1200" y1="80" x2="600" y2="260">
-        <stop offset="0%" stop-color="#FFB347" stop-opacity="0">
-          <animate attributeName="offset" values="0;0.85;0" dur="7.5s" begin="-4s" repeatCount="indefinite"/>
-        </stop>
-        <stop offset="40%" stop-color="#FFB347" stop-opacity="0.55">
-          <animate attributeName="offset" values="0.4;1.1;0.4" dur="7.5s" begin="-4s" repeatCount="indefinite"/>
-        </stop>
-        <stop offset="100%" stop-color="#FFB347" stop-opacity="0"/>
-      </linearGradient>
-      <linearGradient id="g10" gradientUnits="userSpaceOnUse" x1="1200" y1="430" x2="600" y2="260">
-        <stop offset="0%" stop-color="#FF6B1A" stop-opacity="0">
-          <animate attributeName="offset" values="0;0.9;0" dur="5s" begin="-3.5s" repeatCount="indefinite"/>
-        </stop>
-        <stop offset="35%" stop-color="#FF6B1A" stop-opacity="0.5">
-          <animate attributeName="offset" values="0.35;1.1;0.35" dur="5s" begin="-3.5s" repeatCount="indefinite"/>
-        </stop>
-        <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"/>
-      </linearGradient>
-    </defs>
-  </svg>
+  <span class="contact-glow" aria-hidden="true"></span>
   <div class="wrapper contact-wrapper contact-grid">
     <div class="contact-card glass-pane reveal">
       <span class="eyebrow">Let's talk</span>
