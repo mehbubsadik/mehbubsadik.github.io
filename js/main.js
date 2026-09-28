@@ -572,16 +572,6 @@ onChrome(function() {
   });
 });
 
-/* ─── CONTACT BEAMS: only animate while on screen ─── */
-(function() {
-  var svg = document.getElementById('pbSvg');
-  if (!svg || !svg.pauseAnimations) return;
-  if (prefersReducedMotion) { svg.pauseAnimations(); return; }
-  new IntersectionObserver(function(entries) {
-    entries[0].isIntersecting ? svg.unpauseAnimations() : svg.pauseAnimations();
-  }).observe(svg);
-})();
-
 /* ─── NUMBER COUNT-UP ───
    Parses "€187,008.82", "$133.6K", "8.81x", "1,400+" etc. and counts from
    zero (small whole numbers like "1M+" from near the target) with an

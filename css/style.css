@@ -123,7 +123,6 @@
   --logo-filter: none;
   --logo-opacity: 0.62;
   --shot-filter: brightness(0.9) saturate(0.95);
-  --beam-base: rgba(255, 255, 255, 0.05);
   --success: #4ADE80;
   --success-soft: rgba(74, 222, 128, 0.1);
   --error: #FF8A5C;
@@ -177,7 +176,6 @@
   --logo-filter: invert(1);
   --logo-opacity: 0.66;
   --shot-filter: none;
-  --beam-base: rgba(14, 18, 32, 0.06);
   --success: #15803D;
   --success-soft: rgba(21, 128, 61, 0.09);
   --error: #B42318;
@@ -968,10 +966,34 @@ main { position: relative; z-index: var(--z-base); }
   background: var(--success);
   box-shadow: 0 0 0 4px var(--success-soft), 0 0 12px var(--success);
   flex-shrink: 0;
+  animation: availPulse 2.4s var(--ease-in-out) infinite;
+}
+@keyframes availPulse {
+  50% { box-shadow: 0 0 0 6px transparent, 0 0 16px var(--success); }
 }
 
-.hero-panel { padding: 1.35rem; }
+/* Corner glow: a soft accent blob clipped inside the card, the same
+   restrained-blob technique used for the page's ambient orbs — gives the
+   track-record panel some depth instead of sitting flat. Head/stats/foot
+   get z-index so they stay above it (glow is a plain absolute layer, which
+   would otherwise paint over static content). */
+.hero-panel { padding: 1.35rem; overflow: hidden; }
+.hero-panel::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  top: -45%;
+  right: -30%;
+  width: 65%;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  filter: blur(40px);
+  opacity: 0.4;
+  pointer-events: none;
+}
 .hero-panel-head {
+  position: relative;
+  z-index: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -994,6 +1016,8 @@ main { position: relative; z-index: var(--z-base); }
 }
 /* 2×2 grid with hairlines drawn by the 1px gap over a line-coloured backing */
 .hero-stats {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1px;
@@ -1022,6 +1046,8 @@ main { position: relative; z-index: var(--z-base); }
 }
 .hero-stat-val--accent { color: var(--accent-text); }
 .hero-panel-foot {
+  position: relative;
+  z-index: 1;
   display: flex;
   gap: 0.5rem;
   padding: 1.1rem 0.35rem 0.15rem;
@@ -1702,11 +1728,23 @@ main { position: relative; z-index: var(--z-base); }
 /* ─── 16. CONTACT ───────────────────────────────────────────────────────── */
 
 .contact-section { position: relative; padding: var(--section-y) 0 calc(var(--section-y) + 1rem); overflow: hidden; }
-.pb-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
-.pb-svg > path:not([id]) { stroke: var(--beam-base); }
-/* The convergence node sits behind the contact card — hide it so it can't
-   read as a stray dot through the glass */
-.pb-svg > circle { display: none; }
+/* Single restrained glow behind the card — replaces the old animated
+   "converging beams" SVG, which read as a dated stock connection-lines
+   effect. Sits first in the DOM so the (positioned) glass card, which
+   comes later, naturally paints on top of it. */
+.contact-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+  width: min(760px, 92vw);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  filter: blur(70px);
+  opacity: 0.35;
+  pointer-events: none;
+}
 .contact-wrapper { display: flex; justify-content: center; }
 .contact-card { width: 100%; max-width: 700px; padding: clamp(2rem, 5vw, 3.25rem); text-align: center; }
 .contact-card .eyebrow { margin-bottom: 1.25rem; }
