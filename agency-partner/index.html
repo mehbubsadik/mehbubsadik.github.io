@@ -49,19 +49,25 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Service",
-  "serviceType": "White-label performance marketing and web development",
-  "name": "White-Label Partner Program",
-  "description": "White-label Meta, TikTok and Google Ads execution plus website and dashboard builds, delivered under an agency's own brand.",
-  "provider": {
-    "@type": "Person",
-    "name": "S M Abdullah All Mehbub Sadik",
-    "url": "https://mehbubsadik.online/",
-    "sameAs": ["https://www.linkedin.com/in/mehbubsadik/"]
-  },
-  "areaServed": "Worldwide",
-  "audience": { "@type": "Audience", "audienceType": "Marketing and web development agencies" },
-  "url": "https://mehbubsadik.online/agency-partner"
+  "@graph": [
+    {
+      "@type": "Service",
+      "serviceType": "White-label performance marketing and web development",
+      "name": "White-Label Partner Program",
+      "description": "White-label Meta, TikTok and Google Ads execution plus website and dashboard builds, delivered under an agency's own brand.",
+      "provider": { "@id": "https://mehbubsadik.online/#person" },
+      "areaServed": "Worldwide",
+      "audience": { "@type": "Audience", "audienceType": "Marketing and web development agencies" },
+      "url": "https://mehbubsadik.online/agency-partner"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mehbubsadik.online/" },
+        { "@type": "ListItem", "position": 2, "name": "White-Label Partner", "item": "https://mehbubsadik.online/agency-partner" }
+      ]
+    }
+  ]
 }
 </script>
 </head>
@@ -81,7 +87,24 @@
      The empty .site-nav is the skeleton pill shown until the partial lands.
      "nav" links must be in-page anchors (main.js scroll-spies them). -->
 <header class="site-header" id="siteHeader" data-include="/partials/nav.html">
-  <nav class="site-nav" aria-label="Main"></nav>
+  <!-- Static crawlable fallback for bots that don't run JS; js/include.js
+       wipes and replaces this with partials/nav.html on load. Keep in sync
+       with that partial and the page-links JSON below. -->
+  <nav class="site-nav" aria-label="Main">
+    <a href="/" class="nav-logo" aria-label="S M Sadik, back to the main site">
+      <span class="nav-logo-mark" aria-hidden="true">S</span>
+      <span class="nav-logo-word">S M<span class="accent-dot">.</span>Sadik</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#lanes">Services</a></li>
+      <li><a href="#standards">Standards</a></li>
+      <li><a href="#proof">Proof</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="/">Main site</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+    </ul>
+  </nav>
 </header>
 <script type="application/json" id="page-links">
 {
@@ -416,7 +439,31 @@
 </dialog>
 
 <!-- FOOTER (+ floating back-to-top): shared partial, see js/include.js -->
-<footer class="site-footer" data-include="/partials/footer.html"></footer>
+<footer class="site-footer" data-include="/partials/footer.html">
+  <!-- Static crawlable fallback for bots that don't run JS; js/include.js
+       wipes and replaces this with partials/footer.html on load. Keep in
+       sync with that partial and the page-links JSON above. -->
+  <div class="wrapper">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="nav-logo-mark" aria-hidden="true">S</span>
+        <span class="footer-mark">S M<span class="accent-dot">.</span>Sadik</span>
+        <span class="footer-tagline">Paid media that pays for itself.</span>
+      </div>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="#how">How it works</a>
+        <a href="#lanes">Services</a>
+        <a href="#standards">Standards</a>
+        <a href="#proof">Proof</a>
+        <a href="#contact">Contact</a>
+        <a href="/">Main site</a>
+        <a href="/privacy">Privacy</a>
+        <a href="mailto:sadik@sadikgrowth.online">sadik@sadikgrowth.online</a>
+        <a href="https://www.linkedin.com/in/mehbubsadik/" target="_blank" rel="noopener">LinkedIn</a>
+      </nav>
+    </div>
+  </div>
+</footer>
 
 <script src="/js/include.js"></script>
 <script src="/js/main.js"></script>
