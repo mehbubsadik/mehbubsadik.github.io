@@ -49,17 +49,82 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "S M Abdullah All Mehbub Sadik",
-  "alternateName": "Mehbub Sadik",
-  "jobTitle": "Paid Media Strategist & Growth Architect",
-  "description": "Paid media strategist for D2C and FMCG brands — $1.5M+ ad spend managed across Meta, TikTok and Google Ads.",
-  "url": "https://mehbubsadik.online/",
-  "image": "https://mehbubsadik.online/assets/images/about-photo.jpg",
-  "email": "mailto:sadik@sadikgrowth.online",
-  "address": { "@type": "PostalAddress", "addressCountry": "BD" },
-  "knowsAbout": ["Meta Ads", "TikTok Ads", "Google Ads", "Performance Marketing", "Conversion Tracking", "Creative Testing", "D2C Growth"],
-  "sameAs": ["https://www.linkedin.com/in/mehbubsadik/"]
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://mehbubsadik.online/#website",
+      "name": "S M Abdullah All Mehbub Sadik",
+      "url": "https://mehbubsadik.online/",
+      "publisher": { "@id": "https://mehbubsadik.online/#person" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://mehbubsadik.online/#person",
+      "name": "S M Abdullah All Mehbub Sadik",
+      "alternateName": "Mehbub Sadik",
+      "jobTitle": "Paid Media Strategist & Growth Architect",
+      "description": "Paid media strategist for D2C and FMCG brands, managing $1.5M+ in ad spend across Meta, TikTok and Google Ads.",
+      "url": "https://mehbubsadik.online/",
+      "image": "https://mehbubsadik.online/assets/images/about-photo.jpg",
+      "email": "mailto:sadik@sadikgrowth.online",
+      "address": { "@type": "PostalAddress", "addressLocality": "Dhaka", "addressCountry": "BD" },
+      "knowsAbout": ["Meta Ads", "TikTok Ads", "Google Ads", "Performance Marketing", "Conversion Tracking", "Creative Testing", "D2C Growth"],
+      "sameAs": ["https://www.linkedin.com/in/mehbubsadik/"]
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://mehbubsadik.online/#service",
+      "name": "S M Abdullah All Mehbub Sadik — Performance Marketing & Web Development",
+      "url": "https://mehbubsadik.online/",
+      "description": "Meta, TikTok and Google Ads management plus web development for D2C and FMCG brands, delivered remotely from Dhaka, Bangladesh.",
+      "provider": { "@id": "https://mehbubsadik.online/#person" },
+      "areaServed": "Worldwide",
+      "serviceType": ["Meta Ads", "TikTok Ads", "Google Ads", "Performance Marketing", "Web Development"],
+      "address": { "@type": "PostalAddress", "addressLocality": "Dhaka", "addressCountry": "BD" },
+      "email": "mailto:sadik@sadikgrowth.online"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://mehbubsadik.online/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Who is S M Abdullah All Mehbub Sadik?",
+          "acceptedAnswer": { "@type": "Answer", "text": "He's a paid media strategist and web developer based in Dhaka, Bangladesh, working remotely with D2C and FMCG brands in the UK and EU. Since January 2023 he's managed $1.5M+ in ad spend across Meta, TikTok and Google Ads, and before that he worked as an Operations & Data Analyst at Bangladesh Honda (PVT) Ltd." }
+        },
+        {
+          "@type": "Question",
+          "name": "What does a Meta ads strategist for D2C brands actually do?",
+          "acceptedAnswer": { "@type": "Answer", "text": "He builds and runs the full ad account so spend turns into results instead of guesswork: campaign architecture (CBO, ABO, Advantage+), Creative Sandbox testing, and audience stacking with Lookalikes and retargeting layers. The same approach carries over to TikTok and Google Ads." }
+        },
+        {
+          "@type": "Question",
+          "name": "What results has he delivered?",
+          "acceptedAnswer": { "@type": "Answer", "text": "$1.5M+ in ad spend managed across 31 ad accounts and 1,400+ campaigns, generating 1M+ results (purchases, leads and more) at a $1.48 average cost per result. Account-level ROAS has ranged from 4.5x to 9x, with a peak of 9x." }
+        },
+        {
+          "@type": "Question",
+          "name": "Which ad platforms does he work on?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Meta Ads (Facebook and Instagram), TikTok Ads, and Google Ads, including Meta CAPI and Pixel tracking, GA4 attribution, and Lookalike audience stacking. Meta is the core platform, with TikTok and Google run alongside it depending on the account." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does he build websites and landing pages as well as run ads?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Landing pages, order forms and internal dashboards, built with Next.js and Supabase using Claude Code and deployed on Vercel. The same person who runs the ads builds what they point to, so tracking and page speed are handled from day one." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does he work with agencies on a white-label basis?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, through the white-label partner program. He handles Meta, TikTok and Google Ads execution plus web builds behind an agency's own brand, with an NDA available before any client details are shared." }
+        },
+        {
+          "@type": "Question",
+          "name": "How can I hire him or start a project?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Send a quick brief through the form on this site or book a strategy call directly. He replies within 24 hours with next steps; sadik@sadikgrowth.online works too." }
+        }
+      ]
+    }
+  ]
 }
 </script>
 <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
