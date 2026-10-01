@@ -49,7 +49,19 @@
 <div class="noise-overlay" aria-hidden="true"></div>
 
 <header class="site-header" id="siteHeader" data-include="/partials/nav.html">
-  <nav class="site-nav" aria-label="Main"></nav>
+  <!-- Static crawlable fallback for bots that don't run JS; js/include.js
+       wipes and replaces this with partials/nav.html on load. Keep in sync
+       with that partial and the page-links JSON below. -->
+  <nav class="site-nav" aria-label="Main">
+    <a href="/" class="nav-logo" aria-label="S M Sadik, back to the main site">
+      <span class="nav-logo-mark" aria-hidden="true">S</span>
+      <span class="nav-logo-word">S M<span class="accent-dot">.</span>Sadik</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/agency-partner">For agencies</a></li>
+    </ul>
+  </nav>
 </header>
 <script type="application/json" id="page-links">
 {
@@ -116,7 +128,27 @@
 </section>
 </main>
 
-<footer class="site-footer" data-include="/partials/footer.html"></footer>
+<footer class="site-footer" data-include="/partials/footer.html">
+  <!-- Static crawlable fallback for bots that don't run JS; js/include.js
+       wipes and replaces this with partials/footer.html on load. Keep in
+       sync with that partial and the page-links JSON above. -->
+  <div class="wrapper">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="nav-logo-mark" aria-hidden="true">S</span>
+        <span class="footer-mark">S M<span class="accent-dot">.</span>Sadik</span>
+        <span class="footer-tagline">Paid media that pays for itself.</span>
+      </div>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="/">Home</a>
+        <a href="/agency-partner">For agencies</a>
+        <a href="/#contact">Contact</a>
+        <a href="mailto:sadik@sadikgrowth.online">sadik@sadikgrowth.online</a>
+        <a href="https://www.linkedin.com/in/mehbubsadik/" target="_blank" rel="noopener">LinkedIn</a>
+      </nav>
+    </div>
+  </div>
+</footer>
 
 <script src="/js/include.js"></script>
 <script src="/js/main.js"></script>

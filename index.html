@@ -84,7 +84,25 @@
 <!-- NAV + mobile menu + toast: shared partial, see js/include.js.
      The empty .site-nav is the skeleton pill shown until the partial lands. -->
 <header class="site-header" id="siteHeader" data-include="/partials/nav.html">
-  <nav class="site-nav" aria-label="Main"></nav>
+  <!-- Static crawlable fallback for bots that don't run JS; js/include.js
+       wipes and replaces this with partials/nav.html on load. Keep in sync
+       with that partial and the page-links JSON below. -->
+  <nav class="site-nav" aria-label="Main">
+    <a href="#main-content" class="nav-logo" aria-label="S M Sadik — back to top">
+      <span class="nav-logo-mark" aria-hidden="true">S</span>
+      <span class="nav-logo-word">S M<span class="accent-dot">.</span>Sadik</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#expertise">Expertise</a></li>
+      <li><a href="#proof">Proof</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="/agency-partner">For agencies</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+    </ul>
+  </nav>
 </header>
 <script type="application/json" id="page-links">
 {
@@ -876,7 +894,34 @@
 </div>
 
 <!-- FOOTER (+ floating back-to-top): shared partial, see js/include.js -->
-<footer class="site-footer" data-include="/partials/footer.html"></footer>
+<footer class="site-footer" data-include="/partials/footer.html">
+  <!-- Static crawlable fallback for bots that don't run JS; js/include.js
+       wipes and replaces this with partials/footer.html on load. Keep in
+       sync with that partial and the page-links JSON above. -->
+  <div class="wrapper">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="nav-logo-mark" aria-hidden="true">S</span>
+        <span class="footer-mark">S M<span class="accent-dot">.</span>Sadik</span>
+        <span class="footer-tagline">Paid media that pays for itself.</span>
+      </div>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="#about">About</a>
+        <a href="#expertise">Expertise</a>
+        <a href="#proof">Proof</a>
+        <a href="#process">Process</a>
+        <a href="#experience">Experience</a>
+        <a href="#creative">Creative</a>
+        <a href="#systems">Systems</a>
+        <a href="#contact">Contact</a>
+        <a href="/agency-partner">Agency? Let's talk white-label &#8594;</a>
+        <a href="/privacy">Privacy</a>
+        <a href="mailto:sadik@sadikgrowth.online">sadik@sadikgrowth.online</a>
+        <a href="https://www.linkedin.com/in/mehbubsadik/" target="_blank" rel="noopener">LinkedIn</a>
+      </nav>
+    </div>
+  </div>
+</footer>
 
 <script src="/js/include.js"></script>
 <script src="js/slideshow.js"></script>
