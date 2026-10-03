@@ -1,0 +1,16 @@
+{
+  "name": "hero3d-build",
+  "version": "1.0.0",
+  "description": "Bundles the home page 3D layer into js/hero3d.js",
+  "scripts": {
+    "build": "esbuild src/hero3d.js --bundle --minify --format=iife --target=es2020 --legal-comments=none --outfile=../../js/hero3d.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "esbuild": "^0.28.2",
+    "three": "^0.186.1"
+  },
+  "private": true
+}
