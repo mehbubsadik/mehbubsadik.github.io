@@ -102,6 +102,10 @@
   --glass-shadow: 0 30px 60px -30px rgba(2, 4, 12, 0.85), 0 12px 24px -16px rgba(2, 4, 12, 0.6);
   --bezel-fill: rgba(255, 255, 255, 0.022);
   --bezel-line: rgba(255, 255, 255, 0.06);
+  /* Ring: a soft, blurred glow around cards (replaces the hard double bezel).
+     Neutral by default, tangerine on hover. Same layer count so it can transition. */
+  --ring: 0 0 6px 1px rgba(255, 255, 255, 0.09), 0 0 22px 5px rgba(255, 255, 255, 0.045);
+  --ring-hover: 0 0 8px 1px color-mix(in srgb, var(--accent) 55%, transparent), 0 0 24px 6px color-mix(in srgb, var(--accent) 28%, transparent);
   --chip-bg: rgba(255, 255, 255, 0.05);
   --input-bg: rgba(255, 255, 255, 0.035);
   --menu-bg: rgba(7, 11, 22, 0.78);
@@ -153,6 +157,7 @@
   --glass-shadow: 0 30px 60px -32px rgba(110, 64, 24, 0.28), 0 12px 24px -18px rgba(110, 64, 24, 0.18);
   --bezel-fill: rgba(255, 255, 255, 0.42);
   --bezel-line: rgba(14, 18, 32, 0.05);
+  --ring: 0 0 6px 1px rgba(14, 18, 32, 0.10), 0 0 22px 5px rgba(14, 18, 32, 0.05);
   --chip-bg: rgba(255, 255, 255, 0.6);
   --input-bg: rgba(255, 255, 255, 0.7);
   --menu-bg: rgba(244, 241, 236, 0.8);
@@ -388,8 +393,7 @@ main { position: relative; z-index: var(--z-base); }
   background: var(--glass-fill);
   border: 1px solid var(--glass-border);
   box-shadow:
-    0 0 0 var(--bezel) var(--bezel-fill),
-    0 0 0 calc(var(--bezel) + 1px) var(--bezel-line),
+    var(--ring),
     inset 0 1px 0 var(--glass-highlight),
     inset 0 -1px 0 var(--glass-lowlight),
     var(--glass-shadow);
@@ -432,14 +436,43 @@ main { position: relative; z-index: var(--z-base); }
   .lg-card:hover {
     transform: translateY(-3px);
     box-shadow:
-      0 0 0 var(--bezel) var(--bezel-fill),
-      0 0 0 calc(var(--bezel) + 1px) var(--accent-line),
+      var(--ring-hover),
       inset 0 1px 0 var(--glass-highlight),
       inset 0 -1px 0 var(--glass-lowlight),
       var(--glass-shadow);
   }
   .lg-card:hover::before,
   .lg-card:hover::after { opacity: 1; }
+}
+
+/* Other framed surfaces get the same ring behaviour: soft grey glow at rest,
+   tangerine glow on hover. Box-shadow only, so nothing here is expensive to animate. */
+.glass-pane, .about-photo-frame, .ss-frame, .loom-frame { transition: box-shadow 500ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .glass-pane:hover {
+    box-shadow:
+      var(--ring-hover),
+      inset 0 1px 0 var(--glass-highlight),
+      inset 0 -1px 0 var(--glass-lowlight),
+      var(--glass-shadow);
+  }
+  .glass-pane.glass-refract:hover {
+    box-shadow:
+      var(--ring-hover),
+      var(--lg-specular),
+      inset 0 1px 0 var(--glass-highlight),
+      inset 0 -1px 0 var(--glass-lowlight),
+      var(--glass-shadow),
+      var(--lg-underglow);
+  }
+  .about-photo-frame:hover { box-shadow: var(--ring-hover), var(--glass-shadow); }
+  .loom-frame:hover { box-shadow: var(--ring-hover), var(--glass-shadow); }
+  .ss-frame:hover {
+    box-shadow:
+      var(--ring-hover),
+      inset 0 1px 0 var(--glass-highlight),
+      var(--glass-shadow);
+  }
 }
 
 /* Pane — hero panel and contact card: real backdrop blur, used sparingly */
@@ -451,8 +484,7 @@ main { position: relative; z-index: var(--z-base); }
   -webkit-backdrop-filter: blur(22px) saturate(160%);
   backdrop-filter: blur(22px) saturate(160%);
   box-shadow:
-    0 0 0 var(--bezel) var(--bezel-fill),
-    0 0 0 calc(var(--bezel) + 1px) var(--bezel-line),
+    var(--ring),
     inset 0 1px 0 var(--glass-highlight),
     inset 0 -1px 0 var(--glass-lowlight),
     var(--glass-shadow);
@@ -470,6 +502,65 @@ main { position: relative; z-index: var(--z-base); }
   -webkit-mask-composite: xor;
   mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
   pointer-events: none;
+}
+
+/* Refract — true lens refraction, for exactly two surfaces: the nav pill and
+   the hero panel. An SVG displacement filter (#lg-refract-pill in
+   partials/nav.html, #lg-refract-panel in index.html) bends the backdrop at
+   the rim and leaves the centre untouched, then the usual blur runs on top.
+
+   Fallback is pure cascade, no sniffing:
+     1st backdrop-filter  plain blur, understood everywhere
+     2nd backdrop-filter  url() + blur; Chromium renders it
+     -webkit- line last   Safari never reads the 2nd line (old Safari has no
+                          unprefixed property; Safari 18+ aliases the two, so
+                          the last one wins). Chromium ignores the prefix.
+   Firefox parses url() as valid but can't apply it to a backdrop, so the
+   Gecko-only @supports below hands it the plain blur back.
+
+   Never animate any filter here: transform and opacity only. */
+.lg-defs { position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none; }
+
+.site-nav.glass-refract {
+  backdrop-filter: blur(20px) saturate(170%);
+  backdrop-filter: url(#lg-refract-pill) blur(12px) saturate(170%);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+}
+.glass-pane.glass-refract {
+  backdrop-filter: blur(22px) saturate(160%);
+  backdrop-filter: url(#lg-refract-panel) blur(10px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+}
+@supports (-moz-appearance: none) {
+  .site-nav.glass-refract { backdrop-filter: blur(20px) saturate(170%); }
+  .glass-pane.glass-refract { backdrop-filter: blur(22px) saturate(160%); }
+}
+
+/* Light: a thin specular line on the top-left inner edge, plus the soft,
+   page-tinted floating shadow. Dark: the same, with a faint tangerine
+   underglow, since a dark shadow on a navy page disappears. */
+.glass-refract {
+  --lg-specular: inset 1.5px 1.5px 1px -1px var(--glass-highlight);
+  --lg-underglow: 0 22px 40px -26px color-mix(in srgb, var(--accent-glow) 30%, transparent);
+}
+[data-theme="light"] .glass-refract { --lg-underglow: 0 0 0 transparent; }
+.site-nav.glass-refract,
+[data-theme="light"] .site-nav.glass-refract {
+  box-shadow:
+    var(--lg-specular),
+    inset 0 1px 0 var(--glass-highlight),
+    inset 0 -1px 0 var(--glass-lowlight),
+    var(--glass-shadow),
+    var(--lg-underglow);
+}
+.glass-pane.glass-refract {
+  box-shadow:
+    var(--ring),
+    var(--lg-specular),
+    inset 0 1px 0 var(--glass-highlight),
+    inset 0 -1px 0 var(--glass-lowlight),
+    var(--glass-shadow),
+    var(--lg-underglow);
 }
 
 /* ─── 4. BUTTONS ────────────────────────────────────────────────────────── */
@@ -1188,8 +1279,7 @@ main { position: relative; z-index: var(--z-base); }
   max-width: 380px;
   border-radius: var(--radius-xl);
   box-shadow:
-    0 0 0 var(--bezel) var(--bezel-fill),
-    0 0 0 calc(var(--bezel) + 1px) var(--bezel-line),
+    var(--ring),
     var(--glass-shadow);
 }
 .about-photo {
@@ -1456,8 +1546,7 @@ main { position: relative; z-index: var(--z-base); }
   background: var(--glass-fill);
   border: 1px solid var(--glass-border);
   box-shadow:
-    0 0 0 var(--bezel) var(--bezel-fill),
-    0 0 0 calc(var(--bezel) + 1px) var(--bezel-line),
+    var(--ring),
     inset 0 1px 0 var(--glass-highlight),
     var(--glass-shadow);
 }
@@ -1552,8 +1641,7 @@ main { position: relative; z-index: var(--z-base); }
   overflow: hidden;
   background: var(--surface-solid);
   box-shadow:
-    0 0 0 var(--bezel) var(--bezel-fill),
-    0 0 0 calc(var(--bezel) + 1px) var(--bezel-line),
+    var(--ring),
     var(--glass-shadow);
 }
 .loom-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
@@ -1734,7 +1822,7 @@ main { position: relative; z-index: var(--z-base); }
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: #000;
-  box-shadow: 0 0 0 var(--bezel) var(--bezel-fill), 0 0 0 calc(var(--bezel) + 1px) var(--bezel-line), 0 40px 80px -30px rgba(0, 0, 0, 0.8);
+  box-shadow: var(--ring), 0 40px 80px -30px rgba(0, 0, 0, 0.8);
 }
 .lightbox-inner--shorts { aspect-ratio: 9 / 16; width: min(380px, 100%, calc((100dvh - 2rem) * 9 / 16)); }
 .lightbox-inner iframe { width: 100%; height: 100%; border: 0; }
@@ -1948,8 +2036,7 @@ main { position: relative; z-index: var(--z-base); }
   -webkit-backdrop-filter: blur(24px) saturate(160%);
   backdrop-filter: blur(24px) saturate(160%);
   box-shadow:
-    0 0 0 var(--bezel) var(--bezel-fill),
-    0 0 0 calc(var(--bezel) + 1px) var(--bezel-line),
+    var(--ring),
     inset 0 1px 0 var(--glass-highlight),
     0 40px 90px -30px rgba(2, 4, 12, 0.8);
   overflow: auto;
@@ -2600,6 +2687,15 @@ main { position: relative; z-index: var(--z-base); }
   .back-to-top-float { right: 14px; }
 }
 
+/* Phones: the hero panel goes back to plain blur (big surface, low-end GPUs).
+   The nav pill is small enough to keep its lens. */
+@media (max-width: 720px) {
+  .glass-pane.glass-refract {
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    backdrop-filter: blur(22px) saturate(160%);
+  }
+}
+
 @media (max-width: 720px) {
   .metrics-bento { gap: 1.4rem; }
   .metric-item { min-height: 0; padding: 1.25rem 1.15rem; }
@@ -2631,7 +2727,8 @@ main { position: relative; z-index: var(--z-base); }
 
 /* Visitors who ask for less transparency get solid, calm surfaces */
 @media (prefers-reduced-transparency: reduce) {
-  .lg-card, .glass-pane, .site-nav, .mobile-menu, .ss-frame, .toast, .back-to-top-float, .about-photo-chip, .ss-arrow {
+  .lg-card, .glass-pane, .site-nav, .mobile-menu, .ss-frame, .toast, .back-to-top-float, .about-photo-chip, .ss-arrow,
+  .site-nav.glass-refract, .glass-pane.glass-refract {
     background: var(--surface-solid);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
