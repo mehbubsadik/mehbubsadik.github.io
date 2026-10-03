@@ -136,6 +136,17 @@
 </head>
 <body>
 
+<!-- Liquid glass lens for the hero panel (see .glass-refract in css/style.css).
+     Rounded-rect displacement map: zero in the centre, strongest at the rim.
+     The nav pill has its own filter in partials/nav.html. -->
+<svg class="lg-defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <filter id="lg-refract-panel" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+    <feImage href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 440 400' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='r'%3E%3Cstop offset='0' stop-color='red'/%3E%3Cstop offset='1' stop-color='black'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='blue'/%3E%3Cstop offset='1' stop-color='black'/%3E%3C/linearGradient%3E%3Cfilter id='s'%3E%3CfeGaussianBlur stdDeviation='8'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='440' height='400' rx='32' fill='url(%23r)'/%3E%3Crect width='440' height='400' rx='32' fill='url(%23b)' style='mix-blend-mode:screen'/%3E%3Crect x='24' y='24' width='392' height='352' rx='16' fill='%23808080' filter='url(%23s)'/%3E%3C/svg%3E" x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" result="map"/>
+    <feGaussianBlur in="map" stdDeviation="1.5" result="soft"/>
+    <feDisplacementMap in="SourceGraphic" in2="soft" scale="40" xChannelSelector="R" yChannelSelector="B"/>
+  </filter>
+</svg>
+
 <a href="#main-content" class="skip-link">Skip to content</a>
 
 <!-- Page-wide light field: the colour the glass surfaces refract -->
@@ -252,7 +263,7 @@
         <p class="avail"><span class="avail-dot" aria-hidden="true"></span>Taking on new clients — limited spots</p>
       </div>
 
-      <aside class="hero-panel glass-pane" aria-label="Track record">
+      <aside class="hero-panel glass-pane glass-refract" aria-label="Track record">
         <div class="hero-panel-head">
           <span>Track record</span>
           <span class="hero-panel-tag">Jan 2023 → now</span>

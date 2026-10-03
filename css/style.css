@@ -472,6 +472,66 @@ main { position: relative; z-index: var(--z-base); }
   pointer-events: none;
 }
 
+/* Refract — true lens refraction, for exactly two surfaces: the nav pill and
+   the hero panel. An SVG displacement filter (#lg-refract-pill in
+   partials/nav.html, #lg-refract-panel in index.html) bends the backdrop at
+   the rim and leaves the centre untouched, then the usual blur runs on top.
+
+   Fallback is pure cascade, no sniffing:
+     1st backdrop-filter  plain blur, understood everywhere
+     2nd backdrop-filter  url() + blur; Chromium renders it
+     -webkit- line last   Safari never reads the 2nd line (old Safari has no
+                          unprefixed property; Safari 18+ aliases the two, so
+                          the last one wins). Chromium ignores the prefix.
+   Firefox parses url() as valid but can't apply it to a backdrop, so the
+   Gecko-only @supports below hands it the plain blur back.
+
+   Never animate any filter here: transform and opacity only. */
+.lg-defs { position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none; }
+
+.site-nav.glass-refract {
+  backdrop-filter: blur(20px) saturate(170%);
+  backdrop-filter: url(#lg-refract-pill) blur(12px) saturate(170%);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+}
+.glass-pane.glass-refract {
+  backdrop-filter: blur(22px) saturate(160%);
+  backdrop-filter: url(#lg-refract-panel) blur(10px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+}
+@supports (-moz-appearance: none) {
+  .site-nav.glass-refract { backdrop-filter: blur(20px) saturate(170%); }
+  .glass-pane.glass-refract { backdrop-filter: blur(22px) saturate(160%); }
+}
+
+/* Light: a thin specular line on the top-left inner edge, plus the soft,
+   page-tinted floating shadow. Dark: the same, with a faint tangerine
+   underglow, since a dark shadow on a navy page disappears. */
+.glass-refract {
+  --lg-specular: inset 1.5px 1.5px 1px -1px var(--glass-highlight);
+  --lg-underglow: 0 22px 40px -26px color-mix(in srgb, var(--accent-glow) 30%, transparent);
+}
+[data-theme="light"] .glass-refract { --lg-underglow: 0 0 0 transparent; }
+.site-nav.glass-refract,
+[data-theme="light"] .site-nav.glass-refract {
+  box-shadow:
+    var(--lg-specular),
+    inset 0 1px 0 var(--glass-highlight),
+    inset 0 -1px 0 var(--glass-lowlight),
+    var(--glass-shadow),
+    var(--lg-underglow);
+}
+.glass-pane.glass-refract {
+  box-shadow:
+    0 0 0 var(--bezel) var(--bezel-fill),
+    0 0 0 calc(var(--bezel) + 1px) var(--bezel-line),
+    var(--lg-specular),
+    inset 0 1px 0 var(--glass-highlight),
+    inset 0 -1px 0 var(--glass-lowlight),
+    var(--glass-shadow),
+    var(--lg-underglow);
+}
+
 /* ─── 4. BUTTONS ────────────────────────────────────────────────────────── */
 
 .btn {
@@ -2600,6 +2660,15 @@ main { position: relative; z-index: var(--z-base); }
   .back-to-top-float { right: 14px; }
 }
 
+/* Phones: the hero panel goes back to plain blur (big surface, low-end GPUs).
+   The nav pill is small enough to keep its lens. */
+@media (max-width: 720px) {
+  .glass-pane.glass-refract {
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    backdrop-filter: blur(22px) saturate(160%);
+  }
+}
+
 @media (max-width: 720px) {
   .metrics-bento { gap: 1.4rem; }
   .metric-item { min-height: 0; padding: 1.25rem 1.15rem; }
@@ -2631,7 +2700,8 @@ main { position: relative; z-index: var(--z-base); }
 
 /* Visitors who ask for less transparency get solid, calm surfaces */
 @media (prefers-reduced-transparency: reduce) {
-  .lg-card, .glass-pane, .site-nav, .mobile-menu, .ss-frame, .toast, .back-to-top-float, .about-photo-chip, .ss-arrow {
+  .lg-card, .glass-pane, .site-nav, .mobile-menu, .ss-frame, .toast, .back-to-top-float, .about-photo-chip, .ss-arrow,
+  .site-nav.glass-refract, .glass-pane.glass-refract {
     background: var(--surface-solid);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
