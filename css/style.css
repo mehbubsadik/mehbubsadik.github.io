@@ -528,7 +528,7 @@ main { position: relative; z-index: var(--z-base); }
 }
 .glass-pane.glass-refract {
   backdrop-filter: blur(22px) saturate(160%);
-  backdrop-filter: url(#lg-refract-panel) blur(10px) saturate(160%);
+  backdrop-filter: url(#lg-refract-panel) blur(4px) saturate(180%);
   -webkit-backdrop-filter: blur(22px) saturate(160%);
 }
 @supports (-moz-appearance: none) {
@@ -540,10 +540,18 @@ main { position: relative; z-index: var(--z-base); }
    page-tinted floating shadow. Dark: the same, with a faint tangerine
    underglow, since a dark shadow on a navy page disappears. */
 .glass-refract {
-  --lg-specular: inset 1.5px 1.5px 1px -1px var(--glass-highlight);
+  --lg-specular:
+    inset 2px 2px 1px -1px var(--glass-highlight),
+    inset -1.5px -1.5px 1px -1px color-mix(in srgb, var(--glass-highlight) 45%, transparent),
+    inset 0 0 14px 0 color-mix(in srgb, var(--glass-highlight) 22%, transparent);
+  /* Reading layer: the lens is clear at the rim, calm where text sits */
+  --lg-scrim: radial-gradient(120% 100% at 50% 52%, rgba(7, 11, 24, 0.62) 0%, rgba(7, 11, 24, 0.46) 62%, rgba(7, 11, 24, 0.12) 100%);
   --lg-underglow: 0 22px 40px -26px color-mix(in srgb, var(--accent-glow) 30%, transparent);
 }
-[data-theme="light"] .glass-refract { --lg-underglow: 0 0 0 transparent; }
+[data-theme="light"] .glass-refract {
+  --lg-underglow: 0 0 0 transparent;
+  --lg-scrim: radial-gradient(120% 100% at 50% 52%, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.55) 62%, rgba(255, 255, 255, 0.14) 100%);
+}
 .site-nav.glass-refract,
 [data-theme="light"] .site-nav.glass-refract {
   box-shadow:
@@ -554,6 +562,7 @@ main { position: relative; z-index: var(--z-base); }
     var(--lg-underglow);
 }
 .glass-pane.glass-refract {
+  background: var(--lg-scrim), var(--glass-fill-pane);
   box-shadow:
     var(--ring),
     var(--lg-specular),
