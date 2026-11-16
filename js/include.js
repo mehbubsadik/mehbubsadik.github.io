@@ -30,6 +30,11 @@
     a.href = item.href;
     a.textContent = item.label;
     if (item.className) a.className = item.className;
+    /* A link to the page we're on (no hash) is the current page. */
+    if (item.href.charAt(0) === '/' && item.href.indexOf('#') === -1 &&
+        item.href.replace(/\/$/, '') === location.pathname.replace(/\/$/, '')) {
+      a.setAttribute('aria-current', 'page');
+    }
     return a;
   }
 

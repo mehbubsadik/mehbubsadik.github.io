@@ -116,8 +116,8 @@ function showToast(msg) {
   /* A page can override the copy via data-msg-* (the agency page does). */
   var msg = {
     invalid: form.getAttribute('data-msg-invalid') || 'Please fill in your name, a valid email, a phone number with country code, your brand and your monthly spend.',
-    success: form.getAttribute('data-msg-success') || '✓ Brief received — I\'ll reply within 24 hours.',
-    error: form.getAttribute('data-msg-error') || 'Couldn\'t send right now — email sadik@sadikgrowth.online or WhatsApp +880 1932 330670 instead.'
+    success: form.getAttribute('data-msg-success') || '✓ Brief received. I\'ll reply within 24 hours.',
+    error: form.getAttribute('data-msg-error') || 'Couldn\'t send right now. Email sadik@sadikgrowth.online or WhatsApp +880 1932 330670 instead.'
   };
 
   function setStatus(msg, kind) {
@@ -260,9 +260,9 @@ onChrome(function() {
     var dark = current() === 'dark';
     if (toggle) {
       toggle.setAttribute('aria-checked', String(dark));
-      toggle.setAttribute('aria-label', dark ? 'Dark mode on — switch to light mode' : 'Light mode on — switch to dark mode');
+      toggle.setAttribute('aria-label', dark ? 'Dark mode on, switch to light mode' : 'Light mode on, switch to dark mode');
     }
-    if (meta) meta.setAttribute('content', dark ? '#070B16' : '#F4F1EC');
+    if (meta) meta.setAttribute('content', dark ? '#0C0B0A' : '#F3EFE7');
   }
 
   function apply(theme) {
@@ -333,24 +333,6 @@ onChrome(function() {
   });
 });
 
-/* ─── HERO CHART: draw-in + count-up sync ───
-   Draws the growth line in once on load (skipped for reduced motion, which
-   just shows the finished line). Lightweight SVG animation — replaces the
-   old WebGL shader canvas, since this hero background now needs to survive
-   on Meta-ad mobile traffic, not spend a frame budget on a fragment shader. */
-(function() {
-  var path = document.getElementById('heroChartLine');
-  if (!path) return;
-  var len = path.getTotalLength();
-  path.style.strokeDasharray = len;
-  path.style.strokeDashoffset = prefersReducedMotion ? '0' : len;
-  if (prefersReducedMotion) return;
-  requestAnimationFrame(function() {
-    path.style.transition = 'stroke-dashoffset 1.8s ' + 'cubic-bezier(0.22,1,0.36,1)';
-    requestAnimationFrame(function() { path.style.strokeDashoffset = '0'; });
-  });
-})();
-
 /* ─── SCROLL REVEAL ─── */
 var revealObserver = new IntersectionObserver(function(entries) {
   entries.forEach(function(entry) {
@@ -391,17 +373,6 @@ onChrome(function() {
     if (entries[0].isIntersecting) navLinks.forEach(function(l) { l.classList.remove('active'); });
   }, { rootMargin: '-40% 0px -55% 0px' }).observe(hero);
 });
-
-/* ─── LIQUID GLASS MOUSE TRACKING ─── */
-if (window.matchMedia('(hover: hover)').matches) {
-  document.querySelectorAll('.lg-card').forEach(function(card) {
-    card.addEventListener('mousemove', function(e) {
-      var rect = card.getBoundingClientRect();
-      card.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width) * 100 + '%');
-      card.style.setProperty('--my', ((e.clientY - rect.top) / rect.height) * 100 + '%');
-    });
-  });
-}
 
 /* ─── SCROLL-DRIVEN UI (one rAF-throttled listener) ───
    Floating nav tucks away while reading down, returns on the first
