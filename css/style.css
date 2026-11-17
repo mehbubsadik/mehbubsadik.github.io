@@ -19,6 +19,9 @@
 
 /* ─── 1. TOKENS ─────────────────────────────────────────────────────────── */
 
+@property --tt-cx { syntax: '<percentage>'; inherits: false; initial-value: 150%; }
+@property --tt-cy { syntax: '<percentage>'; inherits: false; initial-value: -40%; }
+
 :root {
   /* Primitives */
   --coal-950: #080706;
@@ -56,6 +59,7 @@
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-heavy: cubic-bezier(0.32, 0.72, 0, 1);
   --ease-spring: cubic-bezier(0.34, 1.36, 0.64, 1);
+  --tt-ease-io: cubic-bezier(0.65, 0, 0.35, 1);
   --dur-fast: 160ms;
   --dur-base: 280ms;
   --dur-slow: 800ms;
@@ -371,16 +375,168 @@ main, .site-footer { position: relative; z-index: var(--z-base); }
 .nav-highlight:hover { background: var(--accent-soft); }
 .peel-back { display: none; }
 
+/* ─── THEME TOGGLE — sun & clouds ↔ crescent moon & stars ─── */
+
 .theme-toggle {
-  display: grid; place-items: center; width: 2.5rem; height: 2.5rem;
-  border: 1px solid var(--rule); border-radius: var(--radius-md); color: var(--text-2);
-  transition: border-color var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out);
+  position: relative;
+  width: 66px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  background: none;
+  border-radius: 999px;
+  cursor: pointer;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
 }
-.theme-toggle:hover { border-color: var(--rule-strong); color: var(--text); }
-.theme-toggle svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: square; }
-.theme-toggle .tt-sun { display: none; }
-:root[data-theme="light"] .theme-toggle .tt-sun { display: block; }
-:root[data-theme="light"] .theme-toggle .tt-moon { display: none; }
+/* 44px minimum hit area without growing the visual */
+.theme-toggle::after { content: ''; position: absolute; inset: -4px -2px; }
+
+.tt-track {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  /* Day sky */
+  background: linear-gradient(160deg, #8ACDF6 0%, #B7E1FB 55%, #DDF1FF 100%);
+  box-shadow:
+    inset 0 2px 5px rgba(22, 80, 140, 0.35),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.6),
+    0 0 0 1px rgba(14, 18, 32, 0.08);
+  transition: box-shadow 600ms var(--ease-out);
+}
+/* Night sky layer cross-fades over the day sky (gradients can't transition) */
+.tt-track::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 70% 120%, rgba(90, 110, 220, 0.45), transparent 60%),
+    linear-gradient(160deg, #0B1230 0%, #16204A 60%, #22306A 100%);
+  opacity: 0;
+  transition: opacity 600ms var(--ease-out);
+}
+
+.tt-knob {
+  --tt-cx: 150%;
+  --tt-cy: -40%;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  /* Sun */
+  background: radial-gradient(circle at 34% 30%, #FFF3B8 0%, var(--sunshine-400) 42%, #FF9A3C 100%);
+  box-shadow:
+    inset -2px -3px 5px rgba(214, 100, 20, 0.35),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.8),
+    0 0 0 4px rgba(255, 214, 102, 0.28),
+    0 0 14px 2px rgba(255, 186, 70, 0.65);
+  /* The crescent is carved by a masked circle that slides in from outside the disc */
+  -webkit-mask: radial-gradient(circle 12.5px at var(--tt-cx) var(--tt-cy), transparent 96%, #000 100%);
+  mask: radial-gradient(circle 12.5px at var(--tt-cx) var(--tt-cy), transparent 96%, #000 100%);
+  transform: translateX(0) rotate(0deg);
+  transition:
+    transform 620ms var(--ease-spring),
+    --tt-cx 620ms var(--ease-out),
+    --tt-cy 620ms var(--ease-out),
+    box-shadow 500ms var(--ease-out),
+    scale 300ms var(--ease-spring);
+  z-index: 2;
+}
+/* Moon surface cross-fades over the sun (gradients can't transition) */
+.tt-knob::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 36% 32%, #FFFFFF 0%, #EDEAF6 45%, #C9C5DC 100%);
+  box-shadow: inset -2px -2px 4px rgba(120, 116, 150, 0.35);
+  opacity: 0;
+  transition: opacity 500ms var(--ease-out);
+}
+.tt-crater {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(142, 138, 170, 0.55);
+  box-shadow: inset 0.5px 0.5px 1px rgba(80, 76, 110, 0.5);
+  opacity: 0;
+  transform: scale(0.4);
+  transition: opacity 400ms var(--ease-out), transform 500ms var(--ease-spring);
+}
+.tt-crater--1 { width: 6px; height: 6px; left: 6px; top: 12px; }
+.tt-crater--2 { width: 4px; height: 4px; left: 11px; top: 20px; }
+.tt-crater--3 { width: 3px; height: 3px; left: 5px; top: 5.5px; }
+
+.tt-clouds,
+.tt-stars {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transition: transform 620ms var(--ease-out), opacity 450ms var(--ease-out);
+  z-index: 1;
+}
+.tt-clouds { right: 2px; width: 40px; }
+.tt-cloud { fill: #fff; }
+.tt-cloud--back { opacity: 0.72; }
+.tt-cloud--front { filter: drop-shadow(0 1px 1px rgba(40, 110, 180, 0.25)); }
+
+.tt-stars { left: 4px; width: 34px; opacity: 0; transform: translateY(-70%); }
+.tt-star {
+  fill: #FFF6D8;
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+  transform: scale(0.2);
+  transition: opacity 400ms var(--ease-out), transform 500ms var(--ease-spring);
+}
+
+/* — Night — */
+[data-theme="dark"] .tt-track {
+  box-shadow:
+    inset 0 2px 6px rgba(0, 0, 0, 0.55),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.08),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+[data-theme="dark"] .tt-track::before { opacity: 1; }
+[data-theme="dark"] .tt-knob {
+  --tt-cx: 82%;
+  --tt-cy: 22%;
+  transform: translateX(30px) rotate(-20deg);
+  box-shadow:
+    0 0 0 4px rgba(200, 210, 255, 0.08),
+    0 0 14px 1px rgba(190, 205, 255, 0.45);
+}
+[data-theme="dark"] .tt-knob::before { opacity: 1; }
+[data-theme="dark"] .tt-crater { opacity: 1; transform: scale(1); }
+[data-theme="dark"] .tt-crater--2 { transition-delay: 60ms; }
+[data-theme="dark"] .tt-crater--3 { transition-delay: 120ms; }
+[data-theme="dark"] .tt-clouds { opacity: 0; transform: translateY(80%); }
+[data-theme="dark"] .tt-stars { opacity: 1; transform: none; }
+[data-theme="dark"] .tt-star { opacity: 1; transform: scale(1); }
+[data-theme="dark"] .tt-star--1 { transition-delay: 120ms; }
+[data-theme="dark"] .tt-star--2 { transition-delay: 200ms; }
+[data-theme="dark"] .tt-star--3 { transition-delay: 260ms; opacity: 0.8; }
+[data-theme="dark"] .tt-star--4 { transition-delay: 320ms; opacity: 0.6; }
+[data-theme="dark"] .tt-star--5 { transition-delay: 380ms; }
+[data-theme="dark"] .tt-star--6 { transition-delay: 440ms; opacity: 0.5; }
+
+/* Hover: stars twinkle / clouds drift — only while the visitor is engaging */
+@media (hover: hover) and (pointer: fine) {
+  /* scale the knob's glow, not a filter — filter + mask drops the sun in Chromium */
+  .theme-toggle:hover .tt-knob { scale: 1.06; }
+  [data-theme="dark"] .theme-toggle:hover .tt-star--1 { animation: ttTwinkle 1.4s var(--tt-ease-io) infinite; }
+  [data-theme="dark"] .theme-toggle:hover .tt-star--2 { animation: ttTwinkle 1.4s var(--tt-ease-io) 0.35s infinite; }
+  [data-theme="dark"] .theme-toggle:hover .tt-star--5 { animation: ttTwinkle 1.4s var(--tt-ease-io) 0.7s infinite; }
+  [data-theme="light"] .theme-toggle:hover .tt-cloud--front { animation: ttDrift 2.4s var(--tt-ease-io) infinite alternate; }
+  [data-theme="light"] .theme-toggle:hover .tt-cloud--back { animation: ttDrift 2.4s var(--tt-ease-io) 0.4s infinite alternate-reverse; }
+}
+@keyframes ttTwinkle { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(0.55); opacity: 0.55; } }
+@keyframes ttDrift { from { transform: translateX(0); } to { transform: translateX(-2.5px); } }
+
+.theme-toggle:active .tt-knob { scale: 0.94; }
+.theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 
 .nav-burger {
   display: none; position: relative; width: 2.5rem; height: 2.5rem;
