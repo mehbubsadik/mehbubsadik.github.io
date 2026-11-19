@@ -68,6 +68,16 @@
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <link rel="preload" href="/partials/nav.html" as="fetch" crossorigin>
 <link rel="preload" href="/partials/footer.html" as="fetch" crossorigin>
+<script>
+  /* Pre-hide blocks that the agents build on scroll; the build script clears this if it cannot run. */
+  (function () {
+    var r = document.documentElement;
+    if (!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+      r.classList.add('sb-js');
+      setTimeout(function () { if (!window.__sbReady) r.classList.remove('sb-js'); }, 4000);
+    }
+  })();
+</script>
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/agents-build.css">
 </head>

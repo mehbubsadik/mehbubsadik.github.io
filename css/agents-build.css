@@ -136,5 +136,11 @@
 [data-agents-build]:not(.ab-static) .ab-live { visibility: visible; }
 
 /* Site-wide section agents (js/site-build.js) */
-.sb-agent { position: absolute; top: 2px; left: 0; z-index: 4; color: var(--accent, #FF6B1A); pointer-events: none; filter: drop-shadow(0 6px 10px rgba(0,0,0,.35)); transform-origin: 50% 100%; will-change: transform; }
-.sb-agent svg { display: block; width: 24px; height: auto; }
+.sb-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+/* Pre-hide so built-on-scroll blocks never flash before the script runs.
+   The inline head script drops .sb-js again if the script fails to load. */
+.sb-js main > section:not(:first-child) > .wrapper > * { opacity: 0; }
+.sb-ghost { position: absolute; left: 0; top: 0; z-index: 3; pointer-events: none; border: 1.5px dashed var(--accent, #FF6B1A); border-radius: 6px; background: rgba(255, 107, 26, .06); will-change: opacity; }
+.sb-ghost em { position: absolute; left: 8px; top: -9px; padding: 2px 7px; border-radius: 99px; background: var(--accent, #FF6B1A); color: #14110E; font: 600 .62rem/1.3 var(--font-mono, ui-monospace, monospace); letter-spacing: .06em; text-transform: uppercase; font-style: normal; white-space: nowrap; }
+.sb-agent { position: absolute; left: 0; top: 0; z-index: 4; color: var(--accent, #FF6B1A); pointer-events: none; filter: drop-shadow(0 6px 10px rgba(0,0,0,.35)); transform-origin: 50% 100%; will-change: transform, opacity; }
+.sb-agent svg { display: block; width: 26px; height: auto; }
