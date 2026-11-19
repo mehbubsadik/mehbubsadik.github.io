@@ -107,17 +107,47 @@ function showToast(msg) {
   });
 })();
 
+/* ─── ATTRIBUTION ───
+   Remembers where a visitor came from (UTM tags and the referring site) for
+   the rest of the session, so the lead form can send it with the lead. The
+   first visit wins: a later click on /work or /about never overwrites it.
+   Stored in sessionStorage on this site only; see the privacy policy. */
+var siteAttribution = (function() {
+  var KEY = 'attribution';
+  var saved = {};
+  try { saved = JSON.parse(sessionStorage.getItem(KEY) || '{}') || {}; } catch (e) { saved = {}; }
+  if (!saved.captured) {
+    var q = new URLSearchParams(location.search);
+    ['utm_source', 'utm_medium', 'utm_campaign'].forEach(function(k) {
+      var v = q.get(k);
+      if (v) saved[k] = v.slice(0, 200);
+    });
+    try {
+      if (document.referrer) {
+        var host = new URL(document.referrer).hostname;
+        if (host && host !== location.hostname) saved.referrer = host.slice(0, 200);
+      }
+    } catch (e) {}
+    saved.captured = 1;
+    try { sessionStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+  }
+  return saved;
+})();
+
 /* ─── LEAD FORM ─── */
 (function() {
   var form = document.getElementById('leadForm');
   if (!form) return;
   var status = document.getElementById('leadStatus');
   var submit = form.querySelector('.lead-submit');
+  var submitLabel = submit.textContent;
+  var thanksUrl = form.getAttribute('data-thanks');
+  var redirecting = false;
   /* A page can override the copy via data-msg-* (the agency page does). */
   var msg = {
     invalid: form.getAttribute('data-msg-invalid') || 'Please fill in your name, a valid email, a phone number with country code, your brand and your monthly spend.',
-    success: form.getAttribute('data-msg-success') || '✓ Brief received — I\'ll reply within 24 hours.',
-    error: form.getAttribute('data-msg-error') || 'Couldn\'t send right now — email sadik@sadikgrowth.online or WhatsApp +880 1932 330670 instead.'
+    success: form.getAttribute('data-msg-success') || '✓ Brief received. I\'ll reply within 24 hours.',
+    error: form.getAttribute('data-msg-error') || 'Couldn\'t send right now. Email sadik@sadikgrowth.online or WhatsApp +880 1932 330670 instead.'
   };
 
   function setStatus(msg, kind) {
@@ -143,6 +173,10 @@ function showToast(msg) {
 
     var data = {};
     new FormData(form).forEach(function(v, k) { data[k] = v; });
+    ['utm_source', 'utm_medium', 'utm_campaign', 'referrer'].forEach(function(k) {
+      if (siteAttribution[k]) data[k] = siteAttribution[k];
+    });
+    data.page = location.pathname;
 
     submit.disabled = true;
     submit.textContent = 'Sending…';
@@ -157,17 +191,43 @@ function showToast(msg) {
       .then(function(res) {
         if (!res.ok || res.body.success !== true) throw new Error('send failed');
         form.reset();
+        var leadInfo = { monthly_spend: data.monthly_spend, lead_type: data.lead_type || 'brand' };
+        if (thanksUrl) {
+          /* The Lead event fires once on the thank-you page, not here, so it
+             counts a real submission only and a refresh can't repeat it. */
+          try { sessionStorage.setItem('lead-pending', JSON.stringify(leadInfo)); } catch (e) {}
+          redirecting = true;
+          location.assign(thanksUrl);
+          return;
+        }
         setStatus(msg.success, 'success');
-        track('Lead', { monthly_spend: data.monthly_spend, lead_type: data.lead_type || 'brand' });
+        track('Lead', leadInfo);
       })
       .catch(function() {
         setStatus(msg.error, 'error');
       })
       .then(function() {
+        if (redirecting) return;
         submit.disabled = false;
-        submit.textContent = 'Send Brief';
+        submit.textContent = submitLabel;
       });
   });
+})();
+
+/* ─── THANK-YOU PAGE ───
+   The lead form leaves a one-shot note in sessionStorage before redirecting
+   here. No note (a direct visit, a refresh) means no Lead event. */
+(function() {
+  if (!document.querySelector('[data-thanks-page]')) return;
+  var raw = null;
+  try {
+    raw = sessionStorage.getItem('lead-pending');
+    sessionStorage.removeItem('lead-pending');
+  } catch (e) {}
+  if (!raw) return;
+  var info = {};
+  try { info = JSON.parse(raw) || {}; } catch (e) {}
+  track('Lead', info);
 })();
 
 /* ─── QUICK BRIEF MODAL ───
@@ -218,6 +278,8 @@ function showToast(msg) {
     var trigger = e.target.closest('[data-open-brief]');
     if (!trigger) return;
     e.preventDefault();
+    var menuToggle = document.getElementById('navToggle');
+    if (document.body.classList.contains('menu-open') && menuToggle) menuToggle.click();
     open(true);
   });
 
@@ -260,9 +322,9 @@ onChrome(function() {
     var dark = current() === 'dark';
     if (toggle) {
       toggle.setAttribute('aria-checked', String(dark));
-      toggle.setAttribute('aria-label', dark ? 'Dark mode on — switch to light mode' : 'Light mode on — switch to dark mode');
+      toggle.setAttribute('aria-label', dark ? 'Dark mode on, switch to light mode' : 'Light mode on, switch to dark mode');
     }
-    if (meta) meta.setAttribute('content', dark ? '#070B16' : '#F4F1EC');
+    if (meta) meta.setAttribute('content', dark ? '#0C0B0A' : '#F3EFE7');
   }
 
   function apply(theme) {
@@ -333,24 +395,6 @@ onChrome(function() {
   });
 });
 
-/* ─── HERO CHART: draw-in + count-up sync ───
-   Draws the growth line in once on load (skipped for reduced motion, which
-   just shows the finished line). Lightweight SVG animation — replaces the
-   old WebGL shader canvas, since this hero background now needs to survive
-   on Meta-ad mobile traffic, not spend a frame budget on a fragment shader. */
-(function() {
-  var path = document.getElementById('heroChartLine');
-  if (!path) return;
-  var len = path.getTotalLength();
-  path.style.strokeDasharray = len;
-  path.style.strokeDashoffset = prefersReducedMotion ? '0' : len;
-  if (prefersReducedMotion) return;
-  requestAnimationFrame(function() {
-    path.style.transition = 'stroke-dashoffset 1.8s ' + 'cubic-bezier(0.22,1,0.36,1)';
-    requestAnimationFrame(function() { path.style.strokeDashoffset = '0'; });
-  });
-})();
-
 /* ─── SCROLL REVEAL ─── */
 var revealObserver = new IntersectionObserver(function(entries) {
   entries.forEach(function(entry) {
@@ -391,17 +435,6 @@ onChrome(function() {
     if (entries[0].isIntersecting) navLinks.forEach(function(l) { l.classList.remove('active'); });
   }, { rootMargin: '-40% 0px -55% 0px' }).observe(hero);
 });
-
-/* ─── LIQUID GLASS MOUSE TRACKING ─── */
-if (window.matchMedia('(hover: hover)').matches) {
-  document.querySelectorAll('.lg-card').forEach(function(card) {
-    card.addEventListener('mousemove', function(e) {
-      var rect = card.getBoundingClientRect();
-      card.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width) * 100 + '%');
-      card.style.setProperty('--my', ((e.clientY - rect.top) / rect.height) * 100 + '%');
-    });
-  });
-}
 
 /* ─── SCROLL-DRIVEN UI (one rAF-throttled listener) ───
    Floating nav tucks away while reading down, returns on the first

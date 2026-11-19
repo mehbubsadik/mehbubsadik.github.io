@@ -16,7 +16,9 @@ Also written as Mehbub Sadik, S M Sadik or SM Abdullah All Mehbub Sadik.
 
 ## Pages
 
-- [Home](https://mehbubsadik.online/): Full track record, proof of work, services and process for performance marketing and web development.
+- [Home](https://mehbubsadik.online/): Track record, headline results, services and process for performance marketing and web development.
+- [Work](https://mehbubsadik.online/work): Case studies from Meta, TikTok and Google Ads accounts with the raw Ads Manager screenshots, plus video ads and web builds.
+- [About](https://mehbubsadik.online/about): Background, experience timeline and the platforms he operates on.
 - [White-Label Partner](https://mehbubsadik.online/agency-partner): White-label Meta, TikTok and Google Ads execution plus web builds for agencies, delivered under their own brand.
 - [Privacy Policy](https://mehbubsadik.online/privacy): What data this site collects and how to request it be deleted.
 

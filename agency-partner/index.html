@@ -6,7 +6,7 @@
 <title>White-Label Partner for Agencies | Mehbub Sadik</title>
 <meta name="description" content="White-label paid media and web development for agencies with more client work than people. You keep the client and the margin. I do the work behind your brand.">
 <meta name="color-scheme" content="dark light">
-<meta name="theme-color" content="#070B16">
+<meta name="theme-color" content="#0C0B0A">
 <meta property="og:title" content="White-Label Partner for Agencies | Mehbub Sadik">
 <meta property="og:description" content="Meta, TikTok and Google Ads execution plus website and dashboard builds, delivered under your agency's name.">
 <meta property="og:type" content="website">
@@ -29,7 +29,7 @@
     var theme = saved === 'light' || saved === 'dark' ? saved : (prefersLight ? 'light' : 'dark');
     root.setAttribute('data-theme', theme);
     var meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute('content', theme === 'light' ? '#F4F1EC' : '#070B16');
+    if (meta) meta.setAttribute('content', theme === 'light' ? '#F3EFE7' : '#0C0B0A');
     if (!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) && 'IntersectionObserver' in window) {
       root.classList.add('motion-ready');
     }
@@ -39,13 +39,24 @@
 <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@700,800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@1&amp;display=swap" rel="stylesheet">
 <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <link rel="preload" href="/partials/nav.html" as="fetch" crossorigin>
 <link rel="preload" href="/partials/footer.html" as="fetch" crossorigin>
+<script>
+  /* Pre-hide blocks that the agents build on scroll; the build script clears this if it cannot run. */
+  (function () {
+    var r = document.documentElement;
+    if (!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+      r.classList.add('sb-js');
+      setTimeout(function () { if (!window.__sbReady) r.classList.remove('sb-js'); }, 4000);
+    }
+  })();
+</script>
 <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/agents-build.css">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -139,7 +150,6 @@
 
 <div class="ambient" aria-hidden="true">
   <span class="ambient-orb ambient-orb--1"></span>
-  <span class="ambient-orb ambient-orb--2"></span>
   <span class="ambient-orb ambient-orb--3"></span>
 </div>
 <div class="grid-overlay" aria-hidden="true"></div>
@@ -195,6 +205,8 @@
     { "href": "#proof", "label": "Proof" },
     { "href": "#contact", "label": "Contact" },
     { "href": "/", "label": "Main site" },
+    { "href": "/work", "label": "Work" },
+    { "href": "/about", "label": "About" },
     { "href": "/privacy", "label": "Privacy" }
   ]
 }
@@ -202,7 +214,7 @@
 
 <main>
 
-<!-- HERO (no shader canvas here: the WebGL ring stays on the homepage only) -->
+<!-- HERO: the split panel sits where the homepage has its ROAS gauge -->
 <section class="hero agency-hero" id="main-content">
   <div class="wrapper hero-wrapper">
     <div class="hero-grid">
@@ -222,7 +234,7 @@
         <p class="avail"><span class="avail-dot" aria-hidden="true"></span>Taking on a small number of agency partners</p>
       </div>
 
-      <aside class="hero-panel glass-pane" aria-label="How the split works">
+      <aside class="hero-panel lg-card" aria-label="How the split works">
         <div class="hero-panel-head">
           <span>How the split works</span>
           <span class="hero-panel-tag">White-label</span>
@@ -428,7 +440,7 @@
 <!-- CONTACT: agency brief (tagged lead_type=agency, separate from the homepage brand form) -->
 <section id="contact" class="contact-section">
   <div class="wrapper contact-wrapper contact-grid">
-    <div class="contact-card glass-pane reveal">
+    <div class="contact-card reveal">
       <span class="eyebrow">Agency partners</span>
       <h2 class="contact-title">Got overflow work?<br><span class="accent-text">Send it over.</span></h2>
       <p class="contact-sub">Tell me what's on your plate. Within 24 hours you'll hear back on whether I can take it on, along with a rough timeline and a price.</p>
@@ -451,7 +463,7 @@
     </div>
 
     <!-- What partners hand over: scrolls vertically on desktop, horizontally on mobile (see js/main.js CTA MARQUEE) -->
-    <div class="cta-marquee reveal reveal-delay-1" data-marquee>
+    <div class="cta-marquee" data-marquee>
       <ul class="cta-marquee-track" aria-label="What agencies hand over">
         <li>White-label Meta Ads</li>
         <li>TikTok &amp; Google Ads</li>
@@ -561,6 +573,8 @@
         <a href="#proof">Proof</a>
         <a href="#contact">Contact</a>
         <a href="/">Main site</a>
+        <a href="/work">Work</a>
+        <a href="/about">About</a>
         <a href="/privacy">Privacy</a>
         <a href="mailto:sadik@sadikgrowth.online">sadik@sadikgrowth.online</a>
         <a href="https://www.linkedin.com/in/mehbubsadik/" target="_blank" rel="noopener">LinkedIn</a>
@@ -571,5 +585,8 @@
 
 <script src="/js/include.js"></script>
 <script src="/js/main.js"></script>
+<script src="/js/vendor/gsap.min.js"></script>
+<script src="/js/vendor/ScrollTrigger.min.js"></script>
+<script src="/js/site-build.js"></script>
 </body>
 </html>
