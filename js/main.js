@@ -107,12 +107,42 @@ function showToast(msg) {
   });
 })();
 
+/* ─── ATTRIBUTION ───
+   Remembers where a visitor came from (UTM tags and the referring site) for
+   the rest of the session, so the lead form can send it with the lead. The
+   first visit wins: a later click on /work or /about never overwrites it.
+   Stored in sessionStorage on this site only; see the privacy policy. */
+var siteAttribution = (function() {
+  var KEY = 'attribution';
+  var saved = {};
+  try { saved = JSON.parse(sessionStorage.getItem(KEY) || '{}') || {}; } catch (e) { saved = {}; }
+  if (!saved.captured) {
+    var q = new URLSearchParams(location.search);
+    ['utm_source', 'utm_medium', 'utm_campaign'].forEach(function(k) {
+      var v = q.get(k);
+      if (v) saved[k] = v.slice(0, 200);
+    });
+    try {
+      if (document.referrer) {
+        var host = new URL(document.referrer).hostname;
+        if (host && host !== location.hostname) saved.referrer = host.slice(0, 200);
+      }
+    } catch (e) {}
+    saved.captured = 1;
+    try { sessionStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+  }
+  return saved;
+})();
+
 /* ─── LEAD FORM ─── */
 (function() {
   var form = document.getElementById('leadForm');
   if (!form) return;
   var status = document.getElementById('leadStatus');
   var submit = form.querySelector('.lead-submit');
+  var submitLabel = submit.textContent;
+  var thanksUrl = form.getAttribute('data-thanks');
+  var redirecting = false;
   /* A page can override the copy via data-msg-* (the agency page does). */
   var msg = {
     invalid: form.getAttribute('data-msg-invalid') || 'Please fill in your name, a valid email, a phone number with country code, your brand and your monthly spend.',
@@ -143,6 +173,10 @@ function showToast(msg) {
 
     var data = {};
     new FormData(form).forEach(function(v, k) { data[k] = v; });
+    ['utm_source', 'utm_medium', 'utm_campaign', 'referrer'].forEach(function(k) {
+      if (siteAttribution[k]) data[k] = siteAttribution[k];
+    });
+    data.page = location.pathname;
 
     submit.disabled = true;
     submit.textContent = 'Sending…';
@@ -157,17 +191,43 @@ function showToast(msg) {
       .then(function(res) {
         if (!res.ok || res.body.success !== true) throw new Error('send failed');
         form.reset();
+        var leadInfo = { monthly_spend: data.monthly_spend, lead_type: data.lead_type || 'brand' };
+        if (thanksUrl) {
+          /* The Lead event fires once on the thank-you page, not here, so it
+             counts a real submission only and a refresh can't repeat it. */
+          try { sessionStorage.setItem('lead-pending', JSON.stringify(leadInfo)); } catch (e) {}
+          redirecting = true;
+          location.assign(thanksUrl);
+          return;
+        }
         setStatus(msg.success, 'success');
-        track('Lead', { monthly_spend: data.monthly_spend, lead_type: data.lead_type || 'brand' });
+        track('Lead', leadInfo);
       })
       .catch(function() {
         setStatus(msg.error, 'error');
       })
       .then(function() {
+        if (redirecting) return;
         submit.disabled = false;
-        submit.textContent = 'Send Brief';
+        submit.textContent = submitLabel;
       });
   });
+})();
+
+/* ─── THANK-YOU PAGE ───
+   The lead form leaves a one-shot note in sessionStorage before redirecting
+   here. No note (a direct visit, a refresh) means no Lead event. */
+(function() {
+  if (!document.querySelector('[data-thanks-page]')) return;
+  var raw = null;
+  try {
+    raw = sessionStorage.getItem('lead-pending');
+    sessionStorage.removeItem('lead-pending');
+  } catch (e) {}
+  if (!raw) return;
+  var info = {};
+  try { info = JSON.parse(raw) || {}; } catch (e) {}
+  track('Lead', info);
 })();
 
 /* ─── QUICK BRIEF MODAL ───
@@ -218,6 +278,8 @@ function showToast(msg) {
     var trigger = e.target.closest('[data-open-brief]');
     if (!trigger) return;
     e.preventDefault();
+    var menuToggle = document.getElementById('navToggle');
+    if (document.body.classList.contains('menu-open') && menuToggle) menuToggle.click();
     open(true);
   });
 

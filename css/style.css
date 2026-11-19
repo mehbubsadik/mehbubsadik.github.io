@@ -906,6 +906,13 @@ main, .site-footer { position: relative; z-index: var(--z-base); }
 .page-head .hero-sub { max-width: 56ch; }
 .page-head + .section { padding-top: 0; border-top: 0; }
 
+/* Thank-you page: what happens after the audit request */
+.thanks-steps { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); max-width: 46rem; }
+.thanks-steps li { display: grid; grid-template-columns: 3.5rem 1fr; align-items: baseline; gap: 1rem; padding: 1.25rem 0; border-bottom: 1px solid var(--rule); }
+.thanks-steps p { margin: 0; color: var(--text); font-size: 1.0625rem; }
+.thanks-step-num { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.12em; color: var(--accent-text); }
+.thanks-more { margin-top: 2rem; color: var(--text-2); }
+
 /* FAQ: ruled list */
 .faq-layout { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: start; }
 .faq-layout .section-head { display: block; position: sticky; top: 6.5rem; margin-bottom: 0; }

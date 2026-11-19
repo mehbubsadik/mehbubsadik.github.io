@@ -10,6 +10,7 @@
 
    Page JSON keys: nav, mobile (defaults to nav), footer -> [{href, label, className?}]
                    logoHref, logoLabel, ctaMobile -> strings (optional)
+                   audit -> true on pages that have the free-audit dialog (nav CTAs open it)
                    highlight -> {href, label, labelBack?} (optional accent chip in the nav + mobile menu) */
 (function() {
   var queue = [];
@@ -88,6 +89,21 @@
       var value = config[node.getAttribute('data-config-text')];
       if (value) node.textContent = value;
       node.removeAttribute('data-config-text');
+    });
+    /* Pages with a free-audit dialog set "audit": true. The nav and mobile-menu
+       CTAs then open that dialog instead of linking to the calendar. */
+    root.querySelectorAll('[data-audit-cta]').forEach(function(node) {
+      if (config.audit) {
+        node.setAttribute('href', '#brief');
+        node.removeAttribute('target');
+        node.removeAttribute('rel');
+        node.removeAttribute('data-track');
+        node.setAttribute('data-open-brief', '');
+        var label = node.querySelector('[data-cta-label]');
+        if (label) label.textContent = node.getAttribute('data-audit-label');
+      }
+      node.removeAttribute('data-audit-cta');
+      node.removeAttribute('data-audit-label');
     });
   }
 

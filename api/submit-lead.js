@@ -7,6 +7,9 @@ import { createClient } from '@supabase/supabase-js';
 
 const REQUIRED = ['name', 'email', 'phone', 'brand', 'monthly_spend'];
 
+/* Where the lead came from. Optional, capped at the column limit. */
+const ATTRIBUTION = ['utm_source', 'utm_medium', 'utm_campaign', 'page', 'referrer'];
+
 function clean(value) {
   return typeof value === 'string' ? value.trim() : '';
 }
@@ -100,8 +103,7 @@ export default async function handler(req, res) {
     ? ['Lane: ' + service, clean(body.message)].filter(Boolean).join('\n\n')
     : clean(body.message);
 
-  // No .select() after insert: anon has INSERT only, not SELECT.
-  const { error } = await supabase.from('leads').insert({
+  const row = {
     name: clean(body.name),
     email: clean(body.email),
     phone: clean(body.phone),
@@ -109,7 +111,25 @@ export default async function handler(req, res) {
     monthly_spend: clean(body.monthly_spend),
     message: message || null,
     source: isAgency ? 'mehbubsadik.online/agency-partner' : 'mehbubsadik.online'
+  };
+
+  const tracking = {};
+  ATTRIBUTION.forEach((key) => {
+    const value = clean(body[key]).slice(0, 200);
+    if (value) tracking[key] = value;
   });
+
+  // No .select() after insert: anon has INSERT only, not SELECT.
+  let { error } = await supabase.from('leads').insert({ ...row, ...tracking });
+
+  // If the attribution columns haven't been added to the live table yet
+  // (see the migration at the bottom of supabase/schema.sql), save the lead
+  // without them rather than losing it.
+  const columnMissing = error && (error.code === 'PGRST204' || error.code === '42703');
+  if (columnMissing && Object.keys(tracking).length) {
+    console.error('submit-lead: attribution columns missing, saving lead without them', error);
+    ({ error } = await supabase.from('leads').insert(row));
+  }
 
   if (error) {
     console.error('submit-lead: Supabase insert failed', error);

@@ -49,3 +49,24 @@ alter table public.leads drop constraint if exists leads_message_length;
 alter table public.leads add constraint leads_message_length check (message is null or char_length(message) <= 2000);
 alter table public.leads drop constraint if exists leads_source_length;
 alter table public.leads add constraint leads_source_length check (char_length(source) <= 100);
+
+-- Lead attribution (added 2026-11-19): where each lead came from. All
+-- optional. /api/submit-lead.js falls back to saving the lead without these
+-- while they don't exist yet, so run this once in the Supabase SQL editor.
+-- No grant needed: the table-level "grant insert" above already covers them.
+alter table public.leads add column if not exists utm_source   text;
+alter table public.leads add column if not exists utm_medium   text;
+alter table public.leads add column if not exists utm_campaign text;
+alter table public.leads add column if not exists page         text;
+alter table public.leads add column if not exists referrer     text;
+
+alter table public.leads drop constraint if exists leads_utm_source_length;
+alter table public.leads add constraint leads_utm_source_length check (utm_source is null or char_length(utm_source) <= 200);
+alter table public.leads drop constraint if exists leads_utm_medium_length;
+alter table public.leads add constraint leads_utm_medium_length check (utm_medium is null or char_length(utm_medium) <= 200);
+alter table public.leads drop constraint if exists leads_utm_campaign_length;
+alter table public.leads add constraint leads_utm_campaign_length check (utm_campaign is null or char_length(utm_campaign) <= 200);
+alter table public.leads drop constraint if exists leads_page_length;
+alter table public.leads add constraint leads_page_length check (page is null or char_length(page) <= 200);
+alter table public.leads drop constraint if exists leads_referrer_length;
+alter table public.leads add constraint leads_referrer_length check (referrer is null or char_length(referrer) <= 200);
