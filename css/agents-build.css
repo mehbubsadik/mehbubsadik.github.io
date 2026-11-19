@@ -161,19 +161,25 @@
 .sb-say i { grid-area: 1 / 1; font-style: normal; opacity: 0; }
 .sb-spark { position: absolute; left: 0; top: 0; z-index: 4; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; background: #FFC83D; box-shadow: 0 0 12px 4px rgba(255,200,61,.7); pointer-events: none; }
 
-/* Progress thread: fixed rail on wide screens, thin bar on top everywhere else. */
-.sb-rail { display: none; }
-.sb-bar { position: fixed; left: 0; right: 0; top: 0; height: 2px; z-index: 60; pointer-events: none; }
-.sb-bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent, #FF6B1A), #FFC83D); transform-origin: 0 50%; }
-@media (min-width: 1360px) {
-  .sb-rail { position: fixed; left: 20px; top: 50%; z-index: 40; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; pointer-events: none; transform: translateY(-50%); }
-  .sb-line { position: relative; width: 2px; height: 34vh; margin-left: 4px; background: rgba(255,255,255,.14); border-radius: 2px; }
-  .sb-fillv { position: absolute; inset: 0; background: linear-gradient(180deg, var(--accent, #FF6B1A), #FFC83D); transform-origin: 50% 0; border-radius: 2px; }
-  .sb-line b { position: absolute; left: 50%; width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%; background: #1d1a17; border: 1.5px solid rgba(255,255,255,.28); transition: background .3s, border-color .3s, transform .3s; }
-  .sb-line b.on { background: var(--accent, #FF6B1A); border-color: var(--accent, #FF6B1A); }
-  .sb-line b.cur { transform: scale(1.5); border-color: #FFC83D; }
-  .sb-rail p { margin: 0; display: grid; gap: 2px; font: 500 .58rem/1.3 var(--font-mono, ui-monospace, monospace); letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.55); max-width: 11rem; }
-  .sb-rail strong { font-size: .8rem; color: var(--accent, #FF6B1A); }
-}
+/* Our own scrollbar (js/site-build.js). The native one is hidden only while it exists. */
+.sb-scroll-on, .sb-scroll-on body { scrollbar-width: none; -ms-overflow-style: none; }
+.sb-scroll-on::-webkit-scrollbar, .sb-scroll-on body::-webkit-scrollbar { display: none; width: 0; height: 0; }
+.sb-scroll { position: fixed; right: 0; top: 76px; bottom: 76px; z-index: 45; pointer-events: none; transition: opacity .3s; }
+.sb-scroll.hide { opacity: 0; }
+.sb-track { position: absolute; right: 0; top: 0; bottom: 0; width: 22px; pointer-events: auto; touch-action: none; cursor: grab; }
+.sb-track::before { content: ""; position: absolute; right: 7px; top: 0; bottom: 0; width: 3px; border-radius: 3px; background: rgba(120,110,100,.22); transition: width .2s, right .2s; }
+.sb-built { position: absolute; right: 7px; top: 0; bottom: 0; width: 3px; border-radius: 3px; background: linear-gradient(180deg, var(--accent, #FF6B1A), #FFC83D); transform-origin: 50% 0; transition: width .2s, right .2s; }
+.sb-track b { position: absolute; right: 6px; width: 5px; height: 5px; margin-top: -2px; border-radius: 50%; background: #fff; border: 1.5px solid rgba(120,110,100,.55); transition: background .3s, border-color .3s; }
+.sb-track b.on { background: var(--accent, #FF6B1A); border-color: var(--accent, #FF6B1A); }
+.sb-track b.cur { border-color: #14110E; }
+.sb-thumb { position: absolute; right: 5px; top: 0; width: 7px; border-radius: 7px; background: #14110E; box-shadow: 0 0 0 1.5px rgba(255,255,255,.75); opacity: .85; transition: width .2s, right .2s, opacity .2s; will-change: transform; }
+.sb-scroll.show .sb-track::before, .sb-scroll.show .sb-built, .sb-track:hover::before, .sb-track:hover .sb-built { width: 5px; right: 6px; }
+.sb-scroll.show .sb-thumb, .sb-track:hover .sb-thumb { width: 9px; right: 4px; opacity: 1; }
+.sb-scroll.drag .sb-track { cursor: grabbing; }
+.sb-tip { position: absolute; right: 26px; top: 0; display: flex; gap: 8px; align-items: baseline; padding: 5px 10px; border-radius: 8px; background: #14110E; color: #fff; font: 500 .62rem/1.3 var(--font-mono, ui-monospace, monospace); letter-spacing: .05em; text-transform: uppercase; white-space: nowrap; max-width: calc(100vw - 72px); margin-top: -14px; opacity: 0; pointer-events: none; transition: opacity .25s; will-change: transform; }
+.sb-tip strong { color: #FFC83D; font-weight: 700; }
+.sb-tip span { overflow: hidden; text-overflow: ellipsis; color: rgba(255,255,255,.75); }
+.sb-scroll.show .sb-tip { opacity: 1; }
+@media (hover: none) { .sb-track { width: 28px; } }
 @media (max-width: 640px) { .sb-say { display: none; } .sb-ghost em { font-size: .54rem; padding: 2px 6px; } }
 @media (prefers-reduced-motion: reduce) { .sb-bot { animation: none; } }

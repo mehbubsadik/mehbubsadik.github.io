@@ -124,7 +124,7 @@
     var it = p.it;
     var axA = function () { return Math.max(box(sec, it).x + 4, 2); };
     var axB = function () { var b = box(sec, it); return Math.min(b.x + b.w - 22, b.sw - 34); };
-    var ay = function () { return box(sec, it).y - 4; };
+    var ay = function () { return box(sec, it).y - 24; };  /* above the stage tag, so agents never cover its text */
     var offL = -44, offR = function () { return box(sec, it).sw + 44; };
     var swing = function (el, at) { tl.to(el, { rotation: 16, duration: 0.025, repeat: 5, yoyo: true, ease: 'sine.inOut', transformOrigin: '10% 90%' }, at); };
     var swap = function (off, on, at) {
@@ -161,7 +161,7 @@
 
     if (!lite) {
       /* handoff: spark flies from A to B, B steps in, A leaves */
-      gsap.set(p.spark, { autoAlpha: 0, x: axA, y: function () { return ay() - 26; } });
+      gsap.set(p.spark, { autoAlpha: 0, x: axA, y: function () { return ay() - 30; } });
       tl.to(p.B, { autoAlpha: 1, x: axB, y: ay, duration: 0.12, ease: 'power3.out' }, 0.38)
         .to(p.spark, { autoAlpha: 1, duration: 0.02 }, 0.4)
         .to(p.spark, { x: axB, duration: 0.1, ease: 'power1.inOut' }, 0.4)
@@ -253,51 +253,98 @@
     });
   });
 
-  /* Progress rail: one thread through the whole page. */
+  /* Our own scrollbar. Replaces the browser one: a draggable thumb for position,
+     a tangerine fill for how much of the site is built, section ticks, and a
+     tip with the % and current section that is anchored inside the viewport. */
   var names = mains.map(function (sec, i) {
     var h = sec.querySelector('h1,h2');
     var t = (h ? h.textContent : sec.id || 'Section ' + (i + 1)).replace(/\s+/g, ' ').trim();
-    return t.length > 24 ? t.slice(0, 23) + '…' : t;
+    return t.length > 26 ? t.slice(0, 25) + '…' : t;
   });
-  var rail = document.createElement('div');
-  rail.className = 'sb-rail'; rail.setAttribute('aria-hidden', 'true');
-  rail.innerHTML =
-    '<div class="sb-line"><i class="sb-fillv"></i>' +
-    mains.map(function (_, i) { return '<b style="top:' + (mains.length > 1 ? (i / (mains.length - 1)) * 100 : 0) + '%"></b>'; }).join('') +
-    '</div><p><strong>0%</strong><span></span></p>';
-  var bar = document.createElement('div');
-  bar.className = 'sb-bar'; bar.setAttribute('aria-hidden', 'true'); bar.innerHTML = '<i></i>';
-  document.body.appendChild(rail); document.body.appendChild(bar);
-  var fillV = rail.querySelector('.sb-fillv'), dots = [].slice.call(rail.querySelectorAll('b'));
-  var pct = rail.querySelector('strong'), lab = rail.querySelector('span'), fillH = bar.querySelector('i');
-  gsap.set(fillV, { scaleY: 0 }); gsap.set(fillH, { scaleX: 0 });
+  var host = document.createElement('div');
+  host.className = 'sb-scroll'; host.setAttribute('aria-hidden', 'true');
+  host.innerHTML = '<div class="sb-track"><i class="sb-built"></i>' + mains.map(function () { return '<b></b>'; }).join('') +
+    '<span class="sb-thumb"></span></div><div class="sb-tip"><strong>0%</strong><span></span></div>';
+  document.body.appendChild(host);
+  var track = host.querySelector('.sb-track'), thumb = host.querySelector('.sb-thumb'), built = host.querySelector('.sb-built');
+  var ticks = [].slice.call(host.querySelectorAll('b')), tip = host.querySelector('.sb-tip');
+  var pct = tip.querySelector('strong'), lab = tip.querySelector('span');
+  gsap.set(built, { scaleY: 0 });
+  root.classList.add('sb-scroll-on'); /* hides the native scrollbar, only while ours exists */
+
+  var tH = 0, thH = 0, maxS = 1, tipTimer = 0;
+  function measure() {
+    var r = track.getBoundingClientRect();
+    tH = r.height; maxS = Math.max(1, root.scrollHeight - innerHeight);
+    thH = Math.max(40, Math.min(tH, tH * innerHeight / root.scrollHeight));
+    thumb.style.height = thH + 'px';
+    mains.forEach(function (sec, i) {
+      var top = sec.getBoundingClientRect().top + scrollY;
+      ticks[i].style.top = Math.max(0, Math.min(1, top / maxS)) * 100 + '%';
+    });
+    sync();
+  }
+  function sync() {
+    var f = Math.max(0, Math.min(1, scrollY / maxS)), y = f * (tH - thH);
+    thumb.style.transform = 'translate3d(0,' + y + 'px,0)';
+    tip.style.transform = 'translate3d(0,' + (y + thH / 2) + 'px,0)';
+    host.classList.toggle('hide', root.scrollHeight <= innerHeight + 4);
+  }
+  function showTip() {
+    host.classList.add('show');
+    clearTimeout(tipTimer);
+    tipTimer = setTimeout(function () { if (!dragging) host.classList.remove('show'); }, 1400);
+  }
+  var dragging = false, grab = 0;
+  function toScroll(clientY, off) {
+    var r = track.getBoundingClientRect();
+    var f = (clientY - r.top - off) / Math.max(1, r.height - thH);
+    window.scrollTo({ top: Math.max(0, Math.min(1, f)) * maxS, behavior: 'instant' });
+  }
+  track.addEventListener('pointerdown', function (e) {
+    e.preventDefault();
+    var tr = thumb.getBoundingClientRect();
+    grab = (e.clientY >= tr.top && e.clientY <= tr.bottom) ? e.clientY - tr.top : thH / 2;
+    dragging = true; host.classList.add('drag', 'show');
+    track.setPointerCapture(e.pointerId);
+    toScroll(e.clientY, grab);
+  });
+  track.addEventListener('pointermove', function (e) { if (dragging) toScroll(e.clientY, grab); });
+  function end() { if (!dragging) return; dragging = false; host.classList.remove('drag'); showTip(); }
+  track.addEventListener('pointerup', end); track.addEventListener('pointercancel', end);
+  track.addEventListener('mouseenter', function () { host.classList.add('show'); });
+  track.addEventListener('mouseleave', showTip);
 
   var cur = 0, lastPct = -1, lastCur = -1, lastScroll = performance.now() + 4000;
   mains.forEach(function (sec, i) {
     ScrollTrigger.create({ trigger: sec, start: 'top 55%', end: 'bottom 55%', onToggle: function (s) { if (s.isActive) cur = i; } });
   });
-  window.addEventListener('scroll', function () { lastScroll = performance.now(); }, { passive: true });
+  var raf = 0;
+  window.addEventListener('scroll', function () {
+    lastScroll = performance.now();
+    if (!raf) raf = requestAnimationFrame(function () { raf = 0; sync(); });
+    showTip();
+  }, { passive: true });
+  window.addEventListener('resize', measure);
+  ScrollTrigger.addEventListener('refresh', measure);
 
   gsap.ticker.add(function () {
     if (performance.now() - lastScroll > 1600) return;
-    var per = mains.map(function () { return { s: 0, c: 0 }; });
+    var per = mains.map(function () { return { s: 0, c: 0 }; }), tot = 0;
     allBlocks.forEach(function (b) { per[b.idx].s += b.tl.progress(); per[b.idx].c++; });
-    var tot = 0;
     per.forEach(function (o, i) {
       var v = o.c ? o.s / o.c : 1;
       tot += v;
-      if (dots[i]) dots[i].classList.toggle('on', v > 0.98);
+      ticks[i].classList.toggle('on', v > 0.98);
     });
     var all = tot / mains.length, pc = Math.round(all * 100);
-    if (pc !== lastPct) {
-      lastPct = pc; pct.textContent = pc + '%';
-      gsap.set(fillV, { scaleY: all }); gsap.set(fillH, { scaleX: all });
-    }
+    if (pc !== lastPct) { lastPct = pc; pct.textContent = pc + '% built'; gsap.set(built, { scaleY: all }); }
     if (cur !== lastCur) {
       lastCur = cur; lab.textContent = String(cur + 1).padStart(2, '0') + ' ' + names[cur];
-      dots.forEach(function (d, i) { d.classList.toggle('cur', i === cur); });
+      ticks.forEach(function (d, i) { d.classList.toggle('cur', i === cur); });
     }
   });
+  measure();
 
   window.__sbReady = true;
   window.addEventListener('load', function () { ScrollTrigger.refresh(); });
