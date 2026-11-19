@@ -1,11 +1,13 @@
-/* Site build: tiny agents assemble every section of the page, block by block.
-   Each block gets a two-agent crew and four visible stages:
-   01 wireframe (Layout agent) -> 02 colors -> 03 content (parts drop in one by
-   one, second agent takes over) -> 04 polish (check badge). A thin progress
-   rail tracks the whole page. Everything is one scrubbed GSAP timeline per
-   block, so scrolling back up takes it apart again in reverse.
-   Transform and opacity only. Content stays in the DOM for crawlers and
-   screen readers. Skipped with reduced motion or without GSAP. */
+/* Site build: a swarm of cursors assembles every section of the page, live.
+   Each block gets three cursors with their own labels (a design-tool
+   multiplayer look): one drags a selection box around the block and paints it,
+   one clicks through its parts and drops them in, one signs it off with a
+   check. Four visible stages: 01 wireframe, 02 colors, 03 content, 04 polish.
+   Blocks from several sections are worked on at the same time. It is all one
+   scrubbed GSAP timeline per block, so scrolling back up takes everything
+   apart again in reverse. Transform, opacity and clip-path only. Content stays
+   in the DOM for crawlers and screen readers. A thin custom scrollbar tracks
+   how much of the site is built. Skipped with reduced motion or without GSAP. */
 (function () {
   'use strict';
   var root = document.documentElement;
@@ -14,7 +16,6 @@
   if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return fail();
   gsap.registerPlugin(ScrollTrigger);
 
-  var ROLES = ['Layout', 'Copy', 'Visual', 'Code', 'Motion', 'QA'];
   var SAYS = {
     Layout: ['measuring…', 'placing grid…', 'aligning…', 'spacing ✓'],
     Copy: ['drafting…', 'writing…', 'trimming…', 'proofread ✓'],
@@ -23,25 +24,15 @@
     Motion: ['storyboard…', 'easing…', 'timing…', '60fps ✓'],
     QA: ['inspecting…', 'testing…', 'fixing…', 'passed ✓']
   };
+  var A_ROLES = ['Layout', 'Visual', 'Motion'], B_ROLES = ['Copy', 'Code'];
   var STAGES = ['01 wireframe', '02 colors', '03 content', '04 polish'];
-  var COLORS = ['#FF6B1A', '#FFC83D', '#FF8540'];
 
-  var SPRITE =
-    '<svg class="sb-sprite" width="0" height="0" aria-hidden="true" focusable="false">' +
-    '<symbol id="sb-robot" viewBox="0 0 28 34">' +
-    '<line x1="14" y1="1.5" x2="14" y2="6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="14" cy="2" r="1.9" fill="currentColor"/>' +
-    '<rect x="3.5" y="6.5" width="21" height="14" rx="5" fill="currentColor"/><rect x="7" y="10" width="14" height="7" rx="3.2" fill="#0C0B0A"/>' +
-    '<circle cx="11" cy="13.5" r="1.5" fill="#fff"/><circle cx="17" cy="13.5" r="1.5" fill="#fff"/>' +
-    '<rect x="7" y="22" width="14" height="8" rx="3" fill="currentColor" opacity=".85"/>' +
-    '<rect x="4" y="23" width="3" height="6" rx="1.5" fill="currentColor"/><rect x="21" y="23" width="3" height="6" rx="1.5" fill="currentColor"/>' +
-    '<rect x="9.5" y="30" width="3" height="3.4" rx="1.2" fill="currentColor"/><rect x="15.5" y="30" width="3" height="3.4" rx="1.2" fill="currentColor"/></symbol>' +
-    '<symbol id="sb-t-ruler" viewBox="0 0 16 16"><rect x="1" y="5" width="14" height="6" rx="1.3" fill="currentColor"/>' +
-    '<path d="M4 5v3M7 5v2M10 5v3M13 5v2" stroke="#0C0B0A" stroke-width="1" stroke-linecap="round"/></symbol>' +
-    '<symbol id="sb-t-brush" viewBox="0 0 16 16"><rect x="8.2" y="0.8" width="2.6" height="9" rx="1.3" transform="rotate(38 9.5 5.3)" fill="currentColor"/>' +
-    '<circle cx="4.6" cy="11.6" r="2.7" fill="currentColor"/></symbol>' +
-    '<symbol id="sb-t-pen" viewBox="0 0 16 16"><path d="M2 14.2l.9-3.9L10.6 2.6l2.8 2.8-7.7 7.7z" fill="currentColor"/></symbol>' +
-    '<symbol id="sb-t-check" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.8"/>' +
-    '<path d="M5 8.2l2.2 2.2L11 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol></svg>';
+  /* One slightly custom pointer: classic shape, rounded joins, a small notch on
+     the tail. Black with a white outline so it reads on light and dark. */
+  var ARROW =
+    '<svg class="sb-arrow" width="17" height="23" viewBox="0 0 17 23" aria-hidden="true">' +
+    '<path d="M1.6 1.4 L1.6 18.2 L5.7 14.4 L8.5 21.4 L11.5 20.1 L8.7 13.3 L14.6 13.3 Z" fill="#0C0B0A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/>' +
+    '<path d="M4.6 14.9 L7.1 18.4" stroke="#fff" stroke-opacity=".35" stroke-width="1" stroke-linecap="round"/></svg>';
 
   function blocksOf(sec) {
     var wrap = sec.querySelector(':scope > .wrapper') || sec;
@@ -70,126 +61,161 @@
 
   var mains = [].slice.call(document.querySelectorAll('main > section'));
   if (mains.length < 2) return fail();
-  document.body.insertAdjacentHTML('afterbegin', SPRITE);
 
-  function say(role) {
-    return '<span class="sb-say">' + SAYS[role].map(function (s) { return '<i>' + s + '</i>'; }).join('') + '</span>';
-  }
-  function tool(id, cls) { return '<svg class="sb-tool ' + cls + '" width="15" height="15"><use href="#' + id + '"/></svg>'; }
-  function agentEl(role, color, side, tools) {
-    var a = document.createElement('span');
-    a.className = 'sb-agent ' + side; a.setAttribute('aria-hidden', 'true');
-    a.style.color = color;
-    a.innerHTML = '<svg class="sb-bot" width="28" height="34"><use href="#sb-robot"/></svg>' + tools + say(role);
-    return a;
+  function cursorEl(role, cls) {
+    var c = document.createElement('span');
+    c.className = 'sb-cur ' + cls; c.setAttribute('aria-hidden', 'true');
+    c.innerHTML = ARROW + '<i class="sb-rip"></i><span class="sb-lbl"><b>' + role + '</b><span class="sb-say">' +
+      SAYS[role].map(function (s) { return '<i>' + s + '</i>'; }).join('') + '</span></span>';
+    return c;
   }
 
   var n = 0;
   function crew(sec, it, lite) {
     var i = n++;
-    var rA = ROLES[i % 6], rB = ROLES[(i + 3) % 6];
+    var rA = A_ROLES[i % 3], rB = B_ROLES[i % 2];
     var ghost = document.createElement('span');
     ghost.className = 'sb-ghost'; ghost.setAttribute('aria-hidden', 'true');
     ghost.innerHTML =
-      '<span class="sb-fill"></span><span class="sb-skel"><i></i><i></i><i></i></span>' +
-      '<em><b>' + rA + (lite ? '' : ' → ' + rB) + '</b><span class="sb-st">' +
-      STAGES.map(function (s) { return '<i>' + s + '</i>'; }).join('') + '</span></em><u class="sb-ok">✓</u>';
-    var A = agentEl(rA, COLORS[i % 3], 'a', tool('sb-t-ruler', 't1') + tool('sb-t-brush', 't2'));
-    var B = lite ? null : agentEl(rB, COLORS[(i + 1) % 3], 'b', tool('sb-t-pen', 't1') + tool('sb-t-check', 't2'));
-    var spark = lite ? null : document.createElement('span');
-    if (spark) { spark.className = 'sb-spark'; spark.setAttribute('aria-hidden', 'true'); }
+      '<span class="sb-box"><span class="sb-fill"></span><span class="sb-skel"><i></i><i></i><i></i></span>' +
+      '<s class="h1"></s><s class="h2"></s><s class="h3"></s><s class="h4"></s></span>' +
+      '<em><span class="sb-st">' + STAGES.map(function (s) { return '<i>' + s + '</i>'; }).join('') + '</span></em><u class="sb-ok">✓</u>';
+    var A = cursorEl(rA, 'a'), B = lite ? null : cursorEl(rB, 'b'), C = lite ? null : cursorEl('QA', 'c');
     sec.appendChild(ghost); sec.appendChild(A);
-    if (B) { sec.appendChild(B); sec.appendChild(spark); }
+    if (B) { sec.appendChild(B); sec.appendChild(C); }
     var q = function (el, s) { return el ? [].slice.call(el.querySelectorAll(s)) : []; };
     return {
-      i: i, it: it, ghost: ghost, A: A, B: B, spark: spark,
-      chips: q(ghost, '.sb-st i'), skel: q(ghost, '.sb-skel i'), skelBox: ghost.querySelector('.sb-skel'),
-      fill: ghost.querySelector('.sb-fill'), ok: ghost.querySelector('.sb-ok'),
-      sayA: q(A, '.sb-say i'), sayB: q(B, '.sb-say i'),
-      a1: A.querySelector('.t1'), a2: A.querySelector('.t2'),
-      b1: B && B.querySelector('.t1'), b2: B && B.querySelector('.t2')
+      i: i, it: it, ghost: ghost, A: A, B: B, C: C,
+      box: ghost.querySelector('.sb-box'), fill: ghost.querySelector('.sb-fill'), ok: ghost.querySelector('.sb-ok'),
+      skelBox: ghost.querySelector('.sb-skel'), skel: q(ghost, '.sb-skel i'), chips: q(ghost, '.sb-st i'),
+      sayA: q(A, '.sb-say i'), sayB: q(B, '.sb-say i'), sayC: q(C, '.sb-say i'),
+      ripA: A.querySelector('.sb-rip'), ripB: B && B.querySelector('.sb-rip'), ripC: C && C.querySelector('.sb-rip')
     };
   }
 
-  /* Position of a block inside its section, ignoring its own build offset. */
-  function box(sec, it) {
-    var s = sec.getBoundingClientRect(), r = it.getBoundingClientRect();
-    var dy = gsap.getProperty(it, 'y') || 0;
+  /* Position of an element inside its section, ignoring its own build offsets. */
+  function boxOf(sec, el, extra) {
+    var s = sec.getBoundingClientRect(), r = el.getBoundingClientRect();
+    var dy = (gsap.getProperty(el, 'y') || 0) + (extra || 0);
     return { x: r.left - s.left, y: r.top - s.top - dy, w: r.width, h: r.height, sw: s.width };
   }
 
-  /* The agents' part of the choreography, positions in 0..1. The shell and the
-     parts are added by the caller. lite = hero pass (one agent, no handoff). */
-  function choreo(tl, p, sec, lite) {
+  /* Everything the cursors do, positions in 0..1 of the block's scroll window.
+     The shell wipe and the parts' reveal are timed here so a cursor always
+     arrives at a part just as it appears. lite = hero pass: one cursor. */
+  function choreo(tl, p, sec, parts, lite) {
     var it = p.it;
-    var axA = function () { return Math.max(box(sec, it).x + 4, 2); };
-    var axB = function () { var b = box(sec, it); return Math.min(b.x + b.w - 22, b.sw - 34); };
-    var ay = function () { return box(sec, it).y - 24; };  /* above the stage tag, so agents never cover its text */
-    var offL = -44, offR = function () { return box(sec, it).sw + 44; };
-    var swing = function (el, at) { tl.to(el, { rotation: 16, duration: 0.025, repeat: 5, yoyo: true, ease: 'sine.inOut', transformOrigin: '10% 90%' }, at); };
+    var G = function () { return boxOf(sec, it); };
+    var cx = function (v, sw) { return Math.max(2, Math.min(sw - 6, v)); };
+    var tlx = function () { var b = G(); return cx(b.x - 6, b.sw); };
+    var tly = function () { return G().y - 6; };
+    var brx = function () { var b = G(); return cx(b.x + b.w + 6, b.sw); };
+    var bry = function () { var b = G(); return b.y + b.h + 6; };
+    var A = p.A, B = p.B, C = p.C, side = p.i % 2 ? 1 : -1;
     var swap = function (off, on, at) {
-      if (off && off.length) tl.to(off, { opacity: 0, duration: 0.03 }, at);
-      if (on && on.length) tl.to(on, { opacity: 1, duration: 0.03 }, at);
+      if (off) tl.to(off, { opacity: 0, duration: 0.025 }, at);
+      if (on) tl.to(on, { opacity: 1, duration: 0.025 }, at);
+    };
+    var click = function (rip, at) {
+      tl.fromTo(rip, { scale: 0.2, opacity: 0.9 }, { scale: 1.7, opacity: 0, duration: 0.05, ease: 'power2.out', immediateRender: false }, at);
     };
 
-    gsap.set(p.B ? [p.A, p.B] : [p.A], { autoAlpha: 0, yPercent: -100, y: ay });
-    gsap.set(p.A, { x: offL });
-    if (p.B) gsap.set(p.B, { x: offR });
+    gsap.set(p.B ? [A, B, C] : [A], { autoAlpha: 0 });
     gsap.set(p.ghost, { autoAlpha: 0 });
+    gsap.set(p.box, { clipPath: 'inset(0 100% 100% 0)' });
     gsap.set(p.ok, { scale: 0 });
     gsap.set(p.fill, { scaleX: 0 });
     gsap.set(p.skelBox, { opacity: 0 });
-    gsap.set([p.chips[0], p.sayA[0], p.a1], { opacity: 1 });
-    if (p.sayB[0]) gsap.set(p.sayB[2], { opacity: 1 });
-    if (p.b1) gsap.set(p.b1, { opacity: 1 });
+    gsap.set([p.chips[0], p.sayA[0]], { opacity: 1 });
+    if (B) gsap.set([p.sayB[1], p.sayC[2]], { opacity: 1 });
 
-    /* 01 wireframe: agent A arrives, outlines the block, sketches skeleton bars */
-    tl.to(p.A, { autoAlpha: 1, x: axA, y: ay, duration: 0.12, ease: 'power3.out' }, 0)
-      .to(p.ghost, { autoAlpha: 1, duration: 0.06 }, 0.07)
-      .to(p.skelBox, { opacity: 1, duration: 0.03 }, 0.08)
-      .fromTo(p.skel, { scaleX: 0 }, { scaleX: 1, duration: 0.07, stagger: 0.025, ease: 'power2.out' }, 0.08);
-    swing(p.a1, 0.1);
+    /* 01 wireframe: cursor A flies in, drags a selection box over the block */
+    gsap.set(A, { x: function () { return tlx() - 150 * side; }, y: function () { return tly() - 130; } });
+    tl.to(A, { autoAlpha: 1, duration: 0.02 }, 0)
+      .to(A, { x: tlx, duration: 0.09, ease: 'power3.out' }, 0)
+      .to(A, { y: tly, duration: 0.09, ease: 'sine.inOut' }, 0)
+      .to(p.ghost, { autoAlpha: 1, duration: 0.02 }, 0.09);
+    click(p.ripA, 0.09);
+    tl.to(p.box, { clipPath: 'inset(0 0% 0% 0)', duration: 0.17, ease: 'power2.inOut' }, 0.1)
+      .to(A, { x: brx, y: bry, duration: 0.17, ease: 'power2.inOut' }, 0.1)
+      .to(p.skelBox, { opacity: 1, duration: 0.03 }, 0.17)
+      .fromTo(p.skel, { scaleX: 0 }, { scaleX: 1, duration: 0.08, stagger: 0.025, ease: 'power2.out', immediateRender: false }, 0.18);
+    click(p.ripA, 0.27);
 
-    /* 02 colors: paint sweep, tool swaps to the brush */
-    swap([p.chips[0]], [p.chips[1]], 0.2);
-    swap([p.sayA[0]], [p.sayA[1]], 0.2);
-    swap([p.a1], [p.a2], 0.2);
-    tl.to(p.skelBox, { opacity: 0, duration: 0.06 }, 0.22)
-      .to(p.fill, { scaleX: 1, duration: 0.13, ease: 'power2.inOut' }, 0.2)
-      .to(p.fill, { opacity: 0, duration: 0.06 }, 0.44);
-    swing(p.a2, 0.22);
+    /* 02 colors: A walks back along the bottom edge, painting right to left */
+    swap([p.chips[0]], [p.chips[1]], 0.3);
+    swap([p.sayA[0]], [p.sayA[1]], 0.3);
+    tl.to(p.skelBox, { opacity: 0, duration: 0.05 }, 0.32)
+      .to(p.fill, { scaleX: 1, duration: 0.16, ease: 'power2.inOut' }, 0.3)
+      .to(A, { x: tlx, duration: 0.16, ease: 'power2.inOut' }, 0.3)
+      .to(p.fill, { opacity: 0, duration: 0.06 }, 0.5);
 
-    if (!lite) {
-      /* handoff: spark flies from A to B, B steps in, A leaves */
-      gsap.set(p.spark, { autoAlpha: 0, x: axA, y: function () { return ay() - 30; } });
-      tl.to(p.B, { autoAlpha: 1, x: axB, y: ay, duration: 0.12, ease: 'power3.out' }, 0.38)
-        .to(p.spark, { autoAlpha: 1, duration: 0.02 }, 0.4)
-        .to(p.spark, { x: axB, duration: 0.1, ease: 'power1.inOut' }, 0.4)
-        .to(p.spark, { autoAlpha: 0, scale: 2.4, duration: 0.04 }, 0.5)
-        .to(p.A, { x: offL, autoAlpha: 0, rotation: 0, duration: 0.1, ease: 'power2.in' }, 0.5);
-      swap([p.chips[1]], [p.chips[2]], 0.5);
-      swing(p.b1, 0.52);
-      /* 04 polish: pen becomes a check, badge pops */
-      swap([p.chips[2]], [p.chips[3]], 0.8);
-      swap([p.sayB[2]], [p.sayB[3]], 0.8);
-      swap([p.b1], [p.b2], 0.8);
-      tl.to(p.ok, { scale: 1, duration: 0.06, ease: 'back.out(3)' }, 0.82)
+    var okx = function () { return cx(brx() - 10, G().sw); }, oky = function () { return bry() - 10; };
+
+    if (lite) {
+      swap([p.chips[1]], [p.chips[2]], 0.5); swap([p.sayA[1]], [p.sayA[2]], 0.5);
+      tl.to(A, { x: function () { return cx(G().x + G().w * 0.5, G().sw); }, y: function () { return G().y + G().h * 0.4; }, duration: 0.2, ease: 'power2.inOut' }, 0.5);
+      swap([p.chips[2]], [p.chips[3]], 0.8); swap([p.sayA[2]], [p.sayA[3]], 0.8);
+      tl.to(A, { x: okx, y: oky, duration: 0.08, ease: 'power2.inOut' }, 0.74);
+      click(p.ripA, 0.82);
+      tl.to(p.ok, { scale: 1, duration: 0.06, ease: 'back.out(3)' }, 0.83)
         .to(p.ghost, { autoAlpha: 0, duration: 0.06 }, 0.92)
-        .to(p.B, { x: offR, autoAlpha: 0, rotation: 0, duration: 0.08, ease: 'power2.in' }, 0.92);
-    } else {
-      swap([p.chips[1]], [p.chips[2]], 0.5);
-      swap([p.sayA[1]], [p.sayA[2]], 0.5);
-      swap([p.chips[2]], [p.chips[3]], 0.8);
-      swap([p.sayA[2]], [p.sayA[3]], 0.8);
-      tl.to(p.ok, { scale: 1, duration: 0.06, ease: 'back.out(3)' }, 0.82)
-        .to(p.ghost, { autoAlpha: 0, duration: 0.06 }, 0.92)
-        .to(p.A, { x: offL, autoAlpha: 0, rotation: 0, duration: 0.08, ease: 'power2.in' }, 0.92);
+        .to(A, { x: function () { return tlx() - 160 * side; }, y: function () { return tly() - 100; }, autoAlpha: 0, duration: 0.08, ease: 'power2.in' }, 0.92)
+        .to({}, { duration: 0.02 }, 0.98);
+      return;
     }
-    tl.to({}, { duration: 0.02 }, 0.98);
+
+    /* A hands off and leaves; B arrives and clicks through the parts */
+    tl.to(A, { x: function () { return tlx() - 170 * side; }, y: function () { return bry() + 60; }, autoAlpha: 0, duration: 0.09, ease: 'power2.in' }, 0.5);
+    var tg;
+    if (parts.length) {
+      tg = parts.map(function (el) {
+        var r = function () { var b = boxOf(sec, el, gsap.getProperty(it, 'y') || 0); return b; };
+        return { x: function () { var b = r(); return cx(b.x + Math.min(b.w * 0.45, 120), b.sw); }, y: function () { var b = r(); return b.y + Math.min(b.h * 0.5, 34); } };
+      });
+    } else {
+      tg = [
+        { x: function () { var b = G(); return cx(b.x + b.w * 0.25, b.sw); }, y: function () { var b = G(); return b.y + Math.min(b.h * 0.3, 60); } },
+        { x: function () { var b = G(); return cx(b.x + b.w * 0.7, b.sw); }, y: function () { var b = G(); return b.y + Math.min(b.h * 0.6, 120); } }
+      ];
+    }
+    var m = tg.length, slot = 0.3 / m;
+    gsap.set(B, { x: function () { return brx() + 170 * side; }, y: function () { return tly() - 90; } });
+    tl.to(B, { autoAlpha: 1, duration: 0.02 }, 0.4)
+      .to(B, { x: tg[0].x, y: tg[0].y, duration: 0.1, ease: 'power2.out' }, 0.4);
+    swap([p.chips[1]], [p.chips[2]], 0.5);
+    tg.forEach(function (t, k) {
+      var at = 0.5 + k * slot;
+      if (k) tl.to(B, { x: t.x, y: t.y, duration: slot * 0.7, ease: 'power2.inOut' }, at - slot * 0.1);
+      click(p.ripB, at + slot * 0.6);
+      if (parts.length) tl.to(parts[k], { opacity: 1, y: 0, duration: Math.max(0.06, slot * 0.9), ease: 'power2.out' }, at + slot * 0.4);
+    });
+    swap([p.sayB[1]], [p.sayB[2]], 0.65);
+
+    /* 04 polish: C comes to sign off, clicks the check badge, B leaves */
+    swap([p.chips[2]], [p.chips[3]], 0.8);
+    gsap.set(C, { x: function () { return brx() + 150; }, y: function () { return bry() + 130; } });
+    tl.to(C, { autoAlpha: 1, duration: 0.02 }, 0.68)
+      .to(C, { x: okx, y: oky, duration: 0.14, ease: 'power3.out' }, 0.68);
+    swap([p.sayC[2]], [p.sayC[3]], 0.82);
+    click(p.ripC, 0.82);
+    tl.to(p.ok, { scale: 1, duration: 0.06, ease: 'back.out(3)' }, 0.83)
+      .to(B, { x: function () { return brx() + 170 * side; }, y: function () { return tly() - 90; }, autoAlpha: 0, duration: 0.08, ease: 'power2.in' }, 0.84)
+      .to(p.ghost, { autoAlpha: 0, duration: 0.05 }, 0.93)
+      .to(C, { x: function () { return brx() + 150; }, y: function () { return bry() + 130; }, autoAlpha: 0, duration: 0.07, ease: 'power2.in' }, 0.93)
+      .to({}, { duration: 0.02 }, 0.98);
   }
 
-  var allBlocks = [];       /* {tl, sec} for the progress rail */
-  var secDone = [];         /* 1 for sections the agents skip (hero pass, carousel) */
+  /* Label flips to the left of the pointer near the right edge, so it is never cut. */
+  function flipper(sec, cursors) {
+    return function () {
+      var sw = sec.clientWidth, lim = sw - (sw < 641 ? 90 : 175);
+      cursors.forEach(function (c) { c.classList.toggle('flip', (gsap.getProperty(c, 'x') || 0) > lim); });
+    };
+  }
+
+  var allBlocks = [];       /* {tl, idx} for the scrollbar's build fill */
+  var secDone = [];         /* 1 for sections the cursors skip (hero pass, carousel) */
 
   mains.forEach(function (sec, idx) {
     secDone[idx] = 1;
@@ -197,7 +223,7 @@
     if (!items.length) return;
     [].forEach.call(sec.querySelectorAll('.reveal'), function (e) { e.classList.remove('reveal', 'reveal-delay-1', 'reveal-delay-2', 'reveal-delay-3'); });
     if (getComputedStyle(sec).position === 'static') sec.style.position = 'relative';
-    sec.style.overflowX = 'clip'; /* tags and bubbles never create sideways scroll */
+    sec.style.overflowX = 'clip'; /* tags and labels never create sideways scroll */
     var first = idx === 0;
     if (sec.id === 'slideshow') { /* has its own carousel logic: leave it alone */
       [].forEach.call(sec.querySelectorAll(':scope > .wrapper > *'), function (e) { e.style.opacity = 1; });
@@ -207,17 +233,19 @@
 
     items.forEach(function (it) {
       var p = crew(sec, it, first);
+      var cursors = p.B ? [p.A, p.B, p.C] : [p.A];
+      var flip = flipper(sec, cursors);
       var place = function () {
-        var b = box(sec, it);
+        var b = boxOf(sec, it);
         gsap.set(p.ghost, { x: b.x - 6, y: b.y - 6, width: b.w + 12, height: b.h + 12 });
       };
       place();
       ScrollTrigger.addEventListener('refresh', place);
 
       if (first) {
-        /* Hero stays fully visible (no LCP cost); the crew just does a quick pass on load. */
-        var ht = gsap.timeline({ delay: 0.3 + 0.12 * (p.i % 6) });
-        choreo(ht, p, sec, true);
+        /* Hero stays fully visible (no LCP cost); one cursor per block does a quick pass on load. */
+        var ht = gsap.timeline({ delay: 0.3 + 0.12 * (p.i % 6), onUpdate: flip });
+        choreo(ht, p, sec, [], true);
         ht.timeScale(0.5);
         return;
       }
@@ -231,8 +259,9 @@
       var done = false;
       var tl = gsap.timeline({
         defaults: { ease: 'none' },
-        scrollTrigger: { trigger: it, start: 'clamp(top 98%)', end: 'clamp(top 40%)', scrub: 0.7, invalidateOnRefresh: true },
+        scrollTrigger: { trigger: it, start: 'clamp(top 100%)', end: 'clamp(top 36%)', scrub: 0.7, invalidateOnRefresh: true },
         onUpdate: function () {
+          flip();
           var d = this.progress() === 1;
           if (d === done) return;
           done = d;
@@ -241,14 +270,10 @@
           if (d) gsap.set([it].concat(parts), { clearProps: 'transform,clipPath' });
         }
       });
-      choreo(tl, p, sec, false);
-      if (parts.length) {
-        /* 02: the shell (background, border) wipes in; 03: parts drop in one by one */
-        tl.to(it, { opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 0.16, ease: 'power2.out' }, 0.3)
-          .to(parts, { opacity: 1, y: 0, duration: 0.12, stagger: 0.2 / parts.length, ease: 'power2.out' }, 0.5);
-      } else {
-        tl.to(it, { opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 0.38, ease: 'power2.out' }, 0.3);
-      }
+      choreo(tl, p, sec, parts, false);
+      /* 02: the shell (background, border) wipes in. Parts are revealed inside choreo. */
+      if (parts.length) tl.to(it, { opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 0.16, ease: 'power2.out' }, 0.32);
+      else tl.to(it, { opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 0.36, ease: 'power2.out' }, 0.4);
       allBlocks.push({ tl: tl, idx: idx });
     });
   });
