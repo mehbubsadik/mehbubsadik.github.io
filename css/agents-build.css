@@ -134,3 +134,7 @@
 .ab-static .ab-hud, .ab-static .ab-dock, .ab-static .ab-agent, .ab-static .ab-hint, .ab-static .ab-ghost { display: none; }
 .ab-static .ab-b::before { display: none; }
 [data-agents-build]:not(.ab-static) .ab-live { visibility: visible; }
+
+/* Site-wide section agents (js/site-build.js) */
+.sb-agent { position: absolute; top: 2px; left: 0; z-index: 4; color: var(--accent, #FF6B1A); pointer-events: none; filter: drop-shadow(0 6px 10px rgba(0,0,0,.35)); transform-origin: 50% 100%; will-change: transform; }
+.sb-agent svg { display: block; width: 24px; height: auto; }
